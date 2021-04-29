@@ -56,15 +56,24 @@ public:
 };
 class Customer : protected Person // hatif
 {
-protected:
-public:
+    private:
+        string air_name;
+
+    public:
+        void set_airname(string air_name){
+            this->air_name= air_name;
+        }
+        const string get_airname(){
+            return air_name;
+        }
+        Customer(){}
 };
-class Special_customer : protected Person //
+class Special_customer : protected Person //maarij
 {
 protected:
 public:
 };
-class Staff : protected Person //
+class Staff : protected Person //maarij
 {
 public:
 };
