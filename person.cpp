@@ -2,6 +2,16 @@
 #include <fstream>
 
 using namespace std;
+class ui{                               //user interface class
+    public:
+        virtual void fun()=0;
+        void main_page(){
+            cout<<"\n\t\tWelcome to main page!!";
+        }
+        void side_page(){
+            cout<<"\n\t\tWelcome to the side page!!";
+        }
+};
 class Person
 {
 protected:
@@ -28,7 +38,7 @@ public:
         cout << name << endl
              << email << endl
              << username << endl
-             << password;
+             << password<<endl;
     }
     void signup()
     {
@@ -58,15 +68,18 @@ class Customer : protected Person // hatif
 {
     private:
         string air_name;
+        char air_type;
 
     public:
-        void set_airname(string air_name){
-            this->air_name= air_name;
-        }
-        const string get_airname(){
-            return air_name;
-        }
+        void set_airname(string air_name){this->air_name= air_name;}
+        const string get_airname(){return air_name;}
+        void set_airtype(char air_type){this->air_type=air_type;}
         Customer(){}
+        void output(){
+            Person::output();
+            cout<<"Airline name: "<<air_name<<
+        }
+
 };
 class Special_customer : protected Person //maarij
 {
