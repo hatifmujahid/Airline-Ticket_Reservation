@@ -8,11 +8,15 @@ class ui{                               //user interface class
         void main_page(){
             cout<<"\n\t\tWelcome to main page!!";
         }
-        void side_page(){
-            cout<<"\n\t\tWelcome to the side page!!";
+        void airline_menu(){
+            cout<<"\n\t\tWelcome to Airline menu page!!";
         }
+        void customer_menu(){
+            cout<<"\n\t\tWelcome to the customer menu!!";
+        }
+
 };
-class Person
+class Person:public ui
 {
 protected:
     string name;
@@ -33,6 +37,7 @@ public:
     void set_username(const string username) { this->username = username; }
     void set_password(const string password) { this->password = password; }
     void set_ID(const int ID) { this->ID = ID; }
+    void fun(){}
     void output()
     {
         cout << name << endl
@@ -79,6 +84,9 @@ class Customer : protected Person // hatif
             Person::output();
             cout<<"Airline name: "<<air_name<<
         }
+        void signup(){
+            Person::signup();
+        }
 
 };
 class Special_customer : protected Person //maarij
@@ -96,7 +104,7 @@ class Booking : protected Airline, protected Customer //mohtada
 class Filing
 {
 public:
-    void file(Person b)
+    void file(Customer b)
     {
         ofstream fp("data.dat", ios::binary | ios::out);
         fp.write((char *)&b, sizeof(b));
@@ -104,7 +112,7 @@ public:
     }
     Person reading()
     {
-        Person b1;
+        Customer b1;
         ifstream fptr("data.dat", ios::binary | ios::out);
         fptr.read((char *)&b1, sizeof(b1));
         fptr.close();
@@ -119,8 +127,6 @@ class HolidayPackage : Person, Ticket, Booking //maarij hotels, tour,
 };
 int main()
 {
-    Person a;
-    Filing f;
-    a.signup();
-    f.file(a);
+    Customer a;
+    a.    
 }
