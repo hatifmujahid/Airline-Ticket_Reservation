@@ -74,7 +74,7 @@ class Customer : protected Person // hatif
     private:
         string air_name;
         char air_type;
-
+        
     public:
         void set_airname(string air_name){this->air_name= air_name;}
         const string get_airname(){return air_name;}
@@ -128,5 +128,5 @@ class HolidayPackage : Person, Ticket, Booking //maarij hotels, tour,
 int main()
 {
     Customer a;
-    a.    
+    a.signup();
 }
