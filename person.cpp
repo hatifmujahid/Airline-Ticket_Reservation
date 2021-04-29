@@ -57,7 +57,6 @@ public:
 class Customer : protected Person // hatif
 {
 protected:
-
 public:
 };
 class Special_customer : protected Person //
@@ -102,5 +101,4 @@ int main()
     Filing f;
     a.signup();
     f.file(a);
-    cout<<"Bruh";
 }
