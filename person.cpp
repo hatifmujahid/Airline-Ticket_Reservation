@@ -57,6 +57,7 @@ public:
 class Customer : protected Person // hatif
 {
 protected:
+
 public:
 };
 class Special_customer : protected Person //
