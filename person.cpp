@@ -162,6 +162,8 @@ int main()
     int choice;
     Customer a;
     a.main_page();
+    cout<<"Enter choice: ";
+    cin>>choice;
     switch (choice)
     {
     case 1:
