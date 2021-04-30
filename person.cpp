@@ -8,24 +8,14 @@ class ui{                               //user interface class
         void main_page(){
             int choice;
             cout<<"\n\t\tWelcome to main page!!";
-            cout<<"1) Customer Page\n2) Admin Page\n3) Staff Page\n4) Airline Page\n";
-            cin>>choice;
-            switch (choice)
-            {
-            case 1:
-                /* code */
-                break;
-            
-            default:
-                break;
-            }
-
+            cout<<"\n1) Customer Page\n2) Admin Page\n3) Staff Page\n4) Airline Page\n";
         }
         void airline_menu(){
             cout<<"\n\t\tWelcome to Airline menu page!!";
         }
         void customer_menu(){
             cout<<"\n\t\tWelcome to the customer menu!!";
+            cout<<"\n1) Sign Up\n2) Sign in\n3)Show number of customers\n";
         }
 
 };
@@ -62,53 +52,72 @@ public:
     {
         fflush(stdin);
         cout << "SIGN UP\n\nEnter username: ";
-        cin >> username;
+        getline(cin, username);
         fflush(stdin);
         cout << "Enter password: ";
-        cin >> password;
+        getline(cin, password);
         fflush(stdin);
         cout << "Enter name: ";
-        cin >> name;
+        getline(cin, name);
         fflush(stdin);
         cout << "Enter designated ID: ";
         cin >> ID;
         cout << "Enter email: ";
-        cin >> email;
+        getline(cin, email);
         fflush(stdin);
     }
 };
-class Airline : protected Person // mohtada
+class Airline :virtual public Person // mohtada
 {
 protected:
 public:
 };
-class Customer : protected Person // hatif
+class Customer :virtual public Person // hatif
 {
     private:
         string air_name;
         char air_type;
-        
     public:
+        static int c_no;
         void set_airname(string air_name){this->air_name= air_name;}
         const string get_airname(){return air_name;}
         void set_airtype(char air_type){this->air_type=air_type;}
-        Customer(){}
+        Customer(){
+            c_no++;
+        }
         void output(){
             Person::output();
-            cout<<"Airline name: "<<air_name<<
+            cout<<"Airline name: "<<air_name;
         }
         void signup(){
             Person::signup();
         }
         void signin(){
-            string u, p;
-            ifstream fp("data.dat", ios::binary|ios::in);
-            fp.read(,sizeof());
+            string u,p;
             cout<<"Enter User name: ";
             getline(cin, u);
             cout<<"Enter password: ";
             getline(cin, p);
-            while()
+        }
+        void customer_menu(){
+            ui::customer_menu();
+            int choice;
+            cout<<"\nEnter choice: ";
+            cin>>choice;
+            switch (choice)
+            {
+            case 1:
+                Customer::signup();
+                break;
+            case 2:
+                Customer::signin();
+                break;
+            case 3:
+                cout<<"No of customers= "<<c_no;
+                break;
+            default:
+                break;
+            }
         }
 };
 class Special_customer : protected Person //maarij
@@ -126,20 +135,8 @@ class Booking : protected Airline, protected Customer //mohtada
 class Filing
 {
 public:
-    void file(Customer b)
-    {
-        ofstream fp("customer.txt", ios::binary | ios::out);
-        fp.write((char *)&b, sizeof(b));
-        fp.close();
-    }
-    Person reading()
-    {
-        Customer b1;
-        ifstream fptr("customer.txt", ios::binary | ios::out);
-        fptr.read((char *)&b1, sizeof(b1));
-        fptr.close();
-        return b1;
-    }
+    
+    
 };
 class Ticket : protected Person, protected Airline //printing ticket //mohtada
 {
@@ -147,6 +144,7 @@ class Ticket : protected Person, protected Airline //printing ticket //mohtada
 class HolidayPackage : Person, Ticket, Booking //maarij hotels, tour,
 {
 };
+int Customer::c_no = 0;
 int main()
 {
     Customer a;
