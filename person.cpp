@@ -128,14 +128,14 @@ class Filing
 public:
     void file(Customer b)
     {
-        ofstream fp("data.dat", ios::binary | ios::out);
+        ofstream fp("customer.txt", ios::binary | ios::out);
         fp.write((char *)&b, sizeof(b));
         fp.close();
     }
     Person reading()
     {
         Customer b1;
-        ifstream fptr("data.dat", ios::binary | ios::out);
+        ifstream fptr("customer.txt", ios::binary | ios::out);
         fptr.read((char *)&b1, sizeof(b1));
         fptr.close();
         return b1;
