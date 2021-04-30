@@ -9,7 +9,6 @@ public:
     virtual void fun() = 0;
     void main_page()
     {
-        int choice;
         cout << "\n\t\tWelcome to main page!!";
         cout << "\n1) Customer Page\n2) Admin Page\n3) Staff Page\n4) Airline Page\n";
     }
@@ -24,7 +23,7 @@ public:
     }
     void admin_menu()
     {
-        
+
     }
 };
 class Person : public ui
