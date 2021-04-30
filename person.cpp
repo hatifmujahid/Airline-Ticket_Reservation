@@ -87,7 +87,16 @@ class Customer : protected Person // hatif
         void signup(){
             Person::signup();
         }
-
+        void signin(){
+            string u, p;
+            ifstream fp("data.dat", ios::binary|ios::in);
+            fp.read(,sizeof())
+            cout<<"Enter User name: ";
+            getline(cin, u);
+            cout<<"Enter password: ";
+            getline(cin, p);
+            while()
+        }
 };
 class Special_customer : protected Person //maarij
 {
