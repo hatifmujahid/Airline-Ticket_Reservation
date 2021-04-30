@@ -6,7 +6,20 @@ class ui{                               //user interface class
     public:
         virtual void fun()=0;
         void main_page(){
+            int choice;
             cout<<"\n\t\tWelcome to main page!!";
+            cout<<"1) Customer Page\n2) Admin Page\n3) Staff Page\n4) Airline Page\n";
+            cin>>choice;
+            switch (choice)
+            {
+            case 1:
+                /* code */
+                break;
+            
+            default:
+                break;
+            }
+
         }
         void airline_menu(){
             cout<<"\n\t\tWelcome to Airline menu page!!";
@@ -90,7 +103,7 @@ class Customer : protected Person // hatif
         void signin(){
             string u, p;
             ifstream fp("data.dat", ios::binary|ios::in);
-            fp.read(,sizeof())
+            fp.read(,sizeof());
             cout<<"Enter User name: ";
             getline(cin, u);
             cout<<"Enter password: ";
@@ -137,5 +150,5 @@ class HolidayPackage : Person, Ticket, Booking //maarij hotels, tour,
 int main()
 {
     Customer a;
-    a.signup();
+    a.main_page();
 }
