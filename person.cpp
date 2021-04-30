@@ -85,7 +85,6 @@ class Customer : virtual public Person // hatif
 private:
     string air_name;
     char air_type;
-
 public:
     static int c_no;
     void set_airname(string air_name) { this->air_name = air_name; }
