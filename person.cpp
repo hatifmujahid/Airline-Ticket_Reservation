@@ -24,6 +24,7 @@ public:
     }
     void admin_menu()
     {
+        
     }
 };
 class Person : public ui
@@ -164,13 +165,5 @@ int main()
     a.main_page();
     cout<<"Enter choice: ";
     cin>>choice;
-    switch (choice)
-    {
-    case 1:
-        
-        break;
     
-    default:
-        break;
-    }
 }
