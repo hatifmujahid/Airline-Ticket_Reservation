@@ -1,9 +1,10 @@
 #include <iostream>
 #include <fstream>
+#include<iomanip>
 
 using namespace std;
-class ui
-{ //user interface class
+class ui //user interface class
+{
 public:
     virtual void fun() = 0;
     void main_page()
@@ -20,6 +21,9 @@ public:
     {
         cout << "\n\t\tWelcome to the customer menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)Show number of customers\n";
+    }
+    void admin_menu()
+    {
     }
 };
 class Person : public ui
@@ -65,6 +69,7 @@ public:
         fflush(stdin);
         cout << "Enter designated ID: ";
         cin >> ID;
+        fflush(stdin);
         cout << "Enter email: ";
         getline(cin, email);
         fflush(stdin);
@@ -153,7 +158,17 @@ class HolidayPackage : Person, Ticket, Booking //maarij hotels, tour,
 };
 int Customer::c_no = 0;
 int main()
-{
+{   
+    int choice;
     Customer a;
     a.main_page();
+    switch (choice)
+    {
+    case 1:
+        
+        break;
+    
+    default:
+        break;
+    }
 }
