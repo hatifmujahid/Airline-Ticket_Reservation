@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include<iomanip>
+#include <iomanip>
+
+// edit test
 
 using namespace std;
 class ui //user interface class
@@ -15,7 +17,7 @@ public:
     void airline_menu()
     {
         cout << "\n\t\tWelcome to Airline menu page!!";
-        cout<<"\nShow airlines: ";
+        cout << "\nShow airlines: ";
     }
     void customer_menu()
     {
@@ -24,8 +26,8 @@ public:
     }
     void admin_menu()
     {
-        cout<<"\n\t\tWelcome to the Admin menu!!";
-        cout<<"\n1) Sign up\n2) Sign in";
+        cout << "\n\t\tWelcome to the Admin menu!!";
+        cout << "\n1) Sign up\n2) Sign in";
     }
 };
 class Person : public ui
@@ -55,7 +57,8 @@ public:
         cout << name << endl
              << email << endl
              << username << endl
-             << password << endl << ID<<endl;
+             << password << endl
+             << ID << endl;
     }
     void signup()
     {
@@ -76,7 +79,6 @@ public:
         getline(cin, email);
         fflush(stdin);
     }
-    
 };
 class Airline : virtual public Person // mohtada
 {
@@ -88,6 +90,7 @@ class Customer : virtual public Person // hatif
 private:
     string air_name;
     char air_type;
+
 public:
     static int c_no;
     void set_airname(string air_name) { this->air_name = air_name; }
@@ -106,22 +109,25 @@ public:
     {
         Person::signup();
         ofstream fp("customer.txt", ios::out);
-        fp<<name<<"\t"<<ID<<"\t"<<email<<"\t"<<username<<"\t"<<password<<endl;
+        fp << name << "\t" << ID << "\t" << email << "\t" << username << "\t" << password << endl;
         fp.close();
     }
-    void signin(){
-        string u,p;
+    void signin()
+    {
+        string u, p;
         fflush(stdin);
-        cout<<"Enter username: ";
+        cout << "Enter username: ";
         getline(cin, u);
         fflush(stdin);
-        cout<<"Enter password: ";
+        cout << "Enter password: ";
         getline(cin, p);
         fflush(stdin);
-        ifstream fp("customer.txt", ios::in); 
-        while(getline()){
-            if(username==u && password==p){
-                cout<<"Successful";
+        ifstream fp("customer.txt", ios::in);
+        while (getline())
+        {
+            if (username == u && password == p)
+            {
+                cout << "Successful";
                 break;
             }
         }
@@ -142,7 +148,7 @@ public:
             Customer::signin();
             break;
         case 3:
-            cout << "No of customers= " << c_no<<endl;
+            cout << "No of customers= " << c_no << endl;
             break;
         default:
             break;
@@ -169,13 +175,14 @@ class HolidayPackage : Person, Ticket, Booking //maarij hotels, tour,
 {
 };
 int Customer::c_no = 0;
-void clrscrn(){
+void clrscrn()
+{
     system("cls");
 }
 int main()
-{   
-   Customer a;
-   a.signup();
-   a.signin();
-   a.output();
+{
+    Customer a;
+    a.signup();
+    a.signin();
+    a.output();
 }
