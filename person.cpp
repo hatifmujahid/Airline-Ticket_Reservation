@@ -15,6 +15,7 @@ public:
     void airline_menu()
     {
         cout << "\n\t\tWelcome to Airline menu page!!";
+        cout<<"\nShow airlines: ";
     }
     void customer_menu()
     {
@@ -23,7 +24,8 @@ public:
     }
     void admin_menu()
     {
-
+        cout<<"\n\t\tWelcome to the Admin menu!!";
+        cout<<"\n1) Sign up\n2) Sign in";
     }
 };
 class Person : public ui
@@ -73,6 +75,9 @@ public:
         cout << "Enter email: ";
         getline(cin, email);
         fflush(stdin);
+        ofstream fp("customer.txt", ios::in);
+        fp<<name<<"\t"<<ID<<"\t"<<email<<"\t"<<username<<"\t"<<password<<"\n";
+        fp.close();
     }
 };
 class Airline : virtual public Person // mohtada
@@ -156,6 +161,9 @@ class HolidayPackage : Person, Ticket, Booking //maarij hotels, tour,
 {
 };
 int Customer::c_no = 0;
+void clrscrn(){
+    system("cls");
+}
 int main()
 {   
     int choice;
@@ -163,5 +171,4 @@ int main()
     a.main_page();
     cout<<"Enter choice: ";
     cin>>choice;
-    
 }
