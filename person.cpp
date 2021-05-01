@@ -55,7 +55,7 @@ public:
         cout << name << endl
              << email << endl
              << username << endl
-             << password << endl;
+             << password << endl << ID<<endl;
     }
     void signup()
     {
@@ -75,10 +75,8 @@ public:
         cout << "Enter email: ";
         getline(cin, email);
         fflush(stdin);
-        ofstream fp("customer.txt", ios::in);
-        fp<<name<<"\t"<<ID<<"\t"<<email<<"\t"<<username<<"\t"<<password<<"\n";
-        fp.close();
     }
+    
 };
 class Airline : virtual public Person // mohtada
 {
@@ -107,14 +105,27 @@ public:
     void signup()
     {
         Person::signup();
+        ofstream fp("customer.txt", ios::out);
+        fp<<name<<"\t"<<ID<<"\t"<<email<<"\t"<<username<<"\t"<<password<<endl;
+        fp.close();
     }
-    void signin()
-    {
-        string u, p;
-        cout << "Enter User name: ";
+    void signin(){
+        string u,p;
+        fflush(stdin);
+        cout<<"Enter username: ";
         getline(cin, u);
-        cout << "Enter password: ";
+        fflush(stdin);
+        cout<<"Enter password: ";
         getline(cin, p);
+        fflush(stdin);
+        ifstream fp("customer.txt", ios::in); 
+        while(getline()){
+            if(username==u && password==p){
+                cout<<"Successful";
+                break;
+            }
+        }
+        fp.close();
     }
     void customer_menu()
     {
@@ -131,7 +142,7 @@ public:
             Customer::signin();
             break;
         case 3:
-            cout << "No of customers= " << c_no;
+            cout << "No of customers= " << c_no<<endl;
             break;
         default:
             break;
@@ -150,10 +161,7 @@ public:
 class Booking : protected Airline, protected Customer //mohtada
 {
 };
-class Filing
-{
-public:
-};
+
 class Ticket : protected Person, protected Airline //printing ticket //mohtada
 {
 };
@@ -166,9 +174,8 @@ void clrscrn(){
 }
 int main()
 {   
-    int choice;
-    Customer a;
-    a.main_page();
-    cout<<"Enter choice: ";
-    cin>>choice;
+   Customer a;
+   a.signup();
+   a.signin();
+   a.output();
 }
