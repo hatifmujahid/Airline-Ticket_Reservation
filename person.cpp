@@ -9,21 +9,8 @@ class ui //user interface class
 {
 public:
     virtual void fun() = 0;
-    void main_page()
-    {
-        cout << "\n\t\tWelcome to main page!!";
-        cout << "\n1) Customer Page\n2) Admin Page\n3) Staff Page\n4) Airline Page\n";
-    }
-    void airline_menu()
-    {
-        cout << "\n\t\tWelcome to Airline menu page!!";
-        cout << "\nShow airlines: ";
-    }
-    void customer_menu()
-    {
-        cout << "\n\t\tWelcome to the customer menu!!";
-        cout << "\n1) Sign Up\n2) Sign in\n3)Show number of customers\n";
-    }
+    virtual void menu() = 0;
+   
     void admin_menu()
     {
         cout << "\n\t\tWelcome to the Admin menu!!";
@@ -108,8 +95,8 @@ public:
     void signup()
     {
         Person::signup();
-        ofstream fp("customer.txt", ios::out);
-        fp << name << "\t" << ID << "\t" << email << "\t" << username << "\t" << password << endl;
+        ofstream fp("customer.txt", ios::app);
+        fp << username << " " << password << " " << name << " " << email << " " << ID << endl;
         fp.close();
     }
     void signin()
@@ -122,20 +109,21 @@ public:
         cout << "Enter password: ";
         getline(cin, p);
         fflush(stdin);
-        ifstream fp("customer.txt", ios::in);
-        while (getline())
+        FILE *fp;
+        fp = fopen("customer.txt", "r");
+        while (fscanf(fp, "%s %s %s %s %d\n", &username,&password,&name,&email,&ID)!=EOF)
         {
             if (username == u && password == p)
             {
                 cout << "Successful";
-                break;
             }
         }
-        fp.close();
+        fclose(fp);
     }
-    void customer_menu()
+    void menu()
     {
-        ui::customer_menu();
+        cout << "\n\t\tWelcome to the customer menu!!";
+        cout << "\n1) Sign Up\n2) Sign in\n3)Show number of customers\n";
         int choice;
         cout << "\nEnter choice: ";
         cin >> choice;
@@ -182,7 +170,5 @@ void clrscrn()
 int main()
 {
     Customer a;
-    a.signup();
     a.signin();
-    a.output();
 }
