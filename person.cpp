@@ -10,7 +10,7 @@ class ui //user interface class
 public:
     virtual void fun() = 0;
     virtual void menu() = 0;
-   
+
     void admin_menu()
     {
         cout << "\n\t\tWelcome to the Admin menu!!";
@@ -24,15 +24,15 @@ protected:
     string email;
     string username;
     string password;
-    
+
 public:
     Person() { ID = 0; }
- 
+
     const string get_email() { return email; }
     const string get_username() { return username; }
     const string get_password() { return password; }
     const int get_ID() { return ID; }
- 
+
     void set_email(const string email) { this->email = email; }
     void set_username(const string username) { this->username = username; }
     void set_password(const string password) { this->password = password; }
@@ -40,10 +40,10 @@ public:
     void fun() {}
     void output()
     {
-        cout << email << endl
-             << username << endl
-             << password << endl
-             << ID << endl;
+        cout << "\nEmail: " << email << endl
+             << "Username: " << username << endl
+             << "Password: " << password << endl
+             << "ID: " << ID << endl;
     }
     void signup()
     {
@@ -54,14 +54,12 @@ public:
         cout << "Enter password: ";
         getline(cin, password);
         fflush(stdin);
-        
         cout << "Enter designated ID: ";
         cin >> ID;
         fflush(stdin);
         cout << "Enter email: ";
         getline(cin, email);
         fflush(stdin);
-       
     }
 };
 class Airline : virtual public Person // mohtada
@@ -72,15 +70,17 @@ public:
 class Customer : virtual public Person // hatif
 {
 private:
-    string air_name;
-    char air_type;
-    protected:
+    
+
+protected:
     string f_name, l_name;
+
 public:
     static int c_no;
-    void set_airname(string air_name) { this->air_name = air_name; }
-    const string get_airname() { return air_name; }
-    void set_airtype(char air_type) { this->air_type = air_type; }
+    void set_fname(string f_name) { this->f_name = f_name; }
+    const string get_fname() { return f_name; }
+    void set_lname(char l_name) { this->l_name = l_name; }
+    const string get_lname() { return l_name; }
     Customer()
     {
         c_no++;
@@ -88,11 +88,11 @@ public:
     void output()
     {
         Person::output();
-        cout << "Airline name: " << air_name;
+        cout << "First name: " << f_name << "\nLast name: " << l_name;
     }
     void signup()
     {
-        Person::signup(); 
+        Person::signup();
         cout << "Enter first name: ";
         getline(cin, f_name);
         fflush(stdin);
@@ -100,7 +100,7 @@ public:
         getline(cin, l_name);
         fflush(stdin);
         ofstream fp("customer.txt", ios::app);
-        fp << username << "\t" << password << "\t" << f_name <<"\t"<< l_name <<"\t" << email << "\t" << ID << endl;
+        fp << username << "\t" << password << "\t" << f_name << "\t" << l_name << "\t" << email << "\t" << ID << endl;
         fp.close();
     }
     void signin()
@@ -116,13 +116,15 @@ public:
         ifstream fp("customer.txt", ios::in);
         while (1)
         {
-            fp>>username>>password>>f_name>>l_name>>email>>ID;
-            if(fp.eof()){
+            fp >> username >> password >> f_name >> l_name >> email >> ID;
+            if (fp.eof())
+            {
                 break;
             }
             if (username == u && password == p)
             {
-                cout << "Successful";
+                system("cls");
+                cout << "\n\nSign in is Successful";
                 break;
             }
         }
@@ -144,7 +146,7 @@ public:
             Customer::signin();
             break;
         case 3:
-            cout << "No of customers= " << c_no << endl;
+            cout << "No of customers: " << c_no << endl;
             break;
         default:
             break;
@@ -239,19 +241,19 @@ public:
         {
             if (arrival == "Toronto")
             {
-                file << f_name<<"\t"<< l_name << "\t" << ID << "\tQatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\tThe Pearl Resort\n"
+                file << f_name << "\t" << l_name << "\t" << ID << "\tQatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\tThe Pearl Resort\n"
                      << departure << " to " << arrival << "\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Sydney")
             {
-                file << f_name<<"\t"<< l_name << ID << "\tQantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tKangaroo Resort\n"
+                file << f_name << "\t" << l_name << ID << "\tQantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tKangaroo Resort\n"
                      << departure << " to " << arrival << "\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Paris")
             {
-                file << f_name<<"\t"<< l_name << ID << "\tLufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tThe Eiffel Resort\n"
+                file << f_name << "\t" << l_name << ID << "\tLufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tThe Eiffel Resort\n"
                      << departure << " to " << arrival << "\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
@@ -261,19 +263,19 @@ public:
         {
             if (arrival == "Toronto")
             {
-                file << f_name<<"\t"<< l_name << ID << "\tFly Dubai\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tCountryside View\n"
+                file << f_name << "\t" << l_name << ID << "\tFly Dubai\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tCountryside View\n"
                      << departure << " to " << arrival << "\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Sydney")
             {
-                file << f_name<<"\t"<< l_name << ID << "\tEmirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tValley Side\n"
+                file << f_name << "\t" << l_name << ID << "\tEmirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tValley Side\n"
                      << departure << " to " << arrival << "\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Paris")
             {
-                file << f_name<<"\t"<< l_name << ID << "\tFly Dubai\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzay Lezay Motel\n"
+                file << f_name << "\t" << l_name << ID << "\tFly Dubai\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzay Lezay Motel\n"
                      << departure << " to " << arrival << "\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
@@ -307,7 +309,8 @@ int Customer::c_no = 0;
 
 int main()
 {
+    cout << "\t\t\tAIRLINE RESERVATION SYSTEM\t";
     Customer a;
-    a.signup();
     a.signin();
+    a.output();
 }

@@ -1,1 +1,3 @@
 hatif	2000	Hatif 	Mujahid	hatifmujahid	300
+lite	3000	kite 	jite	hatifmuajhid	200
+mike	4000	ready	asdfa	adsf	600
