@@ -2,8 +2,6 @@
 #include <fstream>
 #include <iomanip>
 
-// edit test
-
 using namespace std;
 class ui //user interface class
 {
@@ -27,12 +25,10 @@ protected:
 
 public:
     Person() { ID = 0; }
-
     const string get_email() { return email; }
     const string get_username() { return username; }
     const string get_password() { return password; }
     const int get_ID() { return ID; }
-
     void set_email(const string email) { this->email = email; }
     void set_username(const string username) { this->username = username; }
     void set_password(const string password) { this->password = password; }
@@ -70,8 +66,6 @@ public:
 class Customer : virtual public Person // hatif
 {
 private:
-    
-
 protected:
     string f_name, l_name;
 
@@ -129,6 +123,7 @@ public:
             }
         }
         fp.close();
+        
     }
     void menu()
     {
@@ -169,7 +164,7 @@ class Booking : protected Airline, protected Customer //mohtada
 class Ticket : protected Person, protected Airline //printing ticket //mohtada
 {
 };
-class HolidayPackage : virtual public Person, public Customer
+class HolidayPackage : public Customer
 {
     string date;
     int tourcode;
