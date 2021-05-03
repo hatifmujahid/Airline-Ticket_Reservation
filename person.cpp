@@ -6,7 +6,6 @@ using namespace std;
 class ui //user interface class
 {
 public:
-    virtual void fun() = 0;
     virtual void menu() = 0;
 };
 class Person : public ui
@@ -27,7 +26,7 @@ public:
     void set_username(const string username) { this->username = username; }
     void set_password(const string password) { this->password = password; }
     void set_ID(const int ID) { this->ID = ID; }
-    void fun() {}
+  
     void output()
     {
         cout << "\nEmail: " << email << endl
@@ -73,11 +72,7 @@ public:
     {
         c_no++;
     }
-    void output()
-    {
-        Person::output();
-        cout << "First name: " << f_name << "\nLast name: " << l_name;
-    }
+    
     void signup()
     {
         Person::signup();
@@ -152,6 +147,11 @@ public:
     ~Customer()
     {
         c_no--;
+    }
+    void output(){
+        cout<<"\nCustomer Details";
+        Person::output();
+        cout << "\nFirst name: " << f_name << "\nLast name: " << l_name;
     }
 };
 class Special_customer : protected Person //maarij
