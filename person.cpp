@@ -9,11 +9,7 @@ public:
     virtual void fun() = 0;
     virtual void menu() = 0;
 
-    void admin_menu()
-    {
-        cout << "\n\t\tWelcome to the Admin menu!!";
-        cout << "\n1) Sign up\n2) Sign in";
-    }
+    
 };
 class Person : public ui
 {
@@ -146,6 +142,9 @@ public:
         default:
             break;
         }
+    }
+    ~Customer(){
+        c_no--;
     }
 };
 class Special_customer : protected Person //maarij
@@ -301,10 +300,16 @@ public:
     }
 };
 int Customer::c_no = 0;
+void admin_menu()
+{
+    cout << "\n\t\tWelcome to the Admin menu!!";
+    cout << "\n1) Sign up\n2) Sign in";
+}
 
 int main()
 {
-    cout << "\t\t\tAIRLINE RESERVATION SYSTEM\t";
+    cout << "\t\t\tAIRLINE RESERVATION SYSTEM\nThis program has 4 branches: \n    1) Admin\n    2) Staff\n    3)Customer\n    4) Airline";
+    
     Customer a;
     a.signin();
     a.output();
