@@ -1,2 +1,1 @@
-kite	2000	hatif mujahid	sadasfd	200
-lite	3000	jusr sad	asdgsf	22
+hatif	2000	Hatif 	Mujahid	hatifmujahid	300
