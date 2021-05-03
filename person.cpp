@@ -8,8 +8,6 @@ class ui //user interface class
 public:
     virtual void fun() = 0;
     virtual void menu() = 0;
-
-    
 };
 class Person : public ui
 {
@@ -92,9 +90,13 @@ public:
         ofstream fp("customer.txt", ios::app);
         fp << username << "\t" << password << "\t" << f_name << "\t" << l_name << "\t" << email << "\t" << ID << endl;
         fp.close();
+        system("cls");
+        cout<<"\nSign up successful\n";
+        menu();
     }
     void signin()
-    {
+    {   
+        k:
         string u, p;
         fflush(stdin);
         cout << "Enter username: ";
@@ -117,9 +119,13 @@ public:
                 cout << "\n\nSign in is Successful";
                 break;
             }
+            else{
+                system("cls");
+                cout << "\n\nSign in is unsuccessful";
+                goto k;
+            }
         }
         fp.close();
-        
     }
     void menu()
     {
@@ -143,7 +149,8 @@ public:
             break;
         }
     }
-    ~Customer(){
+    ~Customer()
+    {
         c_no--;
     }
 };
@@ -309,7 +316,7 @@ void admin_menu()
 int main()
 {
     cout << "\t\t\tAIRLINE RESERVATION SYSTEM\nThis program has 4 branches: \n    1) Admin\n    2) Staff\n    3)Customer\n    4) Airline";
-    
+
     Customer a;
     a.signin();
     a.output();
