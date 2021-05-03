@@ -37,7 +37,7 @@ public:
     void signup()
     {
         fflush(stdin);
-        cout << "SIGN UP\n\nEnter username: ";
+        cout << "---------------------------------------SIGN UP----------------------------------------------------\n\nEnter username: ";
         getline(cin, username);
         fflush(stdin);
         cout << "Enter password: ";
@@ -50,6 +50,7 @@ public:
         getline(cin, email);
         fflush(stdin);
     }
+    //maybe sign in function to be made for abstraction
 };
 class Airline : virtual public Person // mohtada
 {
@@ -166,7 +167,6 @@ public:
 class Booking : protected Airline, protected Customer //mohtada
 {
 };
-
 class Ticket : protected Person, protected Airline //printing ticket //mohtada
 {
 };
