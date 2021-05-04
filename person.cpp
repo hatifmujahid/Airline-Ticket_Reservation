@@ -1,8 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include<windows.h>
 
 using namespace std;
+void loading_screen(){
+	cout << "\n\n\t\t\t\t\t ";
+    printf("%c",219);
+    for (int a = 1; a < 70; a++) 
+    {
+        Sleep(20);
+        printf("%c",219);
+    }
+}
 class ui //user interface class
 {
 public:
@@ -54,6 +64,8 @@ public:
 class Airline : virtual public Person // mohtada
 {
 protected:
+//make sign up function and store data in file
+// in booking class print all the signed up airlines from which customer can choose which one he likes
 public:
 };
 class Customer : virtual public Person // hatif
@@ -155,6 +167,7 @@ public:
 		Person::output();
 		cout << "\nFirst name: " << f_name << "\nLast name: " << l_name;
 	}
+	
 };
 class Special_customer : protected Person //maarij
 {
@@ -179,8 +192,9 @@ public:
 	}
 	void signin()
 	{
+		system("cls");
+		k:
 		cout << "---------------------------------------SIGN IN----------------------------------------------------\n\n";
-	k:
 		string u, p;
 		fflush(stdin);
 		cout << "Enter username: ";
@@ -213,12 +227,72 @@ public:
 		fp.close();
 	}
 };
+
 class Staff : protected Person //maarij
 {
 public:
 };
 class Booking : protected Airline, protected Customer //mohtada
 {
+};
+class Payment: protected Booking{
+	string bank;
+	long int card_no;int cvv, expiry_month, expiry_year;
+	public:
+		void menu(){
+			wrong_choice:
+			cout<<"How do you want to pay for your flight MR."<<get_fname()<<" "<<get_lname()<<": ";
+			cout<<"\n	1) Card Payment\n	2) Online Banking";
+			int choice;
+			cout<<"\n\n\tEnter your choice: ";
+			switch (choice)
+			{
+			case 1:
+				card_payment();
+				break;
+			case 2:
+				online_banking();
+				break;
+			default:
+				system("cls");
+				cout<<"\nWrong choice. Try Again. \n";
+				goto wrong_choice;
+				break;
+			}
+		}
+		void card_payment(){
+			system("cls");
+			cout<<"Enter card Details: \n\tCard number: ";
+			cin>>card_no;
+			cout<<"CVV: ";
+			cin>>cvv;
+			cout<<"Enter expiry month(mm)";
+			cin>>expiry_month;
+			while(expiry_month<=12&&expiry_month>0){
+				cout<<"Month input is wrong.\nEnter expiry month(mm)";
+				cin>>expiry_month;
+			}
+			cout<<"Enter expiry year(yyyy)";
+			cin>>expiry_year;
+			system("cls");
+			cout<<"\t\t\t\tProcessing payment";
+			Sleep(500);
+			loading_screen();
+
+		}
+		void online_banking(){
+			string username, password;
+			fflush(stdin);
+			cout<<"Enter user name: ";
+			getline(cin, username);
+			fflush(stdin);
+			cout<<"Enter password: ";
+			getline(cin, password);
+			fflush(stdin);
+			cout<<"\t\t\t\tProcessing payment";
+			Sleep(500);
+			loading_screen();			
+		}
 };
 class Ticket : protected Person, protected Airline //printing ticket //mohtada
 {
