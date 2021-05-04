@@ -76,6 +76,7 @@ protected:
 	string f_name, l_name;
 
 public:
+	Customer(){}
 	static int c_no;
 	void set_fname(string f_name) { this->f_name = f_name; }
 	const string get_fname() { return f_name; }
@@ -180,6 +181,11 @@ protected:
 	string f_name, l_name;
 
 public:
+	admin(){}
+	void set_fname(string f_name) { this->f_name = f_name; }
+	const string get_fname() { return f_name; }
+	void set_lname(char l_name) { this->l_name = l_name; }
+	const string get_lname() { return l_name; }
 	void menu()
 	{
 		cout << "---------------------------------------ADMIN MENU----------------------------------------------------\n\n     1)Sign in\n    2)Sign up\n    3)Delete Customer\n    ";
@@ -312,6 +318,20 @@ class HolidayPackage : public Customer
 	int tour;
 
 public:
+	int choice;
+	void menu(){
+			cout<<"WELCOME TO THE HOLIDAY TOURS AND PACKAGES MENU"<<endl;
+			cout<<" 1.View Packages\t2.Book a Package\t3.Exit to main\n";
+			cout<<"Enter choice"<<endl;
+			cin>>choice;
+			if(choice==1 || choice==2){
+				package_details();
+			}
+			else{
+				exit(1);
+			}
+
+		}
 	void package_details()
 	{
 		system("CLS");
