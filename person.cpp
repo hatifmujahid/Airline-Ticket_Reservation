@@ -2,12 +2,15 @@
 #include <fstream>
 #include <iomanip>
 #include <windows.h>
-
+#include<cstdlib>
+#include<cstring>
+#include<conio.h>
 //ios::in input
 //ios::out output
 //ofstream output to file
 //ifstream input from file
 using namespace std;
+
 void loading_screen()		
 {
 	cout << "\n\n\t\t\t\t\t ";
@@ -123,7 +126,7 @@ public:
 		fflush(stdin);
 	}
 	void filing(Customer a){
-		ofstream fp("customer1.dat", ios::app|ios::binary);
+		ofstream fp("customer.dat", ios::app|ios::binary);
 		fp.write((char*)&a, sizeof(Customer));
 		if(!fp) {
 			cout << "Cannot open file!" << endl;
@@ -137,10 +140,10 @@ public:
 		switch (choice)
 		{
 		case 1:
-			Customer::menu();
+			menu();
 			break;
 		case 2:
-			Customer::signin();
+			signin();
 			break;
 		default:
 			break;
@@ -149,19 +152,25 @@ public:
 	void signin()
 	{
 		cout << "---------------------------------------Customer SIGN IN----------------------------------------------------\n\n";
-	k:
-		
+		char c;
 		fflush(stdin);
 		cout << "Enter username: ";
 		getline(cin, u);
 		fflush(stdin);
 		cout << "Enter password: ";
-		getline(cin, p);
+		for(int i=0;i<1000;i++)	//input masking
+		{
+			c=getch();
+			if(c=='\r')
+				break;
+			cout<<"*";
+			p+=c;
+		}
 		fflush(stdin);
 	}
 	void reading(Customer a1){
 		
-		ifstream fpt("customer1.dat", ios::in|ios::binary);
+		ifstream fpt("customer.dat", ios::in|ios::binary);
 		while (1)
 		{
 			fpt.read((char*)&a1, sizeof(Customer));
@@ -203,11 +212,11 @@ public:
 		}
 	}
 	void check_flight(){
-		cout<<"burh";
+		//ticket class by maaarij
 		customer_menu();
 	}
 	void book_flight(){
-		cout<<"bruh";
+		//booking class by mohtada
 		customer_menu();
 	}
 };
@@ -216,25 +225,7 @@ class Special_customer : protected Person //maarij
 protected:
 public:
 };
-void delete_customer(){
-	Customer a;
-	int ID;
-	cout<<"Enter ID of the customer you want to delete: ";
-	cin>>ID;
-	loading_screen();
-	ifstream original("customer.dat", ios::out|ios::binary);
-	ofstream new_file("new.dat", ios::in|ios::binary);
-	original.read((char*)&a, sizeof(Customer));
-	while(1){
-		if(a.ID!=ID){
-			new_file.write((char*)&a, sizeof(Customer));
-		}
-	}
-	new_file.close();
-	original.close();
-	remove("customer.dat");
-	rename("new.dat", "customer.dat");
-}
+
 class Admin : protected Person
 {
 	string u, p;
@@ -243,13 +234,34 @@ protected:
 	
 public:
 	Admin(){}
+	void delete_customer(){
+		Customer a;
+		int ID;
+		cout<<"Enter ID of the customer you want to delete: ";
+		cin>>ID;
+		loading_screen();
+		ifstream original("customer.dat", ios::out|ios::binary);
+		ofstream new_file("new.dat", ios::in|ios::binary);
+		original.read((char*)&a, sizeof(Customer));
+		while(1){
+			if(a.get_ID()!=ID){
+				new_file.write((char*)&a, sizeof(Customer));
+			}
+		}
+		new_file.close();
+		original.close();
+		remove("customer.dat");
+		rename("new.dat", "customer.dat");
+	}
+	friend void delete_staff();
+	friend void delete_airline();
 	void set_fname(string f_name) { this->f_name = f_name; }
 	const string get_fname() { return f_name; }
 	void set_lname(char l_name) { this->l_name = l_name; }
 	const string get_lname() { return l_name; }
 	void menu()
 	{
-		cout << "---------------------------------------ADMIN MENU----------------------------------------------------\n\n\t1)Sign in\n\t2)Sign up\n\t3)Show admins\n";
+		cout << "__________________________________________ADMIN MENU__________________________________________\n\n\t1)Sign in\n\t2)Sign up\n\t3)Show admins\n";
 		int choice;
 		cin>>choice;
 		switch (choice)
@@ -260,18 +272,19 @@ public:
 		case 2:
 			signup();
 			break;
-		case 3:
-
-		default:
-			break;
+		default: 
+			exit(0);
 		}
-	}
-	void show_admin(Admin a){
-		ifstream fp("admin.dat", ios::in|ios::binary);
-		fp.read((char*)&a, sizeof(a));
-	}
+	}	
 	void admin_menu(){
-	}
+		system("cls");
+		cout<<"__________________________________WELCOME "<<f_name<<" "<<l_name<<"______________________________________\n";
+		cout<<"\t1) Delete a Customer\n\t2) Delete an Airline\n\t3) \n\n\t\tEnter choice: ";
+		int choice;
+		cin>>choice;
+		if(choice==1){
+			// delete_customer();
+		}
 	}
 	
 	void signup()
@@ -285,7 +298,7 @@ public:
 		getline(cin, l_name);
 		fflush(stdin);
 	}
-	void filing(Customer a){
+	void filing(Admin a){
 		ofstream fp("admin.dat", ios::app|ios::binary);
 		fp.write((char*)&a, sizeof(Admin));
 		if(!fp) {
@@ -311,9 +324,7 @@ public:
 	}
 	void signin()
 	{
-		cout << "---------------------------------------Admin SIGN IN----------------------------------------------------\n\n";
-	k:
-		
+		cout << "__________________________________ADMIN SIGN IN______________________________________\n\n";
 		fflush(stdin);
 		cout << "Enter username: ";
 		getline(cin, u);
@@ -332,7 +343,7 @@ public:
 			{
 				system("cls");
 				cout << "\n\nSign in is Successful\n";
-				
+				admin_menu();
 				break;
 			}
 			else if(fpt.eof())
@@ -620,24 +631,7 @@ file.close();
 };
 int Customer::c_no = 0;
 int Staff::ticket_ID=1000;
-void delete_customer(){
-	int ID;
-	cout<<"Enter ID of the customer you want to delete: ";
-	cin>>ID;
-	Customer a;
-	ifstream original("customer.txt", ios::out);
-	ofstream new_file("new.txt", ios::in);
-	original>>a.username>>a.password>>a.f_name>>a.l_name>>a.email>>a.ID;
-	while(1){
-		if(a.ID!=ID){
-			new_file<<a.username<<"\t"<<a.password<<"\t"<<a.f_name<<"\t"<<a.l_name<<"\t"<<a.email<<"\t"<<a.ID<<endl;
-		}
-	}
-	new_file.close();
-	original.close();
-	remove("customer.txt");
-	rename("new.txt", "customer.txt");
-}
+
 void main_screen(){
 	cout << "\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3)Customer\n\t4)Airline\n\t5)Book a ticket\n\t6)Check ticket\n\t7)Print Ticket\n\t8)Check Flight schedule\n";
 	int choice;
@@ -647,6 +641,8 @@ void main_screen(){
 	{
 		Admin a;
 		a.menu();
+		a.filing(a);
+		a.reading(a);
 	}
 	else if (choice == 2)
 	{
@@ -658,7 +654,7 @@ void main_screen(){
 		Customer c,c1;
 		c.menu();	//goes to menu sign in, sign up
 		c.filing(c);	//saves data in file when sign up and re routes to customer login
-		c.reading(c1);	//retrives data from file logging back in
+		c.reading(c);	//retrives data from file logging back in
 	}
 	else if (choice == 4)
 	{
