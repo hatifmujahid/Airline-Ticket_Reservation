@@ -307,9 +307,7 @@ public:
 		loading_screen();
 	}
 };
-class Ticket : protected Person, protected Airline //printing ticket //mohtada
-{
-};
+
 class Ticket : protected Person, protected Airline //printing ticket //mohtada
 {
 };
