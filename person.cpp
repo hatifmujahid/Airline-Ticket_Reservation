@@ -330,7 +330,15 @@ public:
 		getline(cin, u);
 		fflush(stdin);
 		cout << "Enter password: ";
-		getline(cin, p);
+		char c;
+		for(int i=0;i<1000;i++)	//input masking
+		{
+			c=getch();
+			if(c=='\r')
+				break;
+			cout<<"*";
+			p+=c;
+		}
 		fflush(stdin);
 	}
 	void reading(Admin a1){
