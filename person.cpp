@@ -216,6 +216,25 @@ class Special_customer : protected Person //maarij
 protected:
 public:
 };
+void delete_customer(){
+	Customer a;
+	int ID;
+	cout<<"Enter ID of the customer you want to delete: ";
+	cin>>ID;
+	loading_screen();
+	ifstream original("customer.dat", ios::out|ios::binary);
+	ofstream new_file("new.dat", ios::in|ios::binary);
+	original.read((char*)&a, sizeof(Customer));
+	while(1){
+		if(a.ID!=ID){
+			new_file.write((char*)&a, sizeof(Customer));
+		}
+	}
+	new_file.close();
+	original.close();
+	remove("customer.dat");
+	rename("new.dat", "customer.dat");
+}
 class Admin : protected Person
 {
 	string u, p;
@@ -253,7 +272,8 @@ public:
 	}
 	void admin_menu(){
 	}
-	friend void delete_customer();
+	}
+	
 	void signup()
 	{
 		Customer a;
@@ -324,6 +344,23 @@ public:
 		}
 		fpt.close();
 	}
+	void show_admin(Admin a){
+		ifstream fp("admin.dat", ios::in|ios::binary);
+		fp.read((char*)&a, sizeof(a));
+		system("cls");
+		cout<<"\nFirst name:  \tLast name: ""\tID: ""\tEmail: "<<a.email<<endl;
+		while(1){
+			if(fp.eof()){
+				break;
+			}
+			else{
+				cout<<"\t"<<a.f_name<<"\t"<<a.l_name<<"\t"<<a.ID<<"\t"<<a.email<<endl;
+			}
+		}
+
+		admin_menu();
+	}
+
 };
 
 class Staff : protected Person //maarij
