@@ -76,7 +76,6 @@ protected:
 	string f_name, l_name;
 
 public:
-	Customer(){}
 	static int c_no;
 	void set_fname(string f_name) { this->f_name = f_name; }
 	const string get_fname() { return f_name; }
@@ -199,7 +198,7 @@ public:
 	void signin()
 	{
 		system("cls");
-	k:
+	wrong_signin:
 		cout << "---------------------------------------SIGN IN----------------------------------------------------\n\n";
 		string u, p;
 		fflush(stdin);
@@ -227,7 +226,7 @@ public:
 			{
 				system("cls");
 				cout << "\n\nSign in is unsuccessful";
-				goto k;
+				goto wrong_signin;
 			}
 		}
 		fp.close();
@@ -352,9 +351,9 @@ cin>>arrival;
 if((departure=="Karachi"&& arrival=="Toronto") || (departure=="Lahore" && arrival=="Toronto") || (departure=="Islamabad" && arrival=="Toronto")  ){
             cout << "\t \t \tFlights Found" << endl << endl;
             cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
-            cout << "\ 1.Qatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\tThe Pearl Resort\n";
-            cout << "\ 2.Fly Dubai\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tCountryside View\n";
-            cout << "\ 3.Go Air\t19:00\t\t22:05\t\t$.2000\t\tNon-refundable\t\tMarriot\n";
+            cout << "1.Qatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\tThe Pearl Resort\n";
+            cout << "2.Fly Dubai\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tCountryside View\n";
+            cout << "3.Go Air\t19:00\t\t22:05\t\t$.2000\t\tNon-refundable\t\tMarriot\n";
             if(choice==2){
             book_package();
 			}
@@ -376,9 +375,9 @@ if((departure=="Karachi"&& arrival=="Toronto") || (departure=="Lahore" && arriva
 if((departure=="Karachi"&& arrival=="Sydney") || (departure=="Lahore" && arrival=="Sydney") || (departure=="Islamabad" && arrival=="Sydney")  ){
             cout << "\t \t \tFlights Found" << endl << endl;
             cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
-            cout << "\ 1.Qantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tKangaroo Resort\n";
-            cout << "\ 2.Emirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tValley Side\n";
-            cout << "\ 3.Go Air\t19:00\t\t22:05\t\t$.1900\t\tNon-refundable\t\tSheraton\n";
+            cout << "1.Qantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tKangaroo Resort\n";
+            cout << "2.Emirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tValley Side\n";
+            cout << "3.Go Air\t19:00\t\t22:05\t\t$.1900\t\tNon-refundable\t\tSheraton\n";
             if(choice==2){
             book_package();
 			}
@@ -401,9 +400,9 @@ if((departure=="Karachi"&& arrival=="Sydney") || (departure=="Lahore" && arrival
 if((departure=="Karachi"&& arrival=="Paris") || (departure=="Lahore" && arrival=="Paris") || (departure=="Islamabad" && arrival=="Paris")  ){
             cout << "\t \t \tFlights Found" << endl << endl;
             cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
-            cout << "\ 1.Lufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tThe Eiffel Resort\n";
-            cout << "\ 2.Fly Dubai\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzay Lezay Motel\n";
-            cout << "\ 3.United Air\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
+            cout << "1.Lufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tThe Eiffel Resort\n";
+            cout << "2.Fly Dubai\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzay Lezay Motel\n";
+            cout << "3.United Air\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
             if(choice==2){
             book_package();
 			}
@@ -481,21 +480,16 @@ if(tour==3){
        cout<<"PACKAGE BOOKED"<<endl;
 }
 
-
 }
 file.close();
-
-
 }
-
-
 
 };
 int Customer::c_no = 0;
 
 int main()
 {
-	cout << "\t\t\tAIRLINE RESERVATION SYSTEM\n\nThis program has 4 branches: \n    1) Admin\n    2) Staff\n    3)Customer\n    4) Airline\n      5)End program\n";
+	cout << "\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n    1) Admin\n    2) Staff\n    3)Customer\n    4)Airline\n     5)Book a ticket\n		6)Check ticket\n	7)Print Ticket\n	8)Check Flight schedule\n";
 	int choice;
 	cout << "Enter your choice: ";
 	cin >> choice;
@@ -519,4 +513,20 @@ int main()
 		// Airline a;
 		// a.menu();
 	}
+	else if(choice==5){
+		//Ticket t;
+	}
+	else if(choice ==6){
+
+	}
+	else if(choice ==7){
+
+	}
+	else if(choice ==8){
+
+	}
+	else{
+		exit(0);
+	}
+	
 }
