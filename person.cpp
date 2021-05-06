@@ -126,7 +126,6 @@ public:
 	}
 	void signup()
 	{
-		Customer a;
 		Person::signup();
 		cout << "Enter first name: ";
 		getline(cin, f_name);
