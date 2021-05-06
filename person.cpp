@@ -5,6 +5,7 @@
 #include<cstdlib>
 #include<cstring>
 #include<conio.h>
+#include<cstdio>
 //ios::in input
 //ios::out output
 //ofstream output to file
@@ -27,12 +28,11 @@ public:
 };
 class Person : public ui
 {
+	string username;
+	string password;
 protected:
 	int ID;
 	string email;
-	string username;
-	string password;
-
 public:
 	Person() { ID = 0; }
 	const string get_email() { return email; }
@@ -171,12 +171,11 @@ public:
 		fflush(stdin);
 	}
 	void reading(Customer a1){
-		
 		ifstream fpt("customer.dat", ios::in|ios::binary);
 		while (1)
 		{
 			fpt.read((char*)&a1, sizeof(Customer));
-			if (a1.username == u && a1.password == p)
+			if (a1.get_username() == u && a1.get_password() == p)
 			{
 				system("cls");
 				cout << "\n\nSign in is Successful\n";
@@ -234,6 +233,10 @@ protected:
 	string f_name, l_name;
 public:
 	Admin(){}
+	void set_fname(string f_name) { this->f_name = f_name; }
+	const string get_fname() { return f_name; }
+	void set_lname(char l_name) { this->l_name = l_name; }
+	const string get_lname() { return l_name; }
 	void delete_customer(){
 		Customer a;
 		int ID;
@@ -347,7 +350,7 @@ public:
 		while (1)
 		{
 			fpt.read((char*)&a1, sizeof(Admin));
-			if (a1.username == u && a1.password == p)
+			if (a1.get_username() == u && a1.get_password() == p)
 			{
 				system("cls");
 				cout << "\n\nSign in is Successful\n";
@@ -367,13 +370,15 @@ public:
 		ifstream fp("admin.dat", ios::in|ios::binary);
 		fp.read((char*)&a, sizeof(a));
 		system("cls");
+		cout<<"\t\t\t\t\tADMIN LIST";
 		cout<<"\nFirst name:  \tLast name: ""\tID: ""\tEmail: "<<a.email<<endl;
 		while(1){
-			if(fp.eof()){
-				break;
+			if(!fp.eof()){
+				fp.read((char*)&a, sizeof(a));
+				cout<<"\t"<<a.get_fname()<<"\t"<<a.get_lname()<<"\t"<<a.get_ID()<<"\t"<<a.get_email()<<endl;
 			}
 			else{
-				cout<<"\t"<<a.f_name<<"\t"<<a.l_name<<"\t"<<a.ID<<"\t"<<a.email<<endl;
+				break;
 			}
 		}
 
@@ -394,7 +399,7 @@ class Booking : protected Airline, protected Customer //mohtada
 {
 	public:
 		void menu(){
-			cout<<"Booking";
+			cout<<"this is the Booking menu";
 		}
 };
 class Payment : protected Booking
@@ -485,6 +490,13 @@ class HolidayPackage:virtual public Person, public Customer
     int tour;
     int choice;
 public:
+	HolidayPackage(){}
+	void set_date(const string date){this->date=date;}
+	void set_departure(const string departure){this->departure=departure;}
+	void set_arrival(const string arrival){this->arrival=arrival;}
+	const string get_date(){return date;}
+	const string get_arrival(){return arrival;}
+	const string get_departure(){return departure;}
 	void menu(){
 		cout<<"WELCOME TO THE HOLIDAY TOURS AND PACKAGES MENU"<<endl;
 		cout<<" 1.View Packages\t2.Book a Package\t3.Exit to main\n";
