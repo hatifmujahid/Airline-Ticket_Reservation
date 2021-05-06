@@ -10,7 +10,6 @@
 //ofstream output to file
 //ifstream input from file
 using namespace std;
-
 void loading_screen()		
 {
 	cout << "\n\n\t\t\t\t\t ";
@@ -225,8 +224,7 @@ class Special_customer : protected Person //maarij
 protected:
 public:
 };
-
-class Admin : protected Person
+class Admin : protected Person //hatif
 {
 	string u, p;
 protected:
@@ -381,7 +379,6 @@ public:
 	}
 
 };
-
 class Staff : protected Person //maarij
 {	 //add check ticket function which will
 	//check the ticket code from ticket ki file.
@@ -401,7 +398,6 @@ public:
 
 	void menu()
 	{
-	wrong_choice:
 		cout << "How do you want to pay for your flight MR." << get_fname() << " " << get_lname() << ": ";
 		cout << "\n	1) Card Payment\n	2) Online Banking";
 		int choice;
@@ -417,7 +413,7 @@ public:
 		default:
 			system("cls");
 			cout << "\nWrong choice. Try Again. \n";
-			goto wrong_choice;
+			menu();
 			break;
 		}
 	}
@@ -425,11 +421,11 @@ public:
 	{
 		system("cls");
 		cout << "Enter card Details: \n\tCard number: ";
-		cin >> card_no;
+		cin>>card_no;
 		cout << "CVV: ";
-		cin >> cvv;
+		cin>>cvv;
 		cout << "Enter expiry month(mm)";
-		cin >> expiry_month;
+		cin>>expiry_month;
 		while (expiry_month <= 12 && expiry_month > 0)
 		{
 			cout << "Month input is wrong.\nEnter expiry month(mm)";
@@ -445,13 +441,21 @@ public:
 	}
 	void online_banking()
 	{
+		char c;
 		string username, password;
 		fflush(stdin);
 		cout << "Enter user name: ";
 		getline(cin, username);
 		fflush(stdin);
 		cout << "Enter password: ";
-		getline(cin, password);
+		for(int i=0;i<1000;i++)	//input masking
+		{
+			c=getch();
+			if(c=='\r')
+				break;
+			cout<<"*";
+			password+=c;
+		}
 		fflush(stdin);
 		cout << "\t\t\t\tProcessing payment";
 		Sleep(500);
