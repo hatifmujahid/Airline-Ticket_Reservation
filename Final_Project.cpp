@@ -2,9 +2,10 @@
 #include <fstream>
 #include <iomanip>
 #include <windows.h>
-#include <cstdlib>
-#include <cstring>
-#include <conio.h>
+#include<cstdlib>
+#include<cstring>
+#include<conio.h>
+#include<cstdio>
 //ios::in input
 //ios::out output
 //ofstream output to file
@@ -27,6 +28,8 @@ public:
 };
 class Person : public ui
 {
+	string username;
+	string password;
 protected:
     int ID;
     string email;
@@ -225,151 +228,139 @@ protected:
     string f_name, l_name;
 
 public:
-    friend void delete_customer();
-    static int c_no;
-    void set_fname(string f_name) { this->f_name = f_name; }
-    const string get_fname() { return f_name; }
-    void set_lname(char l_name) { this->l_name = l_name; }
-    const string get_lname() { return l_name; }
-    Customer()
-    {
-        c_no++;
-    }
-    void menu()
-    {
-        cout << "\n\t\tWelcome to the customer Login/Logout menu!!";
-        cout << "\n1) Sign Up\n2) Sign in\n3)Show number of customers\n";
-        int choice;
-        cout << "\nEnter choice: ";
-        cin >> choice;
-        if (choice == 1)
-        {
-            Customer::signup();
-        }
-        else if (choice == 2)
-        {
-            Customer::signin();
-        }
-        else if (choice == 3)
-        {
-            cout << "No of customers: " << c_no << endl;
-        }
-        else
-        {
-            exit(0);
-        }
-    }
-    void signup()
-    {
-        Customer a;
-        Person::signup();
-        cout << "Enter first name: ";
-        getline(cin, f_name);
-        fflush(stdin);
-        cout << "Enter last name: ";
-        getline(cin, l_name);
-        fflush(stdin);
-    }
-    void filing(Customer a)
-    {
-        ofstream fp("customer.dat", ios::app | ios::binary);
-        fp.write((char *)&a, sizeof(Customer));
-        if (!fp)
-        {
-            cout << "Cannot open file!" << endl;
-            exit(1);
-        }
-        fp.close();
-        system("cls");
-        cout << "\nSign up successful\n	1) Go back to Customer Login/Logout Menu\n	2) Login\n";
-        int choice;
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            menu();
-            break;
-        case 2:
-            signin();
-            break;
-        default:
-            break;
-        }
-    }
-    void signin()
-    {
-        cout << "---------------------------------------Customer SIGN IN----------------------------------------------------\n\n";
-        char c;
-        fflush(stdin);
-        cout << "Enter username: ";
-        getline(cin, u);
-        fflush(stdin);
-        cout << "Enter password: ";
-        for (int i = 0; i < 1000; i++) //input masking
-        {
-            c = getch();
-            if (c == '\r')
-                break;
-            cout << "*";
-            p += c;
-        }
-        fflush(stdin);
-    }
-    void reading(Customer a1)
-    {
-
-        ifstream fpt("customer.dat", ios::in | ios::binary);
-        while (1)
-        {
-            fpt.read((char *)&a1, sizeof(Customer));
-            if (a1.username == u && a1.password == p)
-            {
-                system("cls");
-                cout << "\n\nSign in is Successful\n";
-                customer_menu();
-                break;
-            }
-            else if (fpt.eof())
-            {
-                system("cls");
-                cout << "\n\nSign in is unsuccessful\n";
-                signin();
-            }
-        }
-        fpt.close();
-    }
-    ~Customer()
-    {
-        c_no--;
-    }
-    void customer_menu()
-    {
-        cout << "------------------------------------------Customer Main Menu----------------------------\n\n";
-        cout << "\t1) Check Flight\n\t2)	Book Flight\n\t3) Logout";
-        int choice;
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            check_flight();
-            break;
-        case 2:
-            book_flight();
-            break;
-        default:
-            break;
-        }
-    }
-    void check_flight()
-    {
-        //ticket class by maaarij
-        customer_menu();
-    }
-    void book_flight()
-    {
-        //booking class by mohtada
-        customer_menu();
-    }
+	friend void delete_customer();
+	static int c_no;
+	void set_fname(string f_name) { this->f_name = f_name; }
+	const string get_fname() { return f_name; }
+	void set_lname(char l_name) { this->l_name = l_name; }
+	const string get_lname() { return l_name; }
+	Customer()
+	{
+		c_no++;
+	}
+	void menu()
+	{
+		cout << "\n\t\tWelcome to the customer Login/Logout menu!!";
+		cout << "\n1) Sign Up\n2) Sign in\n3)Show number of customers\n";
+		int choice;
+		cout << "\nEnter choice: ";
+		cin >> choice;
+		if(choice==1)
+		{
+			Customer::signup();
+		}
+		else if(choice==2){
+			Customer::signin();
+		}
+		else if(choice==3){
+			cout << "No of customers: " << c_no << endl;
+		}else{
+			exit(0);
+		}
+	}
+	void signup()
+	{
+		Person::signup();
+		cout << "Enter first name: ";
+		getline(cin, f_name);
+		fflush(stdin);
+		cout << "Enter last name: ";
+		getline(cin, l_name);
+		fflush(stdin);
+	}
+	void filing(Customer a){
+		ofstream fp("customer.dat", ios::app|ios::binary);
+		fp.write((char*)&a, sizeof(Customer));
+		if(!fp) {
+			cout << "Cannot open file!" << endl;
+			exit(1);
+   		}
+		fp.close();
+		system("cls");
+		cout << "\nSign up successful\n	1) Go back to Customer Login/Logout Menu\n	2) Login\n";
+		int choice;
+		cin>>choice;
+		switch (choice)
+		{
+		case 1:
+			menu();
+			break;
+		case 2:
+			signin();
+			break;
+		default:
+			break;
+		}
+	}
+	void signin()
+	{
+		cout << "---------------------------------------Customer SIGN IN----------------------------------------------------\n\n";
+		char c;
+		fflush(stdin);
+		cout << "Enter username: ";
+		getline(cin, u);
+		fflush(stdin);
+		cout << "Enter password: ";
+		for(int i=0;i<1000;i++)	//input masking
+		{
+			c=getch();
+			if(c=='\r')
+				break;
+			cout<<"*";
+			p+=c;
+		}
+		fflush(stdin);
+	}
+	void reading(Customer a1){
+		ifstream fpt("customer.dat", ios::in|ios::binary);
+		while (1)
+		{
+			fpt.read((char*)&a1, sizeof(Customer));
+			if (a1.get_username() == u && a1.get_password() == p)
+			{
+				system("cls");
+				cout << "\n\nSign in is Successful\n";
+				customer_menu();
+				break;
+			}
+			else if(fpt.eof())
+			{
+				system("cls");
+				cout << "\n\nSign in is unsuccessful\n";
+				signin();
+			}
+		}
+		fpt.close();
+	}
+	~Customer()
+	{
+		c_no--;
+	} 
+	void customer_menu(){
+		cout<<"------------------------------------------Customer Main Menu----------------------------\n\n";
+		cout<<"\t1) Check Flight\n\t2)	Book Flight\n\t3) Logout";
+		int choice;
+		cin>>choice;
+		switch (choice)
+		{
+		case 1:
+			check_flight();
+			break;
+		case 2:
+			book_flight();
+			break;
+		default:
+			break;
+		}
+	}
+	void check_flight(){
+		//ticket class by maaarij
+		customer_menu();
+	}
+	void book_flight(){
+		//booking class by mohtada
+		customer_menu();
+	}
 };
 class Special_customer : protected Person //maarij
 {
@@ -384,123 +375,155 @@ protected:
     string f_name, l_name;
 
 public:
-    Admin() {}
-    void delete_customer()
-    {
-        Customer a;
-        int ID;
-        cout << "Enter ID of the customer you want to delete: ";
-        cin >> ID;
-        loading_screen();
-        ifstream original("customer.dat", ios::out | ios::binary);
-        ofstream new_file("new.dat", ios::in | ios::binary);
-        original.read((char *)&a, sizeof(Customer));
-        while (1)
-        {
-            if (a.get_ID() != ID)
-            {
-                new_file.write((char *)&a, sizeof(Customer));
-            }
-        }
-        new_file.close();
-        original.close();
-        remove("customer.dat");
-        rename("new.dat", "customer.dat");
-    }
-    friend void delete_staff();
-    friend void delete_airline();
-    void set_fname(string f_name) { this->f_name = f_name; }
-    const string get_fname() { return f_name; }
-    void set_lname(char l_name) { this->l_name = l_name; }
-    const string get_lname() { return l_name; }
-    void menu()
-    {
-        cout << "__________________________________________ADMIN MENU__________________________________________\n\n\t1)Sign in\n\t2)Sign up\n\t3)Show admins\n";
-        int choice;
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            signin();
-            break;
-        case 2:
-            signup();
-            break;
-        default:
-            exit(0);
-        }
-    }
-    void admin_menu()
-    {
-        system("cls");
-        cout << "__________________________________WELCOME " << f_name << " " << l_name << "______________________________________\n";
-        cout << "\t1) Delete a Customer\n\t2) Delete an Airline\n\t3) \n\n\t\tEnter choice: ";
-        int choice;
-        cin >> choice;
-        if (choice == 1)
-        {
-            delete_customer();
-        }
-    }
-
-    void signup()
-    {
-        Customer a;
-        Person::signup();
-        cout << "Enter first name: ";
-        getline(cin, f_name);
-        fflush(stdin);
-        cout << "Enter last name: ";
-        getline(cin, l_name);
-        fflush(stdin);
-    }
-    void filing(Admin a)
-    {
-        ofstream fp("admin.dat", ios::app | ios::binary);
-        fp.write((char *)&a, sizeof(Admin));
-        if (!fp)
-        {
-            cout << "Cannot open file!" << endl;
-            exit(1);
-        }
-        fp.close();
-        system("cls");
-        cout << "\nSign up successful\n	1) Go back to Customer Login/Logout Menu\n	2) Login\n";
-        int choice;
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            Admin::menu();
-            break;
-        case 2:
-            Admin::signin();
-            break;
-        default:
-            break;
-        }
-    }
-    void signin()
-    {
-        cout << "__________________________________ADMIN SIGN IN______________________________________\n\n";
-        fflush(stdin);
-        cout << "Enter username: ";
-        getline(cin, u);
-        fflush(stdin);
-        cout << "Enter password: ";
-        char c;
-        for (int i = 0; i < 1000; i++) //input masking
-        {
-            c = getch();
-            if (c == '\r')
-                break;
-            cout << "*";
-            p += c;
-        }
-        fflush(stdin);
-    }
-    void reading(Admin a1)
-    {
+	Admin(){}
+	void set_fname(string f_name) { this->f_name = f_name; }
+	const string get_fname() { return f_name; }
+	void set_lname(char l_name) { this->l_name = l_name; }
+	const string get_lname() { return l_name; }
+	void delete_customer(){
+		Customer a;
+		int ID;
+		cout<<"Enter ID of the customer you want to delete: ";
+		cin>>ID;
+		loading_screen();
+		ifstream original("customer.dat", ios::out|ios::binary);
+		ofstream new_file("new.dat", ios::in|ios::binary);
+		original.read((char*)&a, sizeof(Customer));
+		while(1){
+			if(a.get_ID()!=ID){
+				new_file.write((char*)&a, sizeof(Customer));
+			}
+		}
+		new_file.close();
+		original.close();
+		remove("customer.dat");
+		rename("new.dat", "customer.dat");
+	}
+	friend void delete_staff();
+	friend void delete_airline();
+	void set_fname(string f_name) { this->f_name = f_name; }
+	const string get_fname() { return f_name; }
+	void set_lname(char l_name) { this->l_name = l_name; }
+	const string get_lname() { return l_name; }
+	void menu()
+	{
+		cout << "__________________________________________ADMIN MENU__________________________________________\n\n\t1)Sign in\n\t2)Sign up\n\t3)Show admins\n";
+		int choice;
+		cin>>choice;
+		switch (choice)
+		{
+		case 1:
+			signin();
+			break;
+		case 2:
+			signup();
+			break;
+		default: 
+			exit(0);
+		}
+	}	
+	void admin_menu(){
+		system("cls");
+		cout<<"__________________________________WELCOME "<<f_name<<" "<<l_name<<"______________________________________\n";
+		cout<<"\t1) Delete a Customer\n\t2) Delete an Airline\n\t3) \n\n\t\tEnter choice: ";
+		int choice;
+		cin>>choice;
+		if(choice==1){
+			delete_customer();
+		}
+	}
+	
+	void signup()
+	{
+		Customer a;
+		Person::signup();
+		cout << "Enter first name: ";
+		getline(cin, f_name);
+		fflush(stdin);
+		cout << "Enter last name: ";
+		getline(cin, l_name);
+		fflush(stdin);
+	}
+	void filing(Admin a){
+		ofstream fp("admin.dat", ios::app|ios::binary);
+		fp.write((char*)&a, sizeof(Admin));
+		if(!fp) {
+			cout << "Cannot open file!" << endl;
+			exit(1);
+   		}
+		fp.close();
+		system("cls");
+		cout << "\nSign up successful\n	1) Go back to Customer Login/Logout Menu\n	2) Login\n";
+		int choice;
+		cin>>choice;
+		switch (choice)
+		{
+		case 1:
+			Admin::menu();
+			break;
+		case 2:
+			Admin::signin();
+			break;
+		default:
+			break;
+		}
+	}
+	void signin()
+	{
+		cout << "__________________________________ADMIN SIGN IN______________________________________\n\n";
+		fflush(stdin);
+		cout << "Enter username: ";
+		getline(cin, u);
+		fflush(stdin);
+		cout << "Enter password: ";
+		char c;
+		for(int i=0;i<1000;i++)	//input masking
+		{
+			c=getch();
+			if(c=='\r')
+				break;
+			cout<<"*";
+			p+=c;
+		}
+		fflush(stdin);
+	}
+	void reading(Admin a1){
+		
+		ifstream fpt("admin.dat", ios::in|ios::binary);
+		while (1)
+		{
+			fpt.read((char*)&a1, sizeof(Admin));
+			if (a1.get_username() == u && a1.get_password() == p)
+			{
+				system("cls");
+				cout << "\n\nSign in is Successful\n";
+				admin_menu();
+				break;
+			}
+			else if(fpt.eof())
+			{
+				system("cls");
+				cout << "\n\nSign in is unsuccessful\n";
+				signin();
+			}
+		}
+		fpt.close();
+	}
+	void show_admin(Admin a){
+		ifstream fp("admin.dat", ios::in|ios::binary);
+		fp.read((char*)&a, sizeof(a));
+		system("cls");
+		cout<<"\t\t\t\t\tADMIN LIST";
+		cout<<"\nFirst name:  \tLast name: ""\tID: ""\tEmail: "<<a.email<<endl;
+		while(1){
+			if(!fp.eof()){
+				fp.read((char*)&a, sizeof(a));
+				cout<<"\t"<<a.get_fname()<<"\t"<<a.get_lname()<<"\t"<<a.get_ID()<<"\t"<<a.get_email()<<endl;
+			}
+			else{
+				break;
+			}
+		}
 
         ifstream fpt("admin.dat", ios::in | ios::binary);
         while (1)
@@ -558,11 +581,10 @@ public:
 };
 class Booking : protected Airline, protected Customer //mohtada
 {
-public:
-    void menu()
-    {
-        cout << "Booking";
-    }
+	public:
+		void menu(){
+			cout<<"this is the Booking menu";
+		}
 };
 class Payment : protected Booking
 {
