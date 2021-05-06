@@ -73,14 +73,148 @@ class Airline : virtual public Person // mohtada
 protected:
     //make sign up function and store data in file
     // in booking class print all the signed up airlines from which customer can choose which one he likes
+    string air_u, air_rating, air_name, air_p, air_email;
+    int air_ID;
+    string sign_u, sign_p;
+
 public:
     void menu()
     {
         cout << "::::::::::::::::::::::::::::::::::AIRLINE MENU::::::::::::::::::::::::::::\n";
+        cout << "\n\t\tWelcome to the Airline Login/Logout menu!!";
+        cout << "\n1) Sign Up\n2) Sign in\n3)Show all airlines\n";
+        int choice;
+        cout << "\nEnter choice: ";
+        cin >> choice;
+        if (choice == 1)
+        {
+            Airline::signup();
+        }
+        else if (choice == 2)
+        {
+            Airline::signin();
+        }
+        else if (choice == 3)
+        {
+            // showAirlines(a);
+        }
+        else
+        {
+            exit(0);
+        }
     }
     void signup()
     {
+        fflush(stdin);
+        cout << "Enter Airline name: ";
+        getline(cin, air_name);
+        fflush(stdin);
+        cout << "Enter airline safety rating: ";
+        getline(cin, air_rating);
+        fflush(stdin);
+        cout << "Enter designated ID: ";
+        cin >> air_ID;
+        fflush(stdin);
+        cout << "Enter email: ";
+        getline(cin, air_email);
+        fflush(stdin);
+        cout << "Enter username: ";
+        getline(cin, air_u);
+        fflush(stdin);
+        cout << "Enter password: ";
+        getline(cin, air_p);
+        fflush(stdin);
+    }
+    void signin()
+    {
+        cout << "---------------------------------------Airline SIGN IN----------------------------------------------------\n\n";
+        char c;
+        fflush(stdin);
+        cout << "Enter username: ";
+        getline(cin, sign_u);
+        fflush(stdin);
+        cout << "Enter password: ";
+        for (int i = 0; i < 1000; i++) //input masking
+        {
+            c = getch();
+            if (c == '\r')
+                break;
+            cout << "*";
+            sign_p += c;
         }
+        fflush(stdin);
+    }
+    void filing(Airline a)
+    {
+        ofstream fp("airline.dat", ios::app | ios::binary);
+        fp.write((char *)&a, sizeof(Airline));
+        if (!fp)
+        {
+            cout << "Cannot open file!" << endl;
+            exit(1);
+        }
+        fp.close();
+        system("cls");
+        cout << "\nSign up successful\n	1) Go back to Airline Login/Logout Menu\n	2) Login\n";
+        int choice;
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            menu();
+            break;
+        case 2:
+            signin();
+            break;
+        default:
+            break;
+        }
+    }
+    void showAirlines()
+    {
+        Airline a;
+        ifstream fp("airline.dat", ios::in | ios::binary);
+        fp.read((char *)&a, sizeof(Airline));
+        system("cls");
+        cout << "\nAirline name:  \tAirline rating: "
+                "\tID: "
+                "\tEmail: "
+             << a.air_email << endl;
+        while (1)
+        {
+            if (fp.eof())
+            {
+                break;
+            }
+            else
+            {
+                cout << "\t" << a.air_name << "\t" << a.air_rating << "\t" << a.air_ID << "\t" << a.air_email << endl;
+            }
+        }
+    }
+    void reading(Airline a1)
+    {
+
+        ifstream fpt("airline.dat", ios::in | ios::binary);
+        while (1)
+        {
+            fpt.read((char *)&a1, sizeof(Airline));
+            if (a1.air_u == sign_u && a1.air_p == sign_p)
+            {
+                system("cls");
+                cout << "\n\nSign in is Successful\n";
+                menu();
+                break;
+            }
+            else if (fpt.eof())
+            {
+                system("cls");
+                cout << "\n\nSign in is unsuccessful\n";
+                signin();
+            }
+        }
+        fpt.close();
+    }
 };
 class Customer : virtual public Person // hatif
 {
@@ -748,6 +882,8 @@ void main_screen()
     {
         Airline a1;
         a1.menu();
+        a1.filing(a1);
+        a1.reading(a1);
     }
     else if (choice == 5)
     {
