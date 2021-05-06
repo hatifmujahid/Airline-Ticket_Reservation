@@ -74,6 +74,9 @@ protected:
 	//make sign up function and store data in file
 	// in booking class print all the signed up airlines from which customer can choose which one he likes
 public:
+void menu(){
+	cout<<"::::::::::::::::::::::::::::::::::AIRLINE MENU::::::::::::::::::::::::::::\n";
+}
 };
 class Customer : virtual public Person // hatif
 {
@@ -229,7 +232,6 @@ class Admin : protected Person //hatif
 	string u, p;
 protected:
 	string f_name, l_name;
-	
 public:
 	Admin(){}
 	void delete_customer(){
@@ -281,7 +283,7 @@ public:
 		int choice;
 		cin>>choice;
 		if(choice==1){
-			// delete_customer();
+			delete_customer();
 		}
 	}
 	
@@ -383,17 +385,23 @@ class Staff : protected Person //maarij
 {	 //add check ticket function which will
 	//check the ticket code from ticket ki file.
 public:
-static int ticket_ID;
+	static int ticket_ID;
+	void menu(){
+		cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^STAFF MENU^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
+	}
 };
 class Booking : protected Airline, protected Customer //mohtada
 {
+	public:
+		void menu(){
+			cout<<"Booking";
+		}
 };
 class Payment : protected Booking
 {
 	string bank;
 	long int card_no;
 	int cvv, expiry_month, expiry_year;
-
 public:
 
 	void menu()
@@ -442,6 +450,8 @@ public:
 	void online_banking()
 	{
 		char c;
+		cout<<"Enter bank name: ";
+		getline(cin, bank);
 		string username, password;
 		fflush(stdin);
 		cout << "Enter user name: ";
@@ -486,7 +496,6 @@ public:
 		else{
 			exit(1);
 		}
-
 	}
 void package_details(){
 	int c;
@@ -658,8 +667,8 @@ void main_screen(){
 	}
 	else if (choice == 2)
 	{
-		// Staff s;
-		// s.menu();
+		Staff s;
+		s.menu();
 	}
 	else if (choice == 3)
 	{
@@ -670,8 +679,8 @@ void main_screen(){
 	}
 	else if (choice == 4)
 	{
-		// Airline a1;
-		// a1.		
+		Airline a1;
+		a1.menu();
 	}
 	else if(choice==5){
 		//Ticket t;
