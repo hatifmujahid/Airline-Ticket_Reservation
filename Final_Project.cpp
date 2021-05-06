@@ -77,10 +77,8 @@ class Airline : virtual public Person // mohtada
 protected:
     //make sign up function and store data in file
     // in booking class print all the signed up airlines from which customer can choose which one he likes
-    string air_u, air_rating, air_name, air_p, air_email;
-    int air_ID;
+    string name;
     string sign_u, sign_p;
-
 public:
     void menu()
     {
@@ -107,27 +105,12 @@ public:
             exit(0);
         }
     }
-    void signup()
+    void signup()   //inherit karwalo
     {
-        fflush(stdin);
-        cout << "Enter Airline name: ";
-        getline(cin, air_name);
-        fflush(stdin);
-        cout << "Enter airline safety rating: ";
-        getline(cin, air_rating);
-        fflush(stdin);
-        cout << "Enter designated ID: ";
-        cin >> air_ID;
-        fflush(stdin);
-        cout << "Enter email: ";
-        getline(cin, air_email);
-        fflush(stdin);
-        cout << "Enter username: ";
-        getline(cin, air_u);
-        fflush(stdin);
-        cout << "Enter password: ";
-        getline(cin, air_p);
-        fflush(stdin);
+        cout<<"Enter name of airline: ";
+        getline()
+        Person::signup();   //sara data aajayega wahan uppar se
+
     }
     void signin()
     {
