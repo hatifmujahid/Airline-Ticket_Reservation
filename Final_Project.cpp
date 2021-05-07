@@ -212,7 +212,7 @@ protected:
     string f_name, l_name;
 
 public:
-    friend void delete_customer();
+    friend class Booking;
     static int c_no;
     void set_fname(string f_name) { this->f_name = f_name; }
     const string get_fname() { return f_name; }
@@ -327,6 +327,7 @@ public:
     {
         c_no--;
     }
+
     void customer_menu()
     {
         cout << "------------------------------------------Customer Main Menu----------------------------\n\n";
@@ -347,7 +348,7 @@ public:
     }
     void check_flight()
     {
-        //ticket class by maaarij
+        
         customer_menu();
     }
     void book_flight()
@@ -360,6 +361,7 @@ class Special_customer : protected Person //maarij
 {
 protected:
 public:
+friend class Booking;
 };
 class Admin : protected Person //hatif
 {
@@ -396,8 +398,49 @@ public:
         remove("customer.dat");
         rename("new.dat", "customer.dat");
     }
-    friend void delete_staff();
-    friend void delete_airline();
+    void delete_staff(){
+        Staff a;
+        int ID;
+        cout << "Enter ID of the customer you want to delete: ";
+        cin >> ID;
+        loading_screen();
+        ifstream original("staff.dat", ios::out | ios::binary);
+        ofstream new_file("new.dat", ios::in | ios::binary);
+        original.read((char *)&a, sizeof(Staff));
+        while (1)
+        {
+            if (a.get_ID() != ID)
+            {
+                new_file.write((char *)&a, sizeof(Staff));
+            }
+        }
+        new_file.close();
+        original.close();
+        remove("staff.dat");
+        rename("new.dat", "staff.dat");
+    }
+    void delete_airline(){
+        Airline a;
+        int ID;
+        cout << "Enter ID of the customer you want to delete: ";
+        cin >> ID;
+        loading_screen();
+        ifstream original("airline.dat", ios::out | ios::binary);
+        ofstream new_file("new.dat", ios::in | ios::binary);
+        original.read((char *)&a, sizeof(Airline));
+        while (1)
+        {
+            if (a.get_ID() != ID)
+            {
+                new_file.write((char *)&a, sizeof(Airline));
+            }
+        }
+        new_file.close();
+        original.close();
+        remove("airline.dat");
+        rename("new.dat", "airline.dat");
+
+    }
     void set_fname(string f_name) { this->f_name = f_name; }
     const string get_fname() { return f_name; }
     void set_lname(char l_name) { this->l_name = l_name; }
@@ -580,10 +623,90 @@ public:
 };
 class Staff : protected Person //maarij
 {	 
+private:
+    string u,p;
+protected:
+    string f_name, l_name;
 public:
 
-
-void menu(){
+void signup()
+    {
+        Person::signup();
+        cout << "Enter first name: ";
+        getline(cin, f_name);
+        fflush(stdin);
+        cout << "Enter last name: ";
+        getline(cin, l_name);
+        fflush(stdin);
+    }
+    void filing(Staff a)
+    {
+        ofstream fp("staff.dat", ios::app | ios::binary);
+        fp.write((char *)&a, sizeof(Staff));
+        if (!fp)
+        {
+            cout << "Cannot open file!" << endl;
+            exit(1);
+        }
+        fp.close();
+        system("cls");
+        cout << "\nSign up successful\n	1) Go back to Customer Login/Logout Menu\n	2) Login\n";
+        int choice;
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            menu();
+            break;
+        case 2:
+            signin();
+            break;
+        default:
+            break;
+        }
+    }
+    void signin()
+    {
+        cout << "---------------------------------------Customer SIGN IN----------------------------------------------------\n\n";
+        char c;
+        fflush(stdin);
+        cout << "Enter username: ";
+        getline(cin, u);
+        fflush(stdin);
+        cout << "Enter password: ";
+        for (int i = 0; i < 1000; i++) //input masking
+        {
+            c = getch();
+            if (c == '\r')
+                break;
+            cout << "*";
+            p += c;
+        }
+        fflush(stdin);
+    }
+    void reading(Staff a1)
+    {
+        ifstream fpt("staff.dat", ios::in | ios::binary);
+        while (1)
+        {
+            fpt.read((char *)&a1, sizeof(Staff));
+            if (a1.get_username() == u && a1.get_password() == p)
+            {
+                system("cls");
+                cout << "\n\nSign in is Successful\n";
+                customer_menu();
+                break;
+            }
+            else if (fpt.eof())
+            {
+                system("cls");
+                cout << "\n\nSign in is unsuccessful\n";
+                signin();
+            }
+        }
+        fpt.close();
+    }
+void menu(){    //sign in sign up
 	int i;
 	system("CLS");
 	cout<<"------------------MANAGE VERIFICATION AND REFUND OPERATIONS-------------------"<<endl;
@@ -600,6 +723,9 @@ void menu(){
 		verify();
 	}
 	
+}
+void staff_menu(){
+
 }
 void refund(){
     int ch;
@@ -690,10 +816,7 @@ void verify(){
 	system("PAUSE");
 	menu();
 }
-    
-
 };
-
 class Booking : protected Airline, protected Customer //mohtada
 {
 public:
@@ -701,6 +824,9 @@ public:
     {
         cout << "this is the Booking menu";
     }
+    //make object of class customer because customer is a friend of Booking
+    // all attributes of customer accessible
+    //try to use getters if at all possible
 };
 class Payment : protected Booking
 {
@@ -779,8 +905,9 @@ public:
     }
 };
 
-class Ticket : virtual protected Person, protected Airline //printing ticket //mohtada
+class Ticket : protected Booking //printing ticket //mohtada
 {
+
 };
 class HolidayPackage : virtual public Person, public Customer
 {
