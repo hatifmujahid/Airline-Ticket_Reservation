@@ -815,7 +815,6 @@ void verify(){
     fpt.close();
 	system("PAUSE");
 	menu();
-}
 };
 class Booking : protected Airline, protected Customer //mohtada
 {
