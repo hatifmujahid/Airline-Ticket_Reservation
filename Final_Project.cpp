@@ -676,6 +676,8 @@ void verify(){
 	while(1){
 		fpt.read((char *)&b1,sizeof(Booking));
 		if(b1.get_ID()==i){
+			Sleep(500);
+			loading_screen();
 			cout<<"TICKET VERIFIED"<<endl<<"ISSUE BOARDING PASS"<<endl;
 			break;
 		}
