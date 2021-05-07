@@ -579,15 +579,119 @@ public:
     }
 };
 class Staff : protected Person //maarij
-{                              //add check ticket function which will
-                               //check the ticket code from ticket ki file.
+{	 
 public:
-    static int ticket_ID;
-    void menu()
-    {
-        cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^STAFF MENU^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
-    }
+
+
+void menu(){
+	int i;
+	system("CLS");
+	cout<<"------------------MANAGE VERIFICATION AND REFUND OPERATIONS-------------------"<<endl;
+	
+	cout<<"1.BOOKING REFUND\t2.VERIFY BOOKING\t3.REFUND POLICY\t0.Exit"<<endl;
+	cin>>i;
+	if(i==1){
+		refund();
+	}
+	else if(i==3){
+		policy();
+	}
+	else if(i==2){
+		verify();
+	}
+	
+}
+void refund(){
+    int ch;
+    string x,y;
+    string n,i,a,d,ar,p,c,h,l;
+    system("CLS");
+    ifstream original("packages.txt",ios::out);
+    ofstream copy("new.txt",ios::app);
+    
+    cout<<"1.Ticket Refund\t\t2.Holiday Package Refund\n";
+    cin>>ch;
+    if(ch==1){
+    	cout<<"Regular Tickets are Non-refundable"<<endl;
+    	system("PAUSE");
+    	menu();
+	}
+	
+    if(ch==2){
+        cout<<"Enter customer ID"<<endl;
+        cin>>x;
+        //system("CLS");
+        
+        
+        while(original>>n>>i>>a>>d>>ar>>p>>c>>h){
+        	
+        	
+        	if(i==x && c=="Refundable"){
+                cout<<"TICKET REFUNDED"<<endl;
+               // continue;
+
+            }
+            else if(i==x && c=="Nonrefundable"){
+            	cout<<"TICKET OF NON-REFUNDABLE CATEGORY"<<endl;
+            	ofstream copy("new.txt",ios::app);
+            	copy<<n<<"\t"<<i<<"\t"<<a<<"\t"<<d<<"\t"<<ar<<"\t"<<p<<"\t"<<c<<"\t"<<h<<"\n";
+			}
+            
+            else{
+            	
+            	ofstream copy("new.txt",ios::app);
+            	
+            	copy<<n<<"\t"<<i<<"\t"<<a<<"\t"<<d<<"\t"<<ar<<"\t"<<p<<"\t"<<c<<"\t"<<h<<"\n";
+			}
+            
+                
+            }
+        	
+        copy.close();
+        original.close();
+        remove("packages.txt");
+        rename("new.txt","packages.txt");
+
+        }
+        menu();
+        
+
+}
+
+
+void policy(){
+	cout<<"->Holiday Packages booked with a refund category are only refundable"<<endl;
+	cout<<"->Non-refundable category packages will not be refunded under any condition"<<endl;
+	cout<<"->Refund ensures a 100% money back guarantee"<<endl<<endl<<endl;
+	menu();
+}
+
+void verify(){
+	system("CLS");
+    Booking b1;
+	string i;
+	cout<<"Enter customer ID"<<endl;
+	cin>>i;
+	ifstream fpt("booking.dat",ios::in | ios::binary);
+	while(1){
+		fpt.read((char *)&b1,sizeof(Booking));
+		if(b1.get_ID()==i){
+			cout<<"TICKET VERIFIED"<<endl<<"ISSUE BOARDING PASS"<<endl;
+			break;
+		}
+        else if (fpt.eof())
+			cout<<"BOOKING UNAVAILABLE"<<endl;
+			
+		}
+	}
+    fpt.close();
+	system("PAUSE");
+	menu();
+}
+    
+
 };
+
 class Booking : protected Airline, protected Customer //mohtada
 {
 public:
@@ -724,9 +828,9 @@ public:
             cout << "\t \t \tFlights Found" << endl
                  << endl;
             cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
-            cout << "1.Qatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\tThe Pearl Resort\n";
-            cout << "2.Fly Dubai\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tCountryside View\n";
-            cout << "3.Go Air\t19:00\t\t22:05\t\t$.2000\t\tNon-refundable\t\tMarriot\n";
+            cout << "1.Qatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\tPearl\n";
+            cout << "2.Turkish\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tPC\n";
+            cout << "3.KLM\t\t19:00\t\t22:05\t\t$.2000\t\tNon-refundable\t\tMarriot\n";
             if (choice == 2)
             {
                 book_package();
@@ -752,9 +856,9 @@ public:
             cout << "\t \t \tFlights Found" << endl
                  << endl;
             cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
-            cout << "1.Qantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tKangaroo Resort\n";
-            cout << "2.Emirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tValley Side\n";
-            cout << "3.Go Air\t19:00\t\t22:05\t\t$.1900\t\tNon-refundable\t\tSheraton\n";
+            cout << "1.Qantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tMeriton\n";
+            cout << "2.Emirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tRaddison\n";
+            cout << "3.Virgin\t19:00\t\t22:05\t\t$.1900\t\tNon-refundable\t\tSheraton\n";
             if (choice == 2)
             {
                 book_package();
@@ -780,9 +884,9 @@ public:
             cout << "\t \t \tFlights Found" << endl
                  << endl;
             cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
-            cout << "1.Lufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tThe Eiffel Resort\n";
-            cout << "2.Fly Dubai\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzay Lezay Motel\n";
-            cout << "3.United Air\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
+            cout << "1.Lufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tBelvedere\n";
+            cout << "2.Etihad\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzayLezay\n";
+            cout << "3.Nippon\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
             if (choice == 2)
             {
                 book_package();
@@ -812,26 +916,26 @@ public:
 
         cout << "Enter Package number you wish to select" << endl;
         cin >> tour;
-        file << "Name:\tID\t:Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
+        
 
         if (tour == 1)
         {
             if (arrival == "Toronto")
             {
-                file << f_name << "\t" << ID << "\tQatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\tThe Pearl Resort\n"
-                     << departure << " to " << arrival << "\n";
+                file <<name << "\t"  << "\t" << ID << "\tQatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\t Pearl\n";
+                  
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Sydney")
             {
-                file << f_name << "\t" << ID << "\tQantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tKangaroo Resort\n"
-                     << departure << " to " << arrival << "\n";
+                file <<name << "\t"  << ID << "\tQantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tMeriton\n";
+                    
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Paris")
             {
-                file << f_name << "\t" << ID << "\tLufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tThe Eiffel Resort\n"
-                     << departure << " to " << arrival << "\n";
+                file << name << "\t" << ID << "\tLufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tBelvedere\n";
+                 
                 cout << "PACKAGE BOOKED" << endl;
             }
         }
@@ -840,20 +944,19 @@ public:
         {
             if (arrival == "Toronto")
             {
-                file << f_name << "\t" << ID << "\tFly Dubai\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tCountryside View\n"
-                     << departure << " to " << arrival << "\n";
+                file << name << "\t"  << ID << "\tTurkish\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tPC\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Sydney")
             {
-                file << f_name << "\t" << ID << "\tEmirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tValley Side\n"
-                     << departure << " to " << arrival << "\n";
+                file << name << "\t"  << ID << "\tEmirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tRaddison\n";
+                  
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Paris")
             {
-                file << f_name << "\t" << ID << "\tFly Dubai\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzay Lezay Motel\n"
-                     << departure << " to " << arrival << "\n";
+                file << name << "\t"  << ID << "\tEtihad\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzayLezay\n";
+                   
                 cout << "PACKAGE BOOKED" << endl;
             }
         }
@@ -862,20 +965,18 @@ public:
         {
             if (arrival == "Toronto")
             {
-                file << f_name << "\t" << ID << "\tGo Air\t19:00\t\t22:05\t\t$.2000\t\tNon-refundable\t\tMarriot\n"
-                     << departure << " to " << arrival << "\n";
+                file << name << "\t" << ID << "\tKLM\t19:00\t\t22:05\t\t$.2000\t\tNonrefundable\t\tMarriot\n";
+                  
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Sydney")
             {
-                file << f_name << "\t" << ID << "\tGo Air\t19:00\t\t22:05\t\t$.1900\t\tNon-refundable\t\tSheraton\n"
-                     << departure << " to " << arrival << "\n";
+                file << name << "\t" << ID << "\tVirgin\t19:00\t\t22:05\t\t$.1900\t\tNonrefundable\t\tSheraton\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Paris")
             {
-                file << f_name << "\t" << ID << "\tUnited Air\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n"
-                     << departure << " to " << arrival << "\n";
+                file << name << "\t" << ID << "\tNippon\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
         }
@@ -883,7 +984,7 @@ public:
     }
 };
 int Customer::c_no = 0;
-int Staff::ticket_ID = 1000;
+//int Staff::ticket_ID = 1000;
 
 void main_screen()
 {
