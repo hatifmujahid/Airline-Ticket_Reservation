@@ -360,8 +360,178 @@ public:
 class Special_customer : protected Person //maarij
 {
 protected:
+	int miles;
+	string f_name, l_name;
 public:
 friend class Booking;
+void menu()
+    {
+        cout << "\n\t\tWelcome to the Special customer Login/Logout menu!!";
+        cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
+        int c;
+        cout << "\nEnter choice: ";
+        cin >> c;
+        if (ch == 1)
+        {
+            signup();
+        }
+        else if (c == 2)
+        {
+            signin();
+        }
+        else if (c == 3)
+        {
+           exit(0);
+        }
+        
+    }
+    void signup()
+    {   cout<<"Enter miles"<<endl;
+        cin>>miles;
+        if(miles>=10000){
+        Person::signup();
+        cout << "Enter first name: ";
+        getline(cin, f_name);
+        fflush(stdin);
+        cout << "Enter last name: ";
+        getline(cin, l_name);
+        fflush(stdin);
+        		
+		}
+		else{
+			cout<<"Not enough miles"<<endl<<"CONTINUE TRAVELLING WITH US"<<endl;
+			system("PAUSE");
+			menu();
+		}
+    
+        
+    }
+    void filing(Special_customer s)
+    {
+        ofstream fp("special_customer.dat", ios::app | ios::binary);
+        fp.write((char *)&s, sizeof(Special_customer));
+        if (!fp)
+        {
+            cout << "Cannot open file!" << endl;
+            exit(1);
+        }
+        fp.close();
+        system("cls");
+        cout << "\nSign up successful\n	1) Go back to Special Customer Login/Logout Menu\n	2) Login\n";
+        int choice;
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            menu();
+            break;
+        case 2:
+            signin();
+            break;
+        default:
+            break;
+        }
+    }
+    void signin()
+    {
+        cout << "---------------------------------------Special Customer SIGN IN----------------------------------------------------\n\n";
+        char c;
+        fflush(stdin);
+        cout << "Enter username: ";
+        getline(cin, u);
+        fflush(stdin);
+        cout << "Enter password: ";
+        for (int i = 0; i < 1000; i++) //input masking
+        {
+            c = getch();
+            if (c == '\r')
+                break;
+            cout << "*";
+            p += c;
+        }
+        fflush(stdin);
+    }
+    void reading(Special_customer s1)
+    {
+        ifstream fpt("special_customer.dat", ios::in | ios::binary);
+        while (1)
+        {
+            fpt.read((char *)&s1, sizeof(Special_customer));
+            if (a1.get_username() == u && s1.get_password() == p)
+            {
+                system("cls");
+                cout << "\n\nSign in is Successful\n";
+                s_customer_menu();
+                break;
+            }
+            else if (fpt.eof())
+            {
+                system("cls");
+                cout << "\n\nSign in is unsuccessful\n";
+                signin();
+            }
+        }
+        fpt.close();
+    }
+    
+    void s_customer_menu(){
+    	int c;
+    	cout<<"_______________SPECIAL CUSTOMER MENU_________________"<<endl;
+    	cout<<"1.Refund Booking\t\t2.Book a flight\t\t3.Check flight status\t\t4.Book a Holiday Package"<<endl;
+    	cin>>c;
+    	if(c==1){
+    		b_refund();
+		}
+		else if(c==2){
+			s_customer_menu()
+		}
+		else if(c==3){
+			s_customer_menu();
+		}
+		else if(c==4){
+			HolidayPackage::menu();
+		}
+    	
+	}
+	
+  void b_refund(){
+  	int c;
+  	string x;
+  	system("CLS");
+  	ifstream original("packages.txt",ios::out);
+    ofstream copy("new.txt",ios::app);
+  	
+		cout<<"1.Holiday Package Refund\t\t2.Ticket Refund"<<endl;
+		cin>>c;
+		
+		if(c==1){
+			cout<<"Enter Customer ID"<<endl;
+			cin>>x;
+			while(original>>n>>i>>a>>d>>ar>>p>>c>>h){
+        	
+        	if(i==x ){
+                cout<<"TICKET REFUNDED"<<endl<<"FUNDS TRANSFERRED"<<endl;
+            }
+            else if(original.eof()){
+            	cout<<"BOOKING UNAVAILABE"<<endl;
+            	system("PAUSE");
+            	b_refund();
+			}
+            else{
+            	
+            ofstream copy("new.txt",ios::app);
+            	
+            copy<<n<<"\t"<<i<<"\t"<<a<<"\t"<<d<<"\t"<<ar<<"\t"<<p<<"\t"<<c<<"\t"<<h<<"\n";
+			}
+			
+            
+		}
+		copy.close();
+        original.close();
+        remove("packages.txt");
+        rename("new.txt","packages.txt");
+	}
+    
 };
 class Admin : protected Person //hatif
 {
@@ -802,6 +972,7 @@ void refund(){
 void policy(){
 	cout<<"->Holiday Packages booked with a refund category are only refundable"<<endl;
 	cout<<"->Non-refundable category packages will not be refunded under any condition"<<endl;
+	cout<<"->Special Customers can refund any package by using the refund option in their menu"<<endl;
 	cout<<"->Refund ensures a 100% money back guarantee"<<endl<<endl<<endl;
 	staff_menu();
 }
