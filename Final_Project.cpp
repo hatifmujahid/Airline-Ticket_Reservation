@@ -640,7 +640,8 @@ void signup()
         fflush(stdin);
     }
     void filing(Staff a)
-    {
+    
+    {   int choice;
         ofstream fp("staff.dat", ios::app | ios::binary);
         fp.write((char *)&a, sizeof(Staff));
         if (!fp)
@@ -650,7 +651,7 @@ void signup()
         }
         fp.close();
         system("cls");
-        cout << "\nSign up successful\n	1) Go back to Customer Login/Logout Menu\n	2) Login\n";
+        cout << "\nSign up successful\n	1) Go back to Staff Login/Logout Menu\n	2) Login\n";
         int choice;
         cin >> choice;
         switch (choice)
@@ -667,7 +668,7 @@ void signup()
     }
     void signin()
     {
-        cout << "---------------------------------------Customer SIGN IN----------------------------------------------------\n\n";
+        cout << "---------------------------------------STAFF SIGN IN----------------------------------------------------\n\n";
         char c;
         fflush(stdin);
         cout << "Enter username: ";
@@ -694,7 +695,7 @@ void signup()
             {
                 system("cls");
                 cout << "\n\nSign in is Successful\n";
-                customer_menu();
+                staff_menu();
                 break;
             }
             else if (fpt.eof())
@@ -706,7 +707,21 @@ void signup()
         }
         fpt.close();
     }
-void menu(){    //sign in sign up
+void menu(){ 
+     int c
+     cout<<"__________________STAFF MENU______________________"<<endl;
+    cout<<"1.SIGN UP\t\t2.SIGN-IN\t\t3.EXIT"<<endl;
+    cin>>c;
+    if(c==1){
+    	signup();
+	}
+	else if(c==2){
+		signin();
+	}
+   
+	
+}
+void staff_menu(){
 	int i;
 	system("CLS");
 	cout<<"------------------MANAGE VERIFICATION AND REFUND OPERATIONS-------------------"<<endl;
@@ -724,9 +739,8 @@ void menu(){    //sign in sign up
 	}
 	
 }
-void staff_menu(){
 
-}
+
 void refund(){
     int ch;
     string x,y;
@@ -740,7 +754,7 @@ void refund(){
     if(ch==1){
     	cout<<"Regular Tickets are Non-refundable"<<endl;
     	system("PAUSE");
-    	menu();
+    	staff_menu();
 	}
 	
     if(ch==2){
@@ -779,7 +793,7 @@ void refund(){
         rename("new.txt","packages.txt");
 
         }
-        menu();
+        staff_menu();
         
 
 }
@@ -789,7 +803,7 @@ void policy(){
 	cout<<"->Holiday Packages booked with a refund category are only refundable"<<endl;
 	cout<<"->Non-refundable category packages will not be refunded under any condition"<<endl;
 	cout<<"->Refund ensures a 100% money back guarantee"<<endl<<endl<<endl;
-	menu();
+	staff_menu();
 }
 
 void verify(){
@@ -807,15 +821,40 @@ void verify(){
 			cout<<"TICKET VERIFIED"<<endl<<"ISSUE BOARDING PASS"<<endl;
 			break;
 		}
-        else if (fpt.eof())
-			cout<<"BOOKING UNAVAILABLE"<<endl;
+        else if (fpt.eof()){
+        	cout<<"BOOKING UNAVAILABLE"<<endl;
+		}
+			
 			
 		}
-	}
+	
     fpt.close();
 	system("PAUSE");
-	menu();
+    staff_menu();
+}
+
+   void set_U(string u){
+	this->u=u;
+}
+
+   string get_U(){
+   	return u;
+   }
+   void set_P(string p){
+	this->p=p;
+}
+
+   string get_P(){
+   	return p;
+   }
 };
+
+
+
+
+
+
+
 class Booking : protected Airline, protected Customer //mohtada
 {
 public:
