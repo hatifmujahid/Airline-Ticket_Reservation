@@ -544,6 +544,7 @@ public:
 //     void b_refund(){
 //   	int c;
 //   	string x;
+        string n,i,a,d,ar,p,c,h,l;
 //   	system("CLS");
 //   	ifstream original("packages.txt",ios::out);
 //     ofstream copy("new.txt",ios::app);
