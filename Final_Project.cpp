@@ -273,6 +273,7 @@ public:
     }
     void signup()
     {
+        system("cls");
         Person::signup();
         cout << "Enter first name: ";
         getline(cin, f_name);
@@ -280,11 +281,9 @@ public:
         cout << "Enter last name: ";
         getline(cin, l_name);
         fflush(stdin);
-        filing();
     }
-    void filing()
+    void filing(Customer a)
     {
-        Customer a;
         ofstream fp("customer.dat", ios::app | ios::binary);
         fp.write((char *)&a, sizeof(Customer));
         if (!fp)
@@ -300,10 +299,10 @@ public:
         switch (choice)
         {
         case 1:
-            a.menu();
+            menu();
             break;
         case 2:
-            a.signin();
+            signin();
             break;
         default:
             break;
@@ -311,6 +310,7 @@ public:
     }
     void signin()
     {
+        system("cls");
         cout << "---------------------------------------Customer SIGN IN----------------------------------------------------\n\n";
         char c;
         fflush(stdin);
@@ -319,23 +319,6 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         getline(cin, p);
-        // while(true){
-        //     c = _getch();
-        //     if(c==13){
-        //         break;
-        //     }
-        //     else if(c=='\b'){
-        //         if(p.size()!=0){
-        //             p.erase(p.size()-1);
-        //             cout<<"\b\b";
-        //         }
-        //     }
-        //     if(c!='\b'&&c!=13){
-        //         p.push_back(c);
-        //         cout<<"x";
-        //     }
-            
-        // }
         fflush(stdin);
         reading();
     }
@@ -350,6 +333,7 @@ public:
             {
                 system("cls");
                 cout << "\n\nSign in is Successful\n";
+                fpt.close();
                 a1.customer_menu();
                 break;
             }
@@ -357,10 +341,11 @@ public:
             {
                 system("cls");
                 cout << "\n\nSign in is unsuccessful\n";
+                fpt.close();
                 a1.signin();
             }
         }
-        fpt.close();
+        
     }
     void customer_menu()
     {
@@ -1433,6 +1418,7 @@ void main_screen()
     {
         Customer c;
         c.menu();
+        c.filing(c);
     }
     else if (choice == 4)
     {
