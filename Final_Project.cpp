@@ -182,7 +182,6 @@ public:
     {
     }
 };
-
 class Customer : virtual public Person // hatif
 {
 private:
