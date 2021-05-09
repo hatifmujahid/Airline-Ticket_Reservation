@@ -233,15 +233,16 @@ public:
         fpt.close();
     }
 };
+
 class Customer : virtual public Person // hatif
 {
 private:
-    string u, p;
 
 protected:
     string f_name, l_name;
 
 public:
+    string u, p;
     friend class Booking;
     void set_fname(string f_name) { this->f_name = f_name; }
     const string get_fname() { return f_name; }
@@ -249,27 +250,9 @@ public:
     const string get_lname() { return l_name; }
     void menu()
     {
+        system("cls");
         cout << "\n\t\tWelcome to the customer Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
-        int choice;
-        cout << "\nEnter choice: ";
-        cin >> choice;
-        if (choice == 1)
-        {
-            signup();
-        }
-        else if (choice == 2)
-        {
-            signin();
-        }
-        else if (choice == 3)
-        {
-            exit(0);
-        }
-        else
-        {
-            exit(1);    //wrong input gives return value 1 at end
-        }
     }
     void signup()
     {
@@ -282,36 +265,11 @@ public:
         getline(cin, l_name);
         fflush(stdin);
     }
-    void filing(Customer a)
-    {
-        ofstream fp("customer.dat", ios::app | ios::binary);
-        fp.write((char *)&a, sizeof(Customer));
-        if (!fp)
-        {
-            cout << "Cannot open file!" << endl;
-            exit(1);
-        }
-        fp.close();
-        system("cls");
-        cout << "\nSign up successful\n	1) Go back to Customer Login/Logout Menu\n	2) Login\n";
-        int choice;
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            menu();
-            break;
-        case 2:
-            signin();
-            break;
-        default:
-            break;
-        }
-    }
-    void signin()
+    
+    void signin(string *user, string *pass)
     {
         system("cls");
-        cout << "---------------------------------------Customer SIGN IN----------------------------------------------------\n\n";
+        cout << "---------------------------------------Customer SIGN IN---------------------------------------\n\n";
         char c;
         fflush(stdin);
         cout << "Enter username: ";
@@ -320,32 +278,8 @@ public:
         cout << "Enter password: ";
         getline(cin, p);
         fflush(stdin);
-        reading();
-    }
-    void reading()
-    {
-        Customer a1;
-        ifstream fpt("customer.dat", ios::in | ios::binary);
-        while (1)
-        {
-            fpt.read((char *)&a1, sizeof(Customer));
-            if (a1.get_username() == u && a1.get_password() == p)
-            {
-                system("cls");
-                cout << "\n\nSign in is Successful\n";
-                fpt.close();
-                a1.customer_menu();
-                break;
-            }
-            else if (fpt.eof())
-            {
-                system("cls");
-                cout << "\n\nSign in is unsuccessful\n";
-                fpt.close();
-                a1.signin();
-            }
-        }
-        
+        *user = u;
+        *pass = p;
     }
     void customer_menu()
     {
@@ -385,7 +319,8 @@ public:
     }
     void check_flight()
     {
-        
+        Ticket t;
+        t.menu();
         customer_menu();
     }
     void book_flight()
@@ -1119,7 +1054,7 @@ public:
     }
     
 };
-
+class Ticket:
 
 class Payment : protected Booking
 {
@@ -1435,14 +1370,57 @@ void main_screen()
     {
         Customer c;
         c.menu();
-        c.filing(c);
+        int choice;
+        cout << "\nEnter choice: ";
+        cin >> choice;
+        if (choice == 1)
+        {
+            c.signup();
+            fstream fp;
+            fp.open("customer.dat", ios::binary|ios::app);
+            fp.write((char*)&c, sizeof(c));
+            fp.close();
+            system("cls");
+            cout<<"\nSIGN UP SUCCESSFUL\n";
+            c.menu();
+        }
+        else if (choice == 2)
+        {
+            string u,p;
+            c.signin(&u, &p);
+            fstream fp;
+            fp.open("customer.dat", ios::binary|ios::in);
+            while(1){
+                fp.read((char*)&c, sizeof(c));
+                if(c.get_username()==u&&c.get_password()==p){
+                    system("cls");
+                    cout<<"\nSIGN IN SUCCESSFUL\n";
+                    c.customer_menu();
+                    break;
+                }
+                else if(fp.eof()){
+                    system("cls");
+                    cout<<"\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
+                    c.signin(&u,&p);
+                }
+            }
+            fp.close();
+        }
+        else if (choice == 3)
+        {
+            exit(0);
+        }
+        else
+        {
+            exit(1);    //wrong input gives return value 1 at end
+        }
+        
     }
     else if (choice == 4)
     {
         Airline a1;
         a1.menu();
         a1.filing(a1);
-        a1.reading(a1);
     }
     else if (choice == 5)
     {
@@ -1470,6 +1448,5 @@ int Booking::t_id = 1000;
 int main()
 {
     
-    main_screen();
-    
+    main_screen();    
 }
