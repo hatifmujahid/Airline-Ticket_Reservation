@@ -239,13 +239,13 @@ public:
         switch (choice)
         {
         case 1:
-            refund();
+            //refund();
             break;
         case 2:
-            book_flight();
+            //book_flight();
             break;
         case 3:
-            check_flight();
+            //check_flight();
             break;
         case 4:
 
@@ -266,22 +266,23 @@ public:
             break;
         }
     }
-    void check_flight()
-    {
+    // void check_flight()
+    // {
 
-        customer_menu();
-    }
-    void book_flight()
-    {
-        Booking::menu()
-        customer_menu();
-    }
-    void refund()
-    {
-        Staff *s;
-        s->menu();
-        customer_menu();
-    }
+    //     customer_menu();
+    // }
+    // void book_flight()
+    // {
+    //    Booking b;
+    //    b.menu();
+    //     customer_menu();
+    // }
+    // void refund()
+    // {
+    //     Staff *s;
+    //     s->menu();
+    //     customer_menu();
+    // }
 };
 class HolidayPackage : virtual public Person, public Customer
 {
@@ -956,7 +957,7 @@ public:
         return p;
     }
 };
-class Admin : protected Person //hatif
+class Admin : public Person //hatif
 {
     string u, p;
 
@@ -976,7 +977,6 @@ public:
 
     void signup()
     {
-        Customer a;
         Person::signup();
         cout << "Enter first name: ";
         getline(cin, f_name);
@@ -985,33 +985,7 @@ public:
         getline(cin, l_name);
         fflush(stdin);
     }
-    void filing(Admin a)
-    {
-        ofstream fp("admin.dat", ios::app | ios::binary);
-        fp.write((char *)&a, sizeof(Admin));
-        if (!fp)
-        {
-            cout << "Cannot open file!" << endl;
-            exit(1);
-        }
-        fp.close();
-        system("cls");
-        cout << "\nSign up successful\n	1) Go back to Customer Login/Logout Menu\n	2) Login\n";
-        int choice;
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            Admin::menu();
-            break;
-        case 2:
-            Admin::signin();
-            break;
-        default:
-            break;
-        }
-    }
-    void signin()
+    void signin(string *user, string *pass)
     {
         cout << "__________________________________ADMIN SIGN IN______________________________________\n\n";
         fflush(stdin);
@@ -1036,29 +1010,8 @@ public:
             cout << "x";
         }
         fflush(stdin);
-    }
-    void reading(Admin a1)
-    {
-
-        ifstream fpt("admin.dat", ios::in | ios::binary);
-        while (1)
-        {
-            fpt.read((char *)&a1, sizeof(Admin));
-            if (a1.get_username() == u && a1.get_password() == p)
-            {
-                system("cls");
-                cout << "\n\nSign in is Successful\n";
-                admin_menu();
-                break;
-            }
-            else if (fpt.eof())
-            {
-                system("cls");
-                cout << "\n\nSign in is unsuccessful\n";
-                signin();
-            }
-        }
-        fpt.close();
+        *user = u;
+        *pass = p;
     }
     void admin_menu()
     {
@@ -1267,123 +1220,172 @@ public:
 
 void main_screen()
 {
-    cout << "\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Book a ticket\n\t6) Print Ticket\n";
+    cout << "\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Book a ticket\n\t6) Print Ticket\n";
     int choice;
     cout << "Enter your choice: ";
     cin >> choice;
     if (choice == 1)
     {
+        system("cls");
         Admin a;
+        while(1){
         a.menu();
-    }
-    else if (choice == 2)
-    {
-        int c;
-        Staff s;
-        s.menu();
-        cin >> c;
-        if (c == 1)
-        {
-            s.signup();
-            fstream f;
-            f.open("staff.dat", ios::binary | ios::app);
-            f.write((char *)&s, sizeof(s));
-            f.close();
-            system("CLS");
-            cout << endl
-                 << "SIGN UP SUCCESSFUL" << endl;
-            s.menu();
-        }
-        else if (c == 2)
-        {
-            string u, p;
-            s.signin(&u, &p);
-            fstream f;
-            f.open("staff.dat", ios::binary | ios::in);
-            while (1)
-            {
-                f.read((char *)&s, sizeof(s));
-                if (s.get_username() == u && s.get_password() == p)
-                {
-                    system("cls");
-                    cout << "\nSIGN IN SUCCESSFUL\n";
-                    s.staff_menu();
-                    break;
-                }
-                else if (f.eof())
-                {
-                    system("cls");
-                    cout << "\nWRONG USERNAME OR PASSWORD" << endl
-                         << "TRY AGAIN" << endl;
-                    s.signin(&u, &p);
-                }
-            }
-            f.close();
-        }
-        else if (c == 3)
-        {
-            exit(0);
-        }
-        else
-        {
-            exit(1);
-        }
-    }
-    else if (choice == 3)
-    {
-        Customer c;
-        c.menu();
         int choice;
         cout << "\nEnter choice: ";
         cin >> choice;
-        if (choice == 1)
+        if (choice == 2)
         {
-            c.signup();
+            a.signup();
             fstream fp;
-            fp.open("customer.dat", ios::binary | ios::app);
-            fp.write((char *)&c, sizeof(c));
+            fp.open("admin.dat", ios::binary | ios::app);
+            fp.write((char *)&a, sizeof(a));
             fp.close();
             system("cls");
             cout << "\nSIGN UP SUCCESSFUL\n";
-            c.menu();
         }
-        else if (choice == 2)
+        else if (choice == 1)
         {
             string u, p;
-            c.signin(&u, &p);
+            a.signin(&u, &p);
             fstream fp;
             fp.open("customer.dat", ios::binary | ios::in);
             while (1)
             {
-                fp.read((char *)&c, sizeof(c));
-                if (c.get_username() == u && c.get_password() == p)
+                fp.read((char *)&a, sizeof(a));
+                if (a.get_username() == u && a.get_password() == p)
                 {
                     system("cls");
                     cout << "\nSIGN IN SUCCESSFUL\n";
-                    c.customer_menu();
+                    a.admin_menu();
                     break;
                 }
                 else if (fp.eof())
                 {
                     system("cls");
                     cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
-                    c.signin(&u, &p);
+                    a.signin(&u, &p);
                 }
             }
             fp.close();
         }
-        else if (choice == 3)
-        {
-            exit(0);
+        else{
+            break;
         }
-        else
-        {
-            exit(1); //wrong input gives return value 1 at end
+        }
+    }
+    else if (choice == 2)
+    {
+        int c;
+        Staff s;
+        while(1){
+            s.menu();
+            cin >> c;
+            if (c == 1)
+            {
+                s.signup();
+                fstream f;
+                f.open("staff.dat", ios::binary | ios::app);
+                f.write((char *)&s, sizeof(s));
+                f.close();
+                system("CLS");
+                cout << endl
+                    << "SIGN UP SUCCESSFUL" << endl;
+            }
+            else if (c == 2)
+            {
+                string u, p;
+                s.signin(&u, &p);
+                fstream f;
+                f.open("staff.dat", ios::binary | ios::in);
+                while (1)
+                {
+                    f.read((char *)&s, sizeof(s));
+                    if (s.get_username() == u && s.get_password() == p)
+                    {
+                        system("cls");
+                        cout << "\nSIGN IN SUCCESSFUL\n";
+                        s.staff_menu();
+                        break;
+                    }
+                    else if (f.eof())
+                    {
+                        system("cls");
+                        cout << "\nWRONG USERNAME OR PASSWORD" << endl
+                            << "TRY AGAIN" << endl;
+                        s.signin(&u, &p);
+                    }
+                }
+                f.close();
+            }
+            else if (c == 3)
+            {
+                exit(0);
+            }
+            else
+            {
+                exit(1);
+            }
+        }
+    }
+    else if (choice == 3)
+    {
+        Customer c;
+        while(1){
+            c.menu();
+            int choice;
+            cout << "\nEnter choice: ";
+            cin >> choice;
+            if (choice == 1)
+            {
+                c.signup();
+                fstream fp;
+                fp.open("customer.dat", ios::binary | ios::app);
+                fp.write((char *)&c, sizeof(c));
+                fp.close();
+                system("cls");
+                cout << "\nSIGN UP SUCCESSFUL\n";
+                c.menu();
+            }
+            else if (choice == 2)
+            {
+                string u, p;
+                c.signin(&u, &p);
+                fstream fp;
+                fp.open("customer.dat", ios::binary | ios::in);
+                while (1)
+                {
+                    fp.read((char *)&c, sizeof(c));
+                    if (c.get_username() == u && c.get_password() == p)
+                    {
+                        system("cls");
+                        cout << "\nSIGN IN SUCCESSFUL\n";
+                        c.customer_menu();
+                        break;
+                    }
+                    else if (fp.eof())
+                    {
+                        system("cls");
+                        cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
+                        c.signin(&u, &p);
+                    }
+                }
+                fp.close();
+            }
+            else if (choice == 3)
+            {
+                exit(0);
+            }
+            else
+            {
+                exit(1); //wrong input gives return value 1 at end
+            }
         }
     }
     else if (choice == 4)
     {
         Airline a1;
+        while(1){
+        system("cls");
         a1.menu();
         int choice;
         cout << "\nEnter choice: ";
@@ -1397,7 +1399,8 @@ void main_screen()
             fp.close();
             system("cls");
             cout << "\nSIGN UP SUCCESSFUL\n";
-            a1.menu();
+            Sleep(500);
+            
         }
         else if (choice == 2)
         {
@@ -1432,6 +1435,7 @@ void main_screen()
         {
             exit(0);
         }
+    }
     }
     else if (choice == 5)
     {

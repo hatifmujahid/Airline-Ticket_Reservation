@@ -1,11 +1,12 @@
 #ifndef Final_Project
 #define Final_Project
-class Airline;
+#include"customer.h"
+#include<string>
 class Customer;
-class Booking: protected Airline, public Customer
+class Booking
 {
     int ticket_ID;
-    //string c_name, c_email, c_airline;
+    std::string c_name, c_email, c_airline;
     int c_id;
 
 protected:
