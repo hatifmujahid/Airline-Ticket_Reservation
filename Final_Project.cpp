@@ -3,10 +3,11 @@
 #include <iomanip>
 #include <windows.h>
 #include <cstdlib>
-#include <cstring>
+#include<cstring>
 #include <conio.h>
 #include <cstdio>
 #include <ctime>
+#include<string>
 //ios::in input
 //ios::out output
 //ofstream output to file
@@ -24,22 +25,28 @@ void loading_screen()
     Sleep(30);
     system("cls");
 }
-// void password_hiding(){
-//     char c;
-//     cout << "Enter pass\n";
-//     while(true){
-//         c = _getch();
-//         if(c==13){
-//             break;
-//         }
-//         else if(c=='\b'){
-//             p.pop_back();
-//             continue;
-//         }
-//         p.push_back(c);
-//         cout<<"x";
-//     }
-// }
+string password_hiding(){
+    char c; string p;
+
+    while(true){
+            c = _getch();
+            if(c==13){
+                break;
+            }
+            else if(c=='\b'){
+                if(p.size()!=0){
+                    p.erase(p.size()-1);
+                    cout<<"\b\b";
+                }
+            }
+            if(c!='\b'&&c!=13){
+                p.push_back(c);
+                cout<<"x";
+            }
+            
+        }
+        return p;
+}
 class HolidayPackage;
 class Booking;
 class Ticket;
@@ -161,15 +168,19 @@ public:
         getline(cin, sign_u);
         fflush(stdin);
         cout << "Enter password: ";
-        for (int i = 0; i < 1000; i++) //input masking
-        {
-            c = getch();
-            if (c == '\r')
+        while(true){
+            c = _getch();
+            if(c==13){
                 break;
-            cout << "*";
-            sign_p += c;
-        }
+            }
+            else if(c=='\b'){
+                sign_p.pop_back();
+                continue;
+            }
+            sign_p.push_back(c);
+            cout<<"x";
         fflush(stdin);
+    }
     }
     void filing(Airline a)
     {
@@ -266,11 +277,11 @@ public:
         cin >> choice;
         if (choice == 1)
         {
-            Customer::signup();
+            signup();
         }
         else if (choice == 2)
         {
-            Customer::signin();
+            signin();
         }
         else if (choice == 3)
         {
@@ -290,9 +301,11 @@ public:
         cout << "Enter last name: ";
         getline(cin, l_name);
         fflush(stdin);
+        filing();
     }
-    void filing(Customer a)
+    void filing()
     {
+        Customer a;
         ofstream fp("customer.dat", ios::app | ios::binary);
         fp.write((char *)&a, sizeof(Customer));
         if (!fp)
@@ -308,10 +321,10 @@ public:
         switch (choice)
         {
         case 1:
-            menu();
+            a.menu();
             break;
         case 2:
-            signin();
+            a.signin();
             break;
         default:
             break;
@@ -326,18 +339,13 @@ public:
         getline(cin, u);
         fflush(stdin);
         cout << "Enter password: ";
-        for (int i = 0; i < 1000; i++) //input masking
-        {
-            c = getch();
-            if (c == '\r')
-                break;
-            cout << "*";
-            p += c;
-        }
+        p = password_hiding();
         fflush(stdin);
+        reading();
     }
-    void reading(Customer a1)
+    void reading()
     {
+        Customer a1;
         ifstream fpt("customer.dat", ios::in | ios::binary);
         while (1)
         {
@@ -346,7 +354,7 @@ public:
             {
                 system("cls");
                 cout << "\n\nSign in is Successful\n";
-                customer_menu();
+                a1.customer_menu();
                 break;
             }
             else if (fpt.eof())
@@ -494,14 +502,19 @@ public:
 //         getline(cin, u);
 //         fflush(stdin);
 //         cout << "Enter password: ";
-//         for (int i = 0; i < 1000; i++) //input masking
-//         {
-//             c = getch();
-//             if (c == '\r')
-//                 break;
-//             cout << "*";
-//             p += c;
-//         }
+//      
+    // while(true){
+    //     c = _getch();
+    //     if(c==13){
+    //         break;
+    //     }
+    //     else if(c=='\b'){
+    //         p.pop_back();
+    //         continue;
+    //     }
+    //     p.push_back(c);
+    //     cout<<"x";
+    // }
 //         fflush(stdin);
 //     }
 //     void reading(Special_customer s1)
@@ -706,13 +719,18 @@ void signup()
         getline(cin, u);
         fflush(stdin);
         cout << "Enter password: ";
-        for (int i = 0; i < 1000; i++) //input masking
-        {
-            c = getch();
-            if (c == '\r')
+    
+        while(true){
+            c = _getch();
+            if(c==13){
                 break;
-            cout << "*";
-            p += c;
+            }
+            else if(c=='\b'){
+                p.pop_back();
+                continue;
+            }
+            p.push_back(c);
+            cout<<"x";
         }
         fflush(stdin);
     }
@@ -954,13 +972,17 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         char c;
-        for (int i = 0; i < 1000; i++) //input masking
-        {
-            c = getch();
-            if (c == '\r')
+        while(true){
+            c = _getch();
+            if(c==13){
                 break;
-            cout << "*";
-            p += c;
+            }
+            else if(c=='\b'){
+                p.pop_back();
+                continue;
+            }
+            p.push_back(c);
+            cout<<"x";
         }
         fflush(stdin);
     }
@@ -1164,13 +1186,18 @@ public:
         getline(cin, username);
         fflush(stdin);
         cout << "Enter password: ";
-        for (int i = 0; i < 1000; i++) //input masking
-        {
-            c = getch();
-            if (c == '\r')
+    
+        while(true){
+            c = _getch();
+            if(c==13){
                 break;
-            cout << "*";
-            password += c;
+            }
+            else if(c=='\b'){
+                password.pop_back();
+                continue;
+            }
+            password.push_back(c);
+            cout<<"x";
         }
         fflush(stdin);
         cout << "\t\t\t\tProcessing payment";
@@ -1408,10 +1435,8 @@ void main_screen()
     }
     else if (choice == 3)
     {
-        Customer c, c1;
-        c.menu();     
-        c.filing(c);  
-        c.reading(c); 
+        Customer c;
+        c.menu();
     }
     else if (choice == 4)
     {
