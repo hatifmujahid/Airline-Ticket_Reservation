@@ -29,6 +29,7 @@ void loading_screen()
 class HolidayPackage;
 class Booking;
 class Ticket;
+class Staff;
 class ui //user interface class
 {
 public:
@@ -263,11 +264,13 @@ public:
     }
     void book_flight()
     {
-        
+        Booking b;
+        b.menu();
         customer_menu();
     }
     void refund(){
-        
+        Staff s;
+        s.refund();
         customer_menu();
     }
 };
