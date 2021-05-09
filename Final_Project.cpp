@@ -181,8 +181,6 @@ public:
     {
     }
 };
-
-
 class Customer : virtual public Person // hatif
 {
 private:
@@ -239,13 +237,13 @@ public:
         switch (choice)
         {
         case 1:
-            //refund();
+            refund();
             break;
         case 2:
-            //book_flight();
+            book_flight();
             break;
         case 3:
-            //check_flight();
+            check_flight();
             break;
         case 4:
 
@@ -266,23 +264,9 @@ public:
             break;
         }
     }
-    // void check_flight()
-    // {
-
-    //     customer_menu();
-    // }
-    // void book_flight()
-    // {
-    //    Booking b;
-    //    b.menu();
-    //     customer_menu();
-    // }
-    // void refund()
-    // {
-    //     Staff *s;
-    //     s->menu();
-    //     customer_menu();
-    // }
+    void check_flight();
+    void book_flight();
+    void refund();
 };
 class HolidayPackage : virtual public Person, public Customer
 {
@@ -1037,73 +1021,9 @@ public:
             show_admin();
         }
     }
-    void delete_customer()
-    {
-        Customer a;
-        int ID;
-        cout << "Enter ID of the customer you want to delete: ";
-        cin >> ID;
-        loading_screen();
-        ifstream original("customer.dat", ios::out | ios::binary);
-        ofstream new_file("new.dat", ios::in | ios::binary);
-        original.read((char *)&a, sizeof(Customer));
-        while (1)
-        {
-            if (a.get_ID() != ID)
-            {
-                new_file.write((char *)&a, sizeof(Customer));
-            }
-        }
-        new_file.close();
-        original.close();
-        remove("customer.dat");
-        rename("new.dat", "customer.dat");
-    }
-    void delete_staff()
-    {
-        Staff a;
-        int ID;
-        cout << "Enter ID of the Staff you want to delete: ";
-        cin >> ID;
-        loading_screen();
-        ifstream original("staff.dat", ios::out | ios::binary);
-        ofstream new_file("new.dat", ios::in | ios::binary);
-        original.read((char *)&a, sizeof(Staff));
-        while (1)
-        {
-            if (a.ID != ID)
-            {
-                new_file.write((char *)&a, sizeof(Staff));
-            }
-        }
-        new_file.close();
-        original.close();
-        remove("staff.dat");
-        rename("new.dat", "staff.dat");
-    }
-    void delete_airline()
-    {
-        Airline a;
-        int ID;
-        cout << "Enter ID of the Airline you want to delete: ";
-        cin >> ID;
-        loading_screen();
-        ifstream original("airline.dat", ios::out | ios::binary);
-        ofstream new_file("new.dat", ios::in | ios::binary);
-        original.read((char *)&a, sizeof(Airline));
-        while (1)
-        {
-            if (a.get_ID() != ID)
-            {
-                new_file.write((char *)&a, sizeof(Airline));
-            }
-        }
-        new_file.close();
-        original.close();
-        remove("airline.dat");
-        rename("new.dat", "airline.dat");
-    }
-
+    void delete_customer();
+    void delete_staff();
+    void delete_airline();
     void show_admin()
     {
         Admin a;
@@ -1129,6 +1049,83 @@ public:
         }
     }
 };
+void Admin::delete_airline(){
+        Airline a;
+        int ID;
+        cout << "Enter ID of the Airline you want to delete: ";
+        cin >> ID;
+        loading_screen();
+        ifstream original("airline.dat", ios::out | ios::binary);
+        ofstream new_file("new.dat", ios::in | ios::binary);
+        original.read((char *)&a, sizeof(Airline));
+        while (1)
+        {
+            if (a.get_ID() != ID)
+            {
+                new_file.write((char *)&a, sizeof(Airline));
+            }
+        }
+        new_file.close();
+        original.close();
+        remove("airline.dat");
+        rename("new.dat", "airline.dat");
+}
+void Admin::delete_staff(){
+        Staff a;
+        int ID;
+        cout << "Enter ID of the Staff you want to delete: ";
+        cin >> ID;
+        loading_screen();
+        ifstream original("staff.dat", ios::out | ios::binary);
+        ofstream new_file("new.dat", ios::in | ios::binary);
+        original.read((char *)&a, sizeof(Staff));
+        while (1)
+        {
+            if (a.ID != ID)
+            {
+                new_file.write((char *)&a, sizeof(Staff));
+            }
+        }
+        new_file.close();
+        original.close();
+        remove("staff.dat");
+        rename("new.dat", "staff.dat");
+    
+}
+void Admin::delete_customer()
+{
+    Customer a;
+    int ID;
+    cout << "Enter ID of the customer you want to delete: ";
+    cin >> ID;
+    loading_screen();
+    ifstream original("customer.dat", ios::out | ios::binary);
+    ofstream new_file("new.dat", ios::in | ios::binary);
+    original.read((char *)&a, sizeof(Customer));
+    while (1)
+    {
+        if (a.get_ID() != ID)
+        {
+            new_file.write((char *)&a, sizeof(Customer));
+        }
+    }
+    new_file.close();
+    original.close();
+    remove("customer.dat");
+    rename("new.dat", "customer.dat");
+}
+
+void Customer::book_flight(){
+    Booking a;
+    a.menu();
+    Customer::menu();
+}
+void Customer::check_flight(){
+    
+}
+void Customer::refund(){
+    
+}
 class Payment : protected Booking
 {
     string bank;
@@ -1256,6 +1253,7 @@ void main_screen()
                 {
                     system("cls");
                     cout << "\nSIGN IN SUCCESSFUL\n";
+                    Sleep(500);
                     a.admin_menu();
                     break;
                 }
@@ -1304,6 +1302,7 @@ void main_screen()
                     {
                         system("cls");
                         cout << "\nSIGN IN SUCCESSFUL\n";
+                        Sleep(1000);
                         s.staff_menu();
                         break;
                     }
@@ -1359,6 +1358,8 @@ void main_screen()
                     {
                         system("cls");
                         cout << "\nSIGN IN SUCCESSFUL\n";
+                        Sleep(1000);
+                        system("cls");
                         c.customer_menu();
                         break;
                     }
@@ -1464,6 +1465,7 @@ void main_screen()
 int Booking::t_id = 1000;
 int main()
 {
-
+    system("cls");
+    system("color B0");
     main_screen();
 }
