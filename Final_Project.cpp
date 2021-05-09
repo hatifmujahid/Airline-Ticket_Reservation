@@ -544,7 +544,7 @@ public:
 //     void b_refund(){
 //   	int c;
 //   	string x;
-        string n,i,a,d,ar,p,c,h,l;
+//      string n,i,a,d,ar,p,c,h,l;
 //   	system("CLS");
 //   	ifstream original("packages.txt",ios::out);
 //     ofstream copy("new.txt",ios::app);
@@ -581,24 +581,39 @@ public:
 // 	}
 //   }
 // };
-
+class Ticket;
 class Booking : protected Airline, public Customer //mohtada
 {
     Airline a1;
     int ticket_ID;
+    string c_name, c_email, c_airline;
+    int c_id;
+    protected:
+    void show(){
+        cout<<"\n\t\tTicket\nName: "<<c_name<<"Email: "<<c_email<<"ID: "<<c_id<<"Airline: "<<c_airline<<endl;
+    }
 public:
-    int get_ticket_id(){
+    static int t_id;
+    const int get_ticket_id(){
         return ticket_ID;
     }
-
     Booking(){
-    	
+        t_id++;
+        ticket_ID= t_id;
 	}
+    
+    void get_data(){
+        c_name = get_fname();
+        c_id = get_ID();
+        c_email = get_email();
+        c_airline = Airline::get_name();
+    }
     void menu()
     {
         cout<<"___________________________MENU BOOKING_______________________________\n ";
     }
-    void booking(){
+    void book_tickets(){
+        Booking a; 
         int choice;
         loading_screen();
         cout<<"List of airlines: ";
@@ -606,11 +621,12 @@ public:
         cout<<"Enter ID of the Airline choosen: ";
         cin>>choice;
         reading(choice);
-
+        ofstream fp("ticket.dat", ios::app|ios::binary);
+        fp.write((char* )&a, sizeof(a));
+        fp.close();
     }
     void reading( int c)
     {
-
         ifstream fpt("airline.dat", ios::in | ios::binary);
         while (1)
         {
@@ -645,7 +661,7 @@ class Ticket : protected Booking //printing ticket //mohtada
         printticket();
     }
     void printticket(){
-
+        show();
     }
 };
 class Staff : virtual public Person //maarij
@@ -1450,6 +1466,7 @@ void main_screen()
         }
     }
 }
+int Booking::t_id = 1000;
 int main()
 {
     
