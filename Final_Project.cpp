@@ -616,33 +616,7 @@ void signup()
         getline(cin, l_name);
         fflush(stdin);
     }
-    void filing(Staff a)
-    
-    {   int choice;
-        ofstream fp("staff.dat", ios::app | ios::binary);
-        fp.write((char *)&a, sizeof(Staff));
-        if (!fp)
-        {
-            cout << "Cannot open file!" << endl;
-            exit(1);
-        }
-        fp.close();
-        system("cls");
-        cout << "\nSign up successful\n	1) Go back to Staff Login/Logout Menu\n	2) Login\n";
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            menu();
-            break;
-        case 2:
-            signin();
-            break;
-        default:
-            break;
-        }
-    }
-    void signin()
+    void signin(string *user,string *pass)
     {
         cout << "---------------------------------------STAFF SIGN IN----------------------------------------------------\n\n";
         char c;
@@ -651,43 +625,14 @@ void signup()
         getline(cin, u);
         fflush(stdin);
         cout << "Enter password: ";
-    
-        while(true){
-            c = _getch();
-            if(c==13){
-                break;
-            }
-            else if(c=='\b'){
-                p.pop_back();
-                continue;
-            }
-            p.push_back(c);
-            cout<<"x";
-        }
+        getline(cin,p);
         fflush(stdin);
+        *user=u;
+        *pass=p;
+    
+        
     }
-    void reading(Staff a1)
-    {
-        ifstream fpt("staff.dat", ios::in | ios::binary);
-        while (1)
-        {
-            fpt.read((char *)&a1, sizeof(Staff));
-            if (a1.get_username() == u && a1.get_password() == p)
-            {
-                system("cls");
-                cout << "\n\nSign in is Successful\n";
-                staff_menu();
-                break;
-            }
-            else if (fpt.eof())
-            {
-                system("cls");
-                cout << "\n\nSign in is unsuccessful\n";
-                signin();
-            }
-        }
-        fpt.close();
-    }
+    
 void menu(){ 
      int c;
      cout<<"__________________STAFF MENU______________________"<<endl;
@@ -1365,10 +1310,49 @@ void main_screen()
         a.filing(a);
         a.reading(a);
     }
-    else if (choice == 2)
+        else if (choice == 2)
     {
         Staff s;
         s.menu();
+        int c;
+        cin>>c;
+        if(c==1){
+            s.signup();
+            fstream f;
+            f.open("staff.dat",ios::binary | ios::app);
+            f.write((char *)&s,sizeof(s));
+            f.close();
+            system("CLS");
+            cout<<endl<<"SIGN UP SUCCESSFUL"<<endl;
+            s.menu();
+        }
+        else if(c==2){
+            string u,p;
+            s.signin(&u , &p);
+            fstream f;
+            f.open("staff.dat",ios::binary | ios::in);
+            while(1){
+                f.read((char*)&s, sizeof(s));
+                if(s.get_username()==u && s.get_password()==p){
+                    system("cls");
+                    cout<<"\nSIGN IN SUCCESSFUL\n";
+                    s.staff_menu();
+                    break;
+                }
+                else if(f.eof()){
+                    system("cls");
+                    cout<<"\nWRONG USERNAME OR PASSWORD"<<endl<<"TRY AGAIN"<<endl;
+                    s.signin(&u,&p);
+                }
+            }
+            f.close();
+        }
+        else if(c==3){
+            exit(0);
+        }
+        else{
+            exit(1);
+        }
     }
     else if (choice == 3)
     {
