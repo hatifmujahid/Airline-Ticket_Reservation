@@ -24,6 +24,22 @@ void loading_screen()
     Sleep(30);
     system("cls");
 }
+// void password_hiding(){
+//     char c;
+//     cout << "Enter pass\n";
+//     while(true){
+//         c = _getch();
+//         if(c==13){
+//             break;
+//         }
+//         else if(c=='\b'){
+//             p.pop_back();
+//             continue;
+//         }
+//         p.push_back(c);
+//         cout<<"x";
+//     }
+// }
 class HolidayPackage;
 class Booking;
 class Ticket;
@@ -570,7 +586,74 @@ public:
 // 	}
 //   }
 // };
-class Staff : protected Person //maarij
+
+class Booking : protected Airline, public Customer //mohtada
+{
+    Airline a1;
+    int ticket_ID;
+public:
+    int get_ticket_id(){
+        return ticket_ID;
+    }
+
+    Booking(){
+    	
+	}
+    void menu()
+    {
+        cout<<"___________________________MENU BOOKING_______________________________\n ";
+    }
+    void booking(){
+        int choice;
+        loading_screen();
+        cout<<"List of airlines: ";
+        Airline::showAirlines();
+        cout<<"Enter ID of the Airline choosen: ";
+        cin>>choice;
+        reading(choice);
+
+    }
+    void reading( int c)
+    {
+
+        ifstream fpt("airline.dat", ios::in | ios::binary);
+        while (1)
+        {
+            fpt.read((char *)&a1, sizeof(Airline));
+            if (a1.get_ID()==c)
+            {
+                break;
+            }
+            else if (fpt.eof())
+            {
+                cout<<"\nchoice not found\n";
+                break;
+            }
+        }
+        fpt.close();
+    }
+};
+class Ticket : protected Booking //printing ticket //mohtada
+{
+    public:
+    void menu(){
+
+        cout<<"\nProcessing ticket";
+        Sleep(500);
+        cout<<".";
+        Sleep(500);
+        cout<<".";
+        Sleep(500);
+        cout<<".";
+        Sleep(500);
+        cout<<".";
+        printticket();
+    }
+    void printticket(){
+
+    }
+};
+class Staff : virtual public Person //maarij
 {	 
 private:
     string u,p;
@@ -757,11 +840,11 @@ void verify(){
     Booking b1;
 	string i;
 	cout<<"Enter customer ID"<<endl;
-	cin>>i;
+	getline(cin, i);
 	ifstream fpt("booking.dat",ios::in | ios::binary);
 	while(1){
 		fpt.read((char *)&b1,sizeof(Booking));
-		if(b1.get_ID()==i){
+		if(b1.get_fname()==i){
 			Sleep(500);
 			loading_screen();
 			cout<<"TICKET VERIFIED"<<endl<<"ISSUE BOARDING PASS"<<endl;
@@ -1017,46 +1100,7 @@ public:
     
 };
 
-class Booking : protected Airline, protected Customer //mohtada
-{
-    string sign_u, sign_p;
-    Airline a1;
-public:
-    friend class Staff;
-    void menu()
-    {
-        cout<<"___________________________MENU BOOKING_______________________________\n ";
-    }
-    void booking(){
-        int choice;
-        loading_screen();
-        cout<<"List of airlines: ";
-        Airline::showAirlines();
-        cout<<"Enter ID of the Airline choosen: ";
-        cin>>choice;
-        reading(choice);
 
-    }
-    void reading( int c)
-    {
-
-        ifstream fpt("airline.dat", ios::in | ios::binary);
-        while (1)
-        {
-            fpt.read((char *)&a1, sizeof(Airline));
-            if (a1.get_ID()==c)
-            {
-                break;
-            }
-            else if (fpt.eof())
-            {
-                cout<<"\nchoice not found\n";
-                break;
-            }
-        }
-        fpt.close();
-    }
-};
 class Payment : protected Booking
 {
     string bank;
@@ -1106,7 +1150,8 @@ public:
         Sleep(500);
         loading_screen();
         cout << "\t\t\t\tPayment Successful\n";
-        Ticket::menu();
+        Ticket t;
+        t.menu();
     }
     void online_banking()
     {
@@ -1132,31 +1177,12 @@ public:
         Sleep(500);
         loading_screen();
         cout << "\t\t\t\tPayment Successful\n";
-
-        Ticket::menu();    
+        Ticket t;
+        t.menu();    
     }
 };
 
-class Ticket : protected Booking //printing ticket //mohtada
-{
-    public:
-    void menu(){
 
-        cout<<"\nProcessing ticket";
-        Sleep(500);
-        cout<<".";
-        Sleep(500);
-        cout<<".";
-        Sleep(500);
-        cout<<".";
-        Sleep(500);
-        cout<<".";
-        printticket();
-    }
-    void printticket(){
-
-    }
-};
 class HolidayPackage : virtual public Person, public Customer
 {
     string date;
@@ -1364,7 +1390,7 @@ public:
 
 void main_screen()
 {
-    cout << "\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3)Customer\n\t4)Airline\n\t5)Book a ticket\n\t6)Print Ticket\n";
+    cout << "\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Book a ticket\n\t6) Print Ticket\n";
     int choice;
     cout << "Enter your choice: ";
     cin >> choice;
@@ -1418,5 +1444,7 @@ void main_screen()
 }
 int main()
 {
+    
     main_screen();
+    
 }
