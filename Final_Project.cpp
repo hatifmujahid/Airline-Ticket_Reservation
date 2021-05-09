@@ -23,12 +23,6 @@ void loading_screen()
     Sleep(30);
     system("cls");
 }
-class Staff;
-class Booking;
-class HolidayPackage;
-class Ticket;
-class Customer;
-
 class ui //user interface class
 {
 public:
@@ -118,8 +112,10 @@ public:
     }
     void signup() //inherit karwalo
     {
+        fflush(stdin);
         cout << "Enter name of airline: ";
         getline(cin, name);
+        fflush(stdin);
         cout << "Enter no of planes in the fleet: ";
         cin >> no_of_planes;
         Person::signup();
@@ -188,6 +184,7 @@ protected:
     string f_name, l_name;
 
 public:
+bool is_special = false;
     string u, p;
     friend class Booking;
     friend class Staff;
@@ -480,6 +477,7 @@ protected:
     string f_name, l_name;
 
 public:
+bool is_special =true;
     friend class Booking;
     void menu()
     {
@@ -668,38 +666,45 @@ public:
         }
     }
 };
-
 class Booking : public Airline, public Customer //mohtada
 {
     Airline a1;
     int ticket_ID;
     string c_name, c_email, c_airline;
     int c_id;
-
+    int price;
+    int prices[3]={4000,10000,15000};
 protected:
-    void show()
-    {
-        cout << "\n\t\tTicket\nName: " << c_name << "Email: " << c_email << "ID: " << c_id << "Airline: " << c_airline << endl;
-    }
 
 public:
-    static int t_id;
     const int get_ticket_id()
     {
         return ticket_ID;
-    }
-    Booking()
+    }const string get_c_email()
     {
-        t_id++;
-        ticket_ID = t_id;
+        return c_email;
+    }const string get_c_name()
+    {
+        return c_name;
+    }const string get_c_airline()
+    {
+        return c_airline;
     }
-
+    const int get_price()
+    {
+        return price;
+    }
     void get_data()
     {
+        int i;
         c_name = get_fname();
         c_id = get_ID();
         c_email = get_email();
         c_airline = Airline::get_name();
+        srand((unsigned)time(0)); //random price generator
+        i= (rand() % 3);
+        price = prices[i];
+
     }
     void menu()
     {
@@ -738,13 +743,12 @@ public:
         fpt.close();
     }
 };
-
 class Ticket : protected Booking //printing ticket //mohtada
 {
 public:
     void menu()
     {
-
+        
         cout << "\nProcessing ticket";
         Sleep(500);
         cout << ".";
@@ -758,7 +762,6 @@ public:
     }
     void printticket()
     {
-        show();
     }
 };
 class Staff : virtual public Person //maarij
@@ -1124,7 +1127,7 @@ void Customer::check_flight(){
     
 }
 void Customer::refund(){
-    
+
 }
 class Payment : protected Booking
 {
@@ -1217,7 +1220,7 @@ public:
 
 void main_screen()
 {
-    cout << "\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Book a ticket\n\t6) Print Ticket\n";
+    cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Book a ticket\n\t6) Print Ticket\n";
     int choice;
     cout << "Enter your choice: ";
     cin >> choice;
@@ -1238,6 +1241,7 @@ void main_screen()
             fp.write((char *)&a, sizeof(a));
             fp.close();
             system("cls");
+            Sleep(1000);
             cout << "\nSIGN UP SUCCESSFUL\n";
         }
         else if (choice == 1)
@@ -1343,6 +1347,7 @@ void main_screen()
                 fp.close();
                 system("cls");
                 cout << "\nSIGN UP SUCCESSFUL\n";
+                Sleep(1000);
                 c.menu();
             }
             else if (choice == 2)
@@ -1462,7 +1467,7 @@ void main_screen()
         }
     }
 }
-int Booking::t_id = 1000;
+
 int main()
 {
     system("cls");
