@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <ctime>
 #include <string>
+#include"Booking.h"
 //ios::in input
 //ios::out output
 //ofstream output to file
@@ -27,7 +28,6 @@ void loading_screen()
 }
 
 class HolidayPackage;
-class Booking;
 class Ticket;
 class Staff;
 class ui //user interface class
@@ -192,6 +192,7 @@ protected:
 public:
     string u, p;
     friend class Booking;
+    friend class Staff;
     void set_fname(string f_name) { this->f_name = f_name; }
     const string get_fname() { return f_name; }
     void set_lname(char l_name) { this->l_name = l_name; }
@@ -278,7 +279,8 @@ public:
     }
     void refund()
     {
-
+        Staff s;
+        s.menu();
         customer_menu();
     }
 };
