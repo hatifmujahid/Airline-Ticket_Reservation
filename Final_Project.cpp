@@ -3,11 +3,11 @@
 #include <iomanip>
 #include <windows.h>
 #include <cstdlib>
-#include<cstring>
+#include <cstring>
 #include <conio.h>
 #include <cstdio>
 #include <ctime>
-#include<string>
+#include <string>
 //ios::in input
 //ios::out output
 //ofstream output to file
@@ -85,23 +85,30 @@ protected:
     string name;
     int no_of_planes, rating;
     string sign_u, sign_p;
+
 public:
-    string get_name(){
+    string get_name()
+    {
         return name;
     }
-    void set_name(string name){
+    void set_name(string name)
+    {
         this->name = name;
     }
-    int get_rating(){
+    int get_rating()
+    {
         return rating;
     }
-    void set_rating(int rating){
+    void set_rating(int rating)
+    {
         this->rating = rating;
     }
-    int get_planes(){
+    int get_planes()
+    {
         return no_of_planes;
     }
-    void set_planes(int no_of_planes){
+    void set_planes(int no_of_planes)
+    {
         this->no_of_planes = no_of_planes;
     }
     void menu()
@@ -109,16 +116,15 @@ public:
         cout << "::::::::::::::::::::::::::::::::::AIRLINE MENU::::::::::::::::::::::::::::::::::\n";
         cout << "\n\t\tWelcome to the Airline Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)Show all airlines\n";
-        
     }
-    void signup()   //inherit karwalo
+    void signup() //inherit karwalo
     {
-        cout<<"Enter name of airline: ";
+        cout << "Enter name of airline: ";
         getline(cin, name);
-        cout<<"Enter no of planes in the fleet: ";
-        cin>>no_of_planes;
-        Person::signup();  
-        srand((unsigned) time(0));  //random rating generator
+        cout << "Enter no of planes in the fleet: ";
+        cin >> no_of_planes;
+        Person::signup();
+        srand((unsigned)time(0)); //random rating generator
         rating = 1 + (rand() % 6);
     }
     void signin(string *u, string *p)
@@ -130,23 +136,26 @@ public:
         getline(cin, sign_u);
         fflush(stdin);
         cout << "Enter password: ";
-        while(true){
+        while (true)
+        {
             c = _getch();
-            if(c==13){
+            if (c == 13)
+            {
                 break;
             }
-            else if(c=='\b'){
+            else if (c == '\b')
+            {
                 sign_p.pop_back();
                 continue;
             }
             sign_p.push_back(c);
-            cout<<"x";
+            cout << "x";
             fflush(stdin);
         }
         *u = sign_u;
         *p = sign_p;
     }
-    
+
     void showAirlines()
     {
         Airline a;
@@ -165,19 +174,18 @@ public:
             }
             else
             {
-                cout << "\t" << a.get_name() << "\t" << a.get_ID() << "\t" << a.get_planes() << "\t" << a.get_email()<<"\t"<<a.get_rating() << endl;
+                cout << "\t" << a.get_name() << "\t" << a.get_ID() << "\t" << a.get_planes() << "\t" << a.get_email() << "\t" << a.get_rating() << endl;
             }
         }
     }
-    void airline_menu(){
-
+    void airline_menu()
+    {
     }
 };
 
 class Customer : virtual public Person // hatif
 {
 private:
-
 protected:
     string f_name, l_name;
 
@@ -205,7 +213,7 @@ public:
         getline(cin, l_name);
         fflush(stdin);
     }
-    
+
     void signin(string *user, string *pass)
     {
         system("cls");
@@ -239,11 +247,11 @@ public:
             check_flight();
             break;
         case 4:
-            
+
             break;
         default:
-            cout<<"Wrong choice: \nDo you wanna end the program?\n1) Yes\n2) No";
-            cin>>choice;
+            cout << "Wrong choice: \nDo you wanna end the program?\n1) Yes\n2) No";
+            cin >> choice;
             switch (choice)
             {
             case 1:
@@ -259,18 +267,18 @@ public:
     }
     void check_flight()
     {
-        
+
         customer_menu();
     }
     void book_flight()
     {
-        Booking b;
-        b.menu();
+        Booking a;
+        a.menu();
         customer_menu();
     }
-    void refund(){
-        Staff s;
-        s.refund();
+    void refund()
+    {
+
         customer_menu();
     }
 };
@@ -410,26 +418,26 @@ public:
 
         cout << "Enter Package number you wish to select" << endl;
         cin >> tour;
-        
 
         if (tour == 1)
         {
             if (arrival == "Toronto")
             {
-                file <<get_fname() << "\t"  << "\t" << ID << "\tQatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\t Pearl\n";
-                  
+                file << get_fname() << "\t"
+                     << "\t" << ID << "\tQatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\t Pearl\n";
+
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Sydney")
             {
-                file <<get_fname() << "\t"  << ID << "\tQantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tMeriton\n";
-                    
+                file << get_fname() << "\t" << ID << "\tQantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tMeriton\n";
+
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Paris")
             {
                 file << get_fname() << "\t" << ID << "\tLufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tBelvedere\n";
-                 
+
                 cout << "PACKAGE BOOKED" << endl;
             }
         }
@@ -438,19 +446,19 @@ public:
         {
             if (arrival == "Toronto")
             {
-                file << get_fname() << "\t"  << ID << "\tTurkish\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tPC\n";
+                file << get_fname() << "\t" << ID << "\tTurkish\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tPC\n";
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Sydney")
             {
-                file << get_fname() << "\t"  << ID << "\tEmirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tRaddison\n";
-                  
+                file << get_fname() << "\t" << ID << "\tEmirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tRaddison\n";
+
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Paris")
             {
-                file <<get_fname() << "\t"  << ID << "\tEtihad\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzayLezay\n";
-                   
+                file << get_fname() << "\t" << ID << "\tEtihad\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzayLezay\n";
+
                 cout << "PACKAGE BOOKED" << endl;
             }
         }
@@ -459,8 +467,8 @@ public:
         {
             if (arrival == "Toronto")
             {
-                file << get_fname()<< "\t" << ID << "\tKLM\t19:00\t\t22:05\t\t$.2000\t\tNonrefundable\t\tMarriot\n";
-                  
+                file << get_fname() << "\t" << ID << "\tKLM\t19:00\t\t22:05\t\t$.2000\t\tNonrefundable\t\tMarriot\n";
+
                 cout << "PACKAGE BOOKED" << endl;
             }
             if (arrival == "Sydney")
@@ -479,13 +487,15 @@ public:
 };
 class Special_customer : protected Person //maarij
 {
-    string u,p;
+    string u, p;
+
 protected:
-	int miles;
-	string f_name, l_name;
+    int miles;
+    string f_name, l_name;
+
 public:
-friend class Booking;
-void menu()
+    friend class Booking;
+    void menu()
     {
         cout << "\n\t\tWelcome to the Special customer Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
@@ -502,30 +512,30 @@ void menu()
         }
         else if (c == 3)
         {
-           exit(0);
+            exit(0);
         }
-        
     }
     void signup()
-    {   cout<<"Enter miles"<<endl;
-        cin>>miles;
-        if(miles>=10000){
-        Person::signup();
-        cout << "Enter first name: ";
-        getline(cin, f_name);
-        fflush(stdin);
-        cout << "Enter last name: ";
-        getline(cin, l_name);
-        fflush(stdin);
-        		
-		}
-		else{
-			cout<<"Not enough miles"<<endl<<"CONTINUE TRAVELLING WITH US"<<endl;
-			system("PAUSE");
-			menu();
-		}
-    
-        
+    {
+        cout << "Enter miles" << endl;
+        cin >> miles;
+        if (miles >= 10000)
+        {
+            Person::signup();
+            cout << "Enter first name: ";
+            getline(cin, f_name);
+            fflush(stdin);
+            cout << "Enter last name: ";
+            getline(cin, l_name);
+            fflush(stdin);
+        }
+        else
+        {
+            cout << "Not enough miles" << endl
+                 << "CONTINUE TRAVELLING WITH US" << endl;
+            system("PAUSE");
+            menu();
+        }
     }
     void filing(Special_customer s)
     {
@@ -562,19 +572,22 @@ void menu()
         getline(cin, u);
         fflush(stdin);
         cout << "Enter password: ";
-     
-    while(true){
-        c = _getch();
-        if(c==13){
-            break;
+
+        while (true)
+        {
+            c = _getch();
+            if (c == 13)
+            {
+                break;
+            }
+            else if (c == '\b')
+            {
+                p.pop_back();
+                continue;
+            }
+            p.push_back(c);
+            cout << "x";
         }
-        else if(c=='\b'){
-            p.pop_back();
-            continue;
-        }
-        p.push_back(c);
-        cout<<"x";
-    }
         fflush(stdin);
     }
     void reading(Special_customer s1)
@@ -599,66 +612,75 @@ void menu()
         }
         fpt.close();
     }
-    
-    void s_customer_menu(){
-    	int c;
-    	cout<<"_______________SPECIAL CUSTOMER MENU_________________"<<endl;
-    	cout<<"1.Refund Booking\t\t2.Book a flight\t\t3.Check flight status\t\t4.Book a Holiday Package"<<endl;
-    	cin>>c;
-    	if(c==1){
-    		b_refund();
-		}
-		else if(c==2){
-			s_customer_menu();
-		}
-		else if(c==3){
-			s_customer_menu();
-		}
-		else if(c==4){
-			HolidayPackage h;
+
+    void s_customer_menu()
+    {
+        int c;
+        cout << "_______________SPECIAL CUSTOMER MENU_________________" << endl;
+        cout << "1.Refund Booking\t\t2.Book a flight\t\t3.Check flight status\t\t4.Book a Holiday Package" << endl;
+        cin >> c;
+        if (c == 1)
+        {
+            b_refund();
+        }
+        else if (c == 2)
+        {
+            s_customer_menu();
+        }
+        else if (c == 3)
+        {
+            s_customer_menu();
+        }
+        else if (c == 4)
+        {
+            HolidayPackage h;
             h.menu();
-		}
-    	
-	}
-    void b_refund(){
-  	int choice;
-  	string x;
-     string n,i,a,d,ar,p,c,h,l;
-  	system("CLS");
-  	ifstream original("packages.txt",ios::out);
-    ofstream copy("new.txt",ios::app);
-  	
-		cout<<"1.Holiday Package Refund\t\t2.Ticket Refund"<<endl;
-		cin>>choice;
-		
-		if(choice==1){
-			cout<<"Enter Customer ID"<<endl;
-			cin>>x;
-			while(original>>n>>i>>a>>d>>ar>>p>>c>>h){
-        	
-        	if(i==x ){
-                cout<<"TICKET REFUNDED"<<endl<<"FUNDS TRANSFERRED"<<endl;
+        }
+    }
+    void b_refund()
+    {
+        int choice;
+        string x;
+        string n, i, a, d, ar, p, c, h, l;
+        system("CLS");
+        ifstream original("packages.txt", ios::out);
+        ofstream copy("new.txt", ios::app);
+
+        cout << "1.Holiday Package Refund\t\t2.Ticket Refund" << endl;
+        cin >> choice;
+
+        if (choice == 1)
+        {
+            cout << "Enter Customer ID" << endl;
+            cin >> x;
+            while (original >> n >> i >> a >> d >> ar >> p >> c >> h)
+            {
+
+                if (i == x)
+                {
+                    cout << "TICKET REFUNDED" << endl
+                         << "FUNDS TRANSFERRED" << endl;
+                }
+                else if (original.eof())
+                {
+                    cout << "BOOKING UNAVAILABE" << endl;
+                    system("PAUSE");
+                    b_refund();
+                }
+                else
+                {
+
+                    ofstream copy("new.txt", ios::app);
+
+                    copy << n << "\t" << i << "\t" << a << "\t" << d << "\t" << ar << "\t" << p << "\t" << c << "\t" << h << "\n";
+                }
             }
-            else if(original.eof()){
-            	cout<<"BOOKING UNAVAILABE"<<endl;
-            	system("PAUSE");
-            	b_refund();
-			}
-            else{
-            	
-            ofstream copy("new.txt",ios::app);
-            	
-            copy<<n<<"\t"<<i<<"\t"<<a<<"\t"<<d<<"\t"<<ar<<"\t"<<p<<"\t"<<c<<"\t"<<h<<"\n";
-			}
-			
-            
-		}
-		copy.close();
-        original.close();
-        remove("packages.txt");
-        rename("new.txt","packages.txt");
-	}
-  }
+            copy.close();
+            original.close();
+            remove("packages.txt");
+            rename("new.txt", "packages.txt");
+        }
+    }
 };
 class Ticket;
 class Booking : protected Airline, public Customer //mohtada
@@ -667,21 +689,27 @@ class Booking : protected Airline, public Customer //mohtada
     int ticket_ID;
     string c_name, c_email, c_airline;
     int c_id;
-    protected:
-    void show(){
-        cout<<"\n\t\tTicket\nName: "<<c_name<<"Email: "<<c_email<<"ID: "<<c_id<<"Airline: "<<c_airline<<endl;
+
+protected:
+    void show()
+    {
+        cout << "\n\t\tTicket\nName: " << c_name << "Email: " << c_email << "ID: " << c_id << "Airline: " << c_airline << endl;
     }
+
 public:
     static int t_id;
-    const int get_ticket_id(){
+    const int get_ticket_id()
+    {
         return ticket_ID;
     }
-    Booking(){
+    Booking()
+    {
         t_id++;
-        ticket_ID= t_id;
-	}
-    
-    void get_data(){
+        ticket_ID = t_id;
+    }
+
+    void get_data()
+    {
         c_name = get_fname();
         c_id = get_ID();
         c_email = get_email();
@@ -689,34 +717,35 @@ public:
     }
     void menu()
     {
-        cout<<"___________________________MENU BOOKING_______________________________\n ";
+        cout << "___________________________MENU BOOKING_______________________________\n ";
     }
-    void book_tickets(){
-        Booking a; 
+    void book_tickets()
+    {
+        Booking a;
         int choice;
         loading_screen();
-        cout<<"List of airlines: ";
+        cout << "List of airlines: ";
         Airline::showAirlines();
-        cout<<"Enter ID of the Airline choosen: ";
-        cin>>choice;
+        cout << "Enter ID of the Airline choosen: ";
+        cin >> choice;
         reading(choice);
-        ofstream fp("ticket.dat", ios::app|ios::binary);
-        fp.write((char* )&a, sizeof(a));
+        ofstream fp("ticket.dat", ios::app | ios::binary);
+        fp.write((char *)&a, sizeof(a));
         fp.close();
     }
-    void reading( int c)
+    void reading(int c)
     {
         ifstream fpt("airline.dat", ios::in | ios::binary);
         while (1)
         {
             fpt.read((char *)&a1, sizeof(Airline));
-            if (a1.get_ID()==c)
+            if (a1.get_ID() == c)
             {
                 break;
             }
             else if (fpt.eof())
             {
-                cout<<"\nChoice not found\n";
+                cout << "\nChoice not found\n";
                 break;
             }
         }
@@ -725,33 +754,37 @@ public:
 };
 class Ticket : protected Booking //printing ticket //mohtada
 {
-    public:
-    void menu(){
+public:
+    void menu()
+    {
 
-        cout<<"\nProcessing ticket";
+        cout << "\nProcessing ticket";
         Sleep(500);
-        cout<<".";
+        cout << ".";
         Sleep(500);
-        cout<<".";
+        cout << ".";
         Sleep(500);
-        cout<<".";
+        cout << ".";
         Sleep(500);
-        cout<<".";
+        cout << ".";
         printticket();
     }
-    void printticket(){
+    void printticket()
+    {
         show();
     }
 };
 class Staff : virtual public Person //maarij
-{	 
+{
 private:
-    string u,p;
+    string u, p;
+
 protected:
     string f_name, l_name;
+
 public:
-friend class Admin;
-void signup()
+    friend class Admin;
+    void signup()
     {
         Person::signup();
         cout << "Enter first name: ";
@@ -761,7 +794,7 @@ void signup()
         getline(cin, l_name);
         fflush(stdin);
     }
-    
+
     void signin(string *username, string *password)
     {
         cout << "---------------------------------------STAFF SIGN IN----------------------------------------------------\n\n";
@@ -771,143 +804,155 @@ void signup()
         getline(cin, u);
         fflush(stdin);
         cout << "Enter password: ";
-        getline(cin,p);
+        getline(cin, p);
         fflush(stdin);
         *username = u;
         *password = p;
     }
-   
-void menu(){ 
-     int c;
-     cout<<"__________________STAFF MENU______________________"<<endl;
-    cout<<"1.SIGN UP\t\t2.SIGN-IN\t\t3.EXIT"<<endl;
-    
-	
-}
-void staff_menu(){
-	int i;
-	system("CLS");
-	cout<<"------------------MANAGE VERIFICATION AND REFUND OPERATIONS-------------------"<<endl;
-	
-	cout<<"1.BOOKING REFUND\t2.VERIFY BOOKING\t3.REFUND POLICY\t0.Exit"<<endl;
-	cin>>i;
-	if(i==1){
-		refund();
-	}
-	else if(i==3){
-		policy();
-	}
-	else if(i==2){
-		verify();
-	}
-	
-}
 
+    void menu()
+    {
+        int c;
+        cout << "__________________STAFF MENU______________________" << endl;
+        cout << "1.SIGN UP\t\t2.SIGN-IN\t\t3.EXIT" << endl;
+    }
+    void staff_menu()
+    {
+        int i;
+        system("CLS");
+        cout << "------------------MANAGE VERIFICATION AND REFUND OPERATIONS-------------------" << endl;
 
-void refund(){
-    int ch;
-    string x,y;
-    string n,i,a,d,ar,p,c,h,l;
-    system("CLS");
-    ifstream original("packages.txt",ios::out);
-    ofstream copy("new.txt",ios::app);
-    
-    cout<<"1.Ticket Refund\t\t2.Holiday Package Refund\n";
-    cin>>ch;
-    if(ch==1){
-    	cout<<"Regular Tickets are Non-refundable"<<endl;
-    	system("PAUSE");
-    	staff_menu();
-	}
-	
-    if(ch==2){
-        cout<<"Enter customer ID"<<endl;
-        cin>>x;
-        //system("CLS");
-        
-        
-        while(original>>n>>i>>a>>d>>ar>>p>>c>>h){
-        	
-        	
-        	if(i==x && c=="Refundable"){
-                cout<<"TICKET REFUNDED"<<endl;
-               // continue;
+        cout << "1.BOOKING REFUND\t2.VERIFY BOOKING\t3.REFUND POLICY\t0.Exit" << endl;
+        cin >> i;
+        if (i == 1)
+        {
+            refund();
+        }
+        else if (i == 3)
+        {
+            policy();
+        }
+        else if (i == 2)
+        {
+            verify();
+        }
+    }
 
+    void refund()
+    {
+        int ch;
+        string x, y;
+        string n, i, a, d, ar, p, c, h, l;
+        system("CLS");
+        ifstream original("packages.txt", ios::out);
+        ofstream copy("new.txt", ios::app);
+
+        cout << "1.Ticket Refund\t\t2.Holiday Package Refund\n";
+        cin >> ch;
+        if (ch == 1)
+        {
+            cout << "Regular Tickets are Non-refundable" << endl;
+            system("PAUSE");
+            staff_menu();
+        }
+
+        if (ch == 2)
+        {
+            cout << "Enter customer ID" << endl;
+            cin >> x;
+            //system("CLS");
+
+            while (original >> n >> i >> a >> d >> ar >> p >> c >> h)
+            {
+
+                if (i == x && c == "Refundable")
+                {
+                    cout << "TICKET REFUNDED" << endl;
+                    // continue;
+                }
+                else if (i == x && c == "Nonrefundable")
+                {
+                    cout << "TICKET OF NON-REFUNDABLE CATEGORY" << endl;
+                    ofstream copy("new.txt", ios::app);
+                    copy << n << "\t" << i << "\t" << a << "\t" << d << "\t" << ar << "\t" << p << "\t" << c << "\t" << h << "\n";
+                }
+
+                else
+                {
+
+                    ofstream copy("new.txt", ios::app);
+
+                    copy << n << "\t" << i << "\t" << a << "\t" << d << "\t" << ar << "\t" << p << "\t" << c << "\t" << h << "\n";
+                }
             }
-            else if(i==x && c=="Nonrefundable"){
-            	cout<<"TICKET OF NON-REFUNDABLE CATEGORY"<<endl;
-            	ofstream copy("new.txt",ios::app);
-            	copy<<n<<"\t"<<i<<"\t"<<a<<"\t"<<d<<"\t"<<ar<<"\t"<<p<<"\t"<<c<<"\t"<<h<<"\n";
-			}
-            
-            else{
-            	
-            	ofstream copy("new.txt",ios::app);
-            	
-            	copy<<n<<"\t"<<i<<"\t"<<a<<"\t"<<d<<"\t"<<ar<<"\t"<<p<<"\t"<<c<<"\t"<<h<<"\n";
-			}
-            
-                
-            }
-        	
-        copy.close();
-        original.close();
-        remove("packages.txt");
-        rename("new.txt","packages.txt");
 
+            copy.close();
+            original.close();
+            remove("packages.txt");
+            rename("new.txt", "packages.txt");
         }
         staff_menu();
-}
+    }
 
-void policy(){
-	cout<<"->Holiday Packages booked with a refund category are only refundable"<<endl;
-	cout<<"->Non-refundable category packages will not be refunded under any condition"<<endl;
-	cout<<"->Special Customers can refund any package by using the refund option in their menu"<<endl;
-	cout<<"->Refund ensures a 100% money back guarantee"<<endl<<endl<<endl;
-	staff_menu();
-}
+    void policy()
+    {
+        cout << "->Holiday Packages booked with a refund category are only refundable" << endl;
+        cout << "->Non-refundable category packages will not be refunded under any condition" << endl;
+        cout << "->Special Customers can refund any package by using the refund option in their menu" << endl;
+        cout << "->Refund ensures a 100% money back guarantee" << endl
+             << endl
+             << endl;
+        staff_menu();
+    }
 
-void verify(){
-	system("CLS");
-    Booking b1;
-	string i;
-	cout<<"Enter customer ID"<<endl;
-	getline(cin, i);
-	ifstream fpt("booking.dat",ios::in | ios::binary);
-	while(1){
-		fpt.read((char *)&b1,sizeof(Booking));
-		if(b1.get_fname()==i){
-			Sleep(500);
-			loading_screen();
-			cout<<"TICKET VERIFIED"<<endl<<"ISSUE BOARDING PASS"<<endl;
-			break;
-		}
-        else if (fpt.eof()){
-        	cout<<"BOOKING UNAVAILABLE"<<endl;
-		}
-			
-			
-		}
-	
-    fpt.close();
-	system("PAUSE");
-    staff_menu();
-}
+    void verify()
+    {
+        system("CLS");
+        Booking b1;
+        string i;
+        cout << "Enter customer ID" << endl;
+        getline(cin, i);
+        ifstream fpt("booking.dat", ios::in | ios::binary);
+        while (1)
+        {
+            fpt.read((char *)&b1, sizeof(Booking));
+            if (b1.get_fname() == i)
+            {
+                Sleep(500);
+                loading_screen();
+                cout << "TICKET VERIFIED" << endl
+                     << "ISSUE BOARDING PASS" << endl;
+                break;
+            }
+            else if (fpt.eof())
+            {
+                cout << "BOOKING UNAVAILABLE" << endl;
+            }
+        }
 
-   void set_U(string u){
-	this->u=u;
-}
+        fpt.close();
+        system("PAUSE");
+        staff_menu();
+    }
 
-   string get_U(){
-   	return u;
-   }
-   void set_P(string p){
-	this->p=p;
-}
+    void set_U(string u)
+    {
+        this->u = u;
+    }
 
-   string get_P(){
-   	return p;
-   }
+    string get_U()
+    {
+        return u;
+    }
+    void set_P(string p)
+    {
+        this->p = p;
+    }
+
+    string get_P()
+    {
+        return p;
+    }
 };
 class Admin : protected Person //hatif
 {
@@ -925,7 +970,6 @@ public:
     void menu()
     {
         cout << "__________________________________________ADMIN MENU__________________________________________\n\n\t1)Sign in\n\t2)Sign up\n\t3)Show admins\n";
-        
     }
 
     void signup()
@@ -974,17 +1018,20 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         char c;
-        while(true){
+        while (true)
+        {
             c = _getch();
-            if(c==13){
+            if (c == 13)
+            {
                 break;
             }
-            else if(c=='\b'){
+            else if (c == '\b')
+            {
                 p.pop_back();
                 continue;
             }
             p.push_back(c);
-            cout<<"x";
+            cout << "x";
         }
         fflush(stdin);
     }
@@ -1022,13 +1069,16 @@ public:
         {
             delete_customer();
         }
-        else if (choice==2){
+        else if (choice == 2)
+        {
             delete_airline();
         }
-        else if(choice==3){
+        else if (choice == 3)
+        {
             delete_staff();
         }
-        else if(choice ==4){
+        else if (choice == 4)
+        {
             show_admin();
         }
     }
@@ -1054,7 +1104,8 @@ public:
         remove("customer.dat");
         rename("new.dat", "customer.dat");
     }
-    void delete_staff(){
+    void delete_staff()
+    {
         Staff a;
         int ID;
         cout << "Enter ID of the Staff you want to delete: ";
@@ -1075,7 +1126,8 @@ public:
         remove("staff.dat");
         rename("new.dat", "staff.dat");
     }
-    void delete_airline(){
+    void delete_airline()
+    {
         Airline a;
         int ID;
         cout << "Enter ID of the Airline you want to delete: ";
@@ -1095,9 +1147,8 @@ public:
         original.close();
         remove("airline.dat");
         rename("new.dat", "airline.dat");
-
     }
-    
+
     void show_admin()
     {
         Admin a;
@@ -1107,7 +1158,8 @@ public:
         cout << "\t\t\t\t\tADMIN LIST";
         cout << "\nFirst name:  \tLast name: "
                 "\tID: "
-                "\tEmail: "<< endl;
+                "\tEmail: "
+             << endl;
         while (1)
         {
             if (!fp.eof())
@@ -1121,7 +1173,6 @@ public:
             }
         }
     }
-    
 };
 class Payment : protected Booking
 {
@@ -1186,18 +1237,21 @@ public:
         getline(cin, username);
         fflush(stdin);
         cout << "Enter password: ";
-    
-        while(true){
+
+        while (true)
+        {
             c = _getch();
-            if(c==13){
+            if (c == 13)
+            {
                 break;
             }
-            else if(c=='\b'){
+            else if (c == '\b')
+            {
                 password.pop_back();
                 continue;
             }
             password.push_back(c);
-            cout<<"x";
+            cout << "x";
         }
         fflush(stdin);
         cout << "\t\t\t\tProcessing payment";
@@ -1205,13 +1259,9 @@ public:
         loading_screen();
         cout << "\t\t\t\tPayment Successful\n";
         Ticket t;
-        t.menu();    
+        t.menu();
     }
 };
-
-
-
-
 
 void main_screen()
 {
@@ -1223,49 +1273,57 @@ void main_screen()
     {
         Admin a;
         a.menu();
-        
     }
-        else if (choice == 2)
+    else if (choice == 2)
     {
         int c;
         Staff s;
         s.menu();
-        cin>>c;
-        if(c==1){
+        cin >> c;
+        if (c == 1)
+        {
             s.signup();
             fstream f;
-            f.open("staff.dat",ios::binary | ios::app);
-            f.write((char *)&s,sizeof(s));
+            f.open("staff.dat", ios::binary | ios::app);
+            f.write((char *)&s, sizeof(s));
             f.close();
             system("CLS");
-            cout<<endl<<"SIGN UP SUCCESSFUL"<<endl;
+            cout << endl
+                 << "SIGN UP SUCCESSFUL" << endl;
             s.menu();
         }
-        else if(c==2){
-            string u,p;
-            s.signin(&u , &p);
+        else if (c == 2)
+        {
+            string u, p;
+            s.signin(&u, &p);
             fstream f;
-            f.open("staff.dat",ios::binary | ios::in);
-            while(1){
-                f.read((char*)&s, sizeof(s));
-                if(s.get_username()==u && s.get_password()==p){
+            f.open("staff.dat", ios::binary | ios::in);
+            while (1)
+            {
+                f.read((char *)&s, sizeof(s));
+                if (s.get_username() == u && s.get_password() == p)
+                {
                     system("cls");
-                    cout<<"\nSIGN IN SUCCESSFUL\n";
+                    cout << "\nSIGN IN SUCCESSFUL\n";
                     s.staff_menu();
                     break;
                 }
-                else if(f.eof()){
+                else if (f.eof())
+                {
                     system("cls");
-                    cout<<"\nWRONG USERNAME OR PASSWORD"<<endl<<"TRY AGAIN"<<endl;
-                    s.signin(&u,&p);
+                    cout << "\nWRONG USERNAME OR PASSWORD" << endl
+                         << "TRY AGAIN" << endl;
+                    s.signin(&u, &p);
                 }
             }
             f.close();
         }
-        else if(c==3){
+        else if (c == 3)
+        {
             exit(0);
         }
-        else{
+        else
+        {
             exit(1);
         }
     }
@@ -1280,31 +1338,34 @@ void main_screen()
         {
             c.signup();
             fstream fp;
-            fp.open("customer.dat", ios::binary|ios::app);
-            fp.write((char*)&c, sizeof(c));
+            fp.open("customer.dat", ios::binary | ios::app);
+            fp.write((char *)&c, sizeof(c));
             fp.close();
             system("cls");
-            cout<<"\nSIGN UP SUCCESSFUL\n";
+            cout << "\nSIGN UP SUCCESSFUL\n";
             c.menu();
         }
         else if (choice == 2)
         {
-            string u,p;
+            string u, p;
             c.signin(&u, &p);
             fstream fp;
-            fp.open("customer.dat", ios::binary|ios::in);
-            while(1){
-                fp.read((char*)&c, sizeof(c));
-                if(c.get_username()==u&&c.get_password()==p){
+            fp.open("customer.dat", ios::binary | ios::in);
+            while (1)
+            {
+                fp.read((char *)&c, sizeof(c));
+                if (c.get_username() == u && c.get_password() == p)
+                {
                     system("cls");
-                    cout<<"\nSIGN IN SUCCESSFUL\n";
+                    cout << "\nSIGN IN SUCCESSFUL\n";
                     c.customer_menu();
                     break;
                 }
-                else if(fp.eof()){
+                else if (fp.eof())
+                {
                     system("cls");
-                    cout<<"\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
-                    c.signin(&u,&p);
+                    cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
+                    c.signin(&u, &p);
                 }
             }
             fp.close();
@@ -1315,9 +1376,8 @@ void main_screen()
         }
         else
         {
-            exit(1);    //wrong input gives return value 1 at end
+            exit(1); //wrong input gives return value 1 at end
         }
-        
     }
     else if (choice == 4)
     {
@@ -1330,35 +1390,37 @@ void main_screen()
         {
             a1.signup();
             fstream fp;
-            fp.open("customer.dat", ios::binary|ios::app);
-            fp.write((char*)&a1, sizeof(a1));
+            fp.open("customer.dat", ios::binary | ios::app);
+            fp.write((char *)&a1, sizeof(a1));
             fp.close();
             system("cls");
-            cout<<"\nSIGN UP SUCCESSFUL\n";
+            cout << "\nSIGN UP SUCCESSFUL\n";
             a1.menu();
         }
         else if (choice == 2)
         {
-            string u,p;
+            string u, p;
             a1.signin(&u, &p);
             fstream fp;
-            fp.open("customer.dat", ios::binary|ios::in);
-            while(1){
-                fp.read((char*)&a1, sizeof(a1));
-                if(a1.get_username()==u&&a1.get_password()==p){
+            fp.open("customer.dat", ios::binary | ios::in);
+            while (1)
+            {
+                fp.read((char *)&a1, sizeof(a1));
+                if (a1.get_username() == u && a1.get_password() == p)
+                {
                     system("cls");
-                    cout<<"\nSIGN IN SUCCESSFUL\n";
+                    cout << "\nSIGN IN SUCCESSFUL\n";
                     a1.airline_menu();
                     break;
                 }
-                else if(fp.eof()){
+                else if (fp.eof())
+                {
                     system("cls");
-                    cout<<"\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
-                    a1.signin(&u,&p);
+                    cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
+                    a1.signin(&u, &p);
                 }
             }
             fp.close();
-
         }
         else if (choice == 3)
         {
@@ -1368,7 +1430,6 @@ void main_screen()
         {
             exit(0);
         }
-        
     }
     else if (choice == 5)
     {
@@ -1382,12 +1443,14 @@ void main_screen()
     }
     else
     {
-        cout<<"Do you want to end the program?\n1) Yes \n2)Yesn't";
-        cin>>choice;
-        if(choice==2){
+        cout << "Do you want to end the program?\n1) Yes \n2)Yesn't";
+        cin >> choice;
+        if (choice == 2)
+        {
             main_screen();
         }
-        else {
+        else
+        {
             exit(0);
         }
     }
@@ -1395,6 +1458,6 @@ void main_screen()
 int Booking::t_id = 1000;
 int main()
 {
-    
-    main_screen();    
+
+    main_screen();
 }
