@@ -25,28 +25,7 @@ void loading_screen()
     Sleep(30);
     system("cls");
 }
-string password_hiding(){
-    char c; string p;
 
-    while(true){
-            c = _getch();
-            if(c==13){
-                break;
-            }
-            else if(c=='\b'){
-                if(p.size()!=0){
-                    p.erase(p.size()-1);
-                    cout<<"\b\b";
-                }
-            }
-            if(c!='\b'&&c!=13){
-                p.push_back(c);
-                cout<<"x";
-            }
-            
-        }
-        return p;
-}
 class HolidayPackage;
 class Booking;
 class Ticket;
@@ -339,7 +318,24 @@ public:
         getline(cin, u);
         fflush(stdin);
         cout << "Enter password: ";
-        p = password_hiding();
+        getline(cin, p);
+        // while(true){
+        //     c = _getch();
+        //     if(c==13){
+        //         break;
+        //     }
+        //     else if(c=='\b'){
+        //         if(p.size()!=0){
+        //             p.erase(p.size()-1);
+        //             cout<<"\b\b";
+        //         }
+        //     }
+        //     if(c!='\b'&&c!=13){
+        //         p.push_back(c);
+        //         cout<<"x";
+        //     }
+            
+        // }
         fflush(stdin);
         reading();
     }
@@ -361,7 +357,7 @@ public:
             {
                 system("cls");
                 cout << "\n\nSign in is unsuccessful\n";
-                signin();
+                a1.signin();
             }
         }
         fpt.close();
