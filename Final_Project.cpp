@@ -20,6 +20,8 @@ void loading_screen()
         Sleep(20);
         printf("%c", 219);
     }
+    Sleep(30);
+    system("cls");
 }
 class ui //user interface class
 {
@@ -82,7 +84,7 @@ protected:
 public:
     void menu()
     {
-        cout << "::::::::::::::::::::::::::::::::::AIRLINE MENU::::::::::::::::::::::::::::\n";
+        cout << "::::::::::::::::::::::::::::::::::AIRLINE MENU::::::::::::::::::::::::::::::::::\n";
         cout << "\n\t\tWelcome to the Airline Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)Show all airlines\n";
         int choice;
@@ -98,7 +100,7 @@ public:
         }
         else if (choice == 3)
         {
-            // showAirlines(a);
+            showAirlines();
         }
         else
         {
@@ -213,7 +215,6 @@ protected:
 
 public:
     friend class Booking;
-    static int c_no;
     void set_fname(string f_name) { this->f_name = f_name; }
     const string get_fname() { return f_name; }
     void set_lname(char l_name) { this->l_name = l_name; }
@@ -225,7 +226,7 @@ public:
     void menu()
     {
         cout << "\n\t\tWelcome to the customer Login/Logout menu!!";
-        cout << "\n1) Sign Up\n2) Sign in\n3)Show number of customers\n";
+        cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
         int choice;
         cout << "\nEnter choice: ";
         cin >> choice;
@@ -239,11 +240,11 @@ public:
         }
         else if (choice == 3)
         {
-            cout << "No of customers: " << c_no << endl;
+            exit(0);
         }
         else
         {
-            exit(0);
+            exit(1);    //wrong input gives return value 1 at end
         }
     }
     void signup()
@@ -331,18 +332,36 @@ public:
     void customer_menu()
     {
         cout << "------------------------------------------Customer Main Menu----------------------------\n\n";
-        cout << "\t1) Check Flight\n\t2)	Book Flight\n\t3) Logout";
+        cout << "\n\t1. Refund Booking\n\t2. Book a flight\n\t3. Check flight status\n\t4. Book a Holiday Package";
         int choice;
         cin >> choice;
         switch (choice)
         {
         case 1:
-            check_flight();
+            refund();
             break;
         case 2:
             book_flight();
             break;
+        case 3:
+            check_flight();
+            break;
+        case 4:
+            HolidayPackage::menu();
+            break;
         default:
+            cout<<"Wrong choice: \nDo you wanna end the program?\n1) Yes\n2) No";
+            cin>>choice;
+            switch (choice)
+            {
+            case 1:
+                exit(0);
+            case 2:
+                customer_menu();
+                break;
+            default:
+                break;
+            }
             break;
         }
     }
@@ -353,7 +372,11 @@ public:
     }
     void book_flight()
     {
-        //booking class by mohtada
+        
+        customer_menu();
+    }
+    void refund(){
+        
         customer_menu();
     }
 };
@@ -371,7 +394,7 @@ void menu()
         int c;
         cout << "\nEnter choice: ";
         cin >> c;
-        if (ch == 1)
+        if (c == 1)
         {
             signup();
         }
@@ -531,7 +554,7 @@ void menu()
         remove("packages.txt");
         rename("new.txt","packages.txt");
 	}
-    
+  }
 };
 class Admin : protected Person //hatif
 {
@@ -1020,22 +1043,44 @@ void verify(){
    }
 };
 
-
-
-
-
-
-
 class Booking : protected Airline, protected Customer //mohtada
 {
+    string sign_u, sign_p;
+    Airline a1;
 public:
     void menu()
     {
-        cout << "this is the Booking menu";
+        cout<<"___________________________MENU BOOKING_______________________________\n ";
     }
-    //make object of class customer because customer is a friend of Booking
-    // all attributes of customer accessible
-    //try to use getters if at all possible
+    void booking(){
+        int choice;
+        loading_screen();
+        cout<<"List of airlines: ";
+        Airline::showAirlines();
+        cout<<"Enter ID of the Airline choosen: ";
+        cin>>choice;
+        reading(choice);
+        
+    }
+    void reading( int c)
+    {
+
+        ifstream fpt("airline.dat", ios::in | ios::binary);
+        while (1)
+        {
+            fpt.read((char *)&a1, sizeof(Airline));
+            if (a1.get_ID()==c)
+            {
+                break;
+            }
+            else if (fpt.eof())
+            {
+                cout<<"\nchoice not found\n";
+                break;
+            }
+        }
+        fpt.close();
+    }
 };
 class Payment : protected Booking
 {
@@ -1321,8 +1366,7 @@ public:
         file.close();
     }
 };
-int Customer::c_no = 0;
-//int Staff::ticket_ID = 1000;
+
 
 void main_screen()
 {
