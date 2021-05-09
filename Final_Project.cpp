@@ -566,19 +566,7 @@ void signup()
         getline(cin, u);
         fflush(stdin);
         cout << "Enter password: ";
-    
-        while(true){
-            c = _getch();
-            if(c==13){
-                break;
-            }
-            else if(c=='\b'){
-                p.pop_back();
-                continue;
-            }
-            p.push_back(c);
-            cout<<"x";
-        }
+        getline(cin,p);
         fflush(stdin);
         *username = u;
         *password = p;
@@ -1241,47 +1229,50 @@ void main_screen()
         a.menu();
         
     }
-    else if (choice == 2)
+        else if (choice == 2)
     {
         int c;
         Staff s;
         s.menu();
+        int c;
         cin>>c;
         if(c==1){
             s.signup();
-            fstream fp;
-            fp.open("staff.dat", ios::binary|ios::app);
-            fp.write((char*)&s, sizeof(s));
-            fp.close();
-            system("cls");
-            cout<<"\nSIGN UP SUCCESSFUL\n";
+            fstream f;
+            f.open("staff.dat",ios::binary | ios::app);
+            f.write((char *)&s,sizeof(s));
+            f.close();
+            system("CLS");
+            cout<<endl<<"SIGN UP SUCCESSFUL"<<endl;
             s.menu();
         }
         else if(c==2){
             string u,p;
-            s.signin(&u, &p);
-            fstream fp;
-            fp.open("customer.dat", ios::binary|ios::in);
+            s.signin(&u , &p);
+            fstream f;
+            f.open("staff.dat",ios::binary | ios::in);
             while(1){
-                fp.read((char*)&c, sizeof(c));
-                if(s.get_username()==u&&s.get_password()==p){
+                f.read((char*)&s, sizeof(s));
+                if(s.get_username()==u && s.get_password()==p){
                     system("cls");
                     cout<<"\nSIGN IN SUCCESSFUL\n";
                     s.staff_menu();
                     break;
                 }
-                else if(fp.eof()){
+                else if(f.eof()){
                     system("cls");
-                    cout<<"\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
+                    cout<<"\nWRONG USERNAME OR PASSWORD"<<endl<<"TRY AGAIN"<<endl;
                     s.signin(&u,&p);
                 }
             }
-            fp.close();
+            f.close();
         }
-        else{
+        else if(c==3){
             exit(0);
         }
-   
+        else{
+            exit(1);
+        }
     }
     else if (choice == 3)
     {
