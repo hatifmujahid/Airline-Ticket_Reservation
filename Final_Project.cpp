@@ -106,7 +106,8 @@ class Airline : virtual public Person // mohtada
 protected:
     string name;
     int no_of_planes, rating;
-    string user,pass;
+    string user, pass;
+
 public:
     string get_name()
     {
@@ -166,28 +167,15 @@ public:
     }
 
     friend void showAirlines();
-    void airline_menu() {
-        cout<<"_____________________Airline Menu________________________________________";
+    void airline_menu()
+    {
+        cout << "_____________________Airline Menu________________________________________";
+    }
+    void output()
+    {
+        cout << name << " " << no_of_planes << " " << email;
     }
 };
-void showAirlines()
-{
-    Airline a1;
-    fstream fp;
-    fp.open("airline.dat", ios::in | ios::binary);
-    system("cls");
-    cout << "\nAirline name:  \tAirline rating: \tID: \tEmail: " << endl;
-    while(1){
-        fp.read((char*)&a1, sizeof(Airline));
-        if(fp.eof()){
-            break;
-        }
-        cout<<"\n"<<a1.name<<"\t"<<a1.rating<<"\t"<<a1.rating<<"\t"<<a1.email<<endl;
-    }
-    fp.close();
-    Sleep(5000);
-    a1.menu();
-}
 class Customer : virtual public Person // hatif
 {
 private:
@@ -667,7 +655,6 @@ public:
         int choice;
         loading_screen();
         cout << "List of airlines: ";
-        showAirlines();
         cout << "Enter ID of the Airline choosen: ";
         cin >> choice;
         reading(choice);
@@ -1257,7 +1244,7 @@ void main_screen()
     int choice;
     cout << "Enter your choice: ";
     cin >> choice;
-    if (choice == 1)//admin
+    if (choice == 1) //admin
     {
         system("cls");
         Admin a;
@@ -1311,7 +1298,7 @@ void main_screen()
             }
         }
     }
-    else if (choice == 2)//staff
+    else if (choice == 2) //staff
     {
         int c;
         Staff s;
@@ -1367,7 +1354,7 @@ void main_screen()
             }
         }
     }
-    else if (choice == 3)//customer
+    else if (choice == 3) //customer
     {
         Customer c;
         while (1)
@@ -1425,7 +1412,7 @@ void main_screen()
             }
         }
     }
-    else if (choice == 4)//airline
+    else if (choice == 4) //airline
     {
         Airline a1;
         while (1)
@@ -1474,22 +1461,23 @@ void main_screen()
             }
             else if (choice == 3)
             {
-                Airline a1;
+
                 fstream fp;
-                fp.open("airline.dat", ios::binary|ios::in);
+                fp.open("airline.dat", ios::binary | ios::in);
                 system("cls");
                 cout << "\nAirline name:  \tAirline rating: \tID: \tEmail: " << endl;
-                while(1){
-                    fp.read((char*)&a1, sizeof(Airline));
-                    if(fp.eof()){
+                while (1)
+                {
+                    fp.read((char *)&a1, sizeof(Airline));
+                    if (fp.eof())
+                    {
                         break;
                     }
-                    cout<<"\n"<<a1.get_name()<<"\t"<<a1.get_rating()<<"\t"<<a1.get_ID()<<"\t"<<a1.get_email()<<endl;
+                    a1.output();
                 }
                 fp.close();
                 Sleep(5000);
                 a1.menu();
-
             }
             else
             {
@@ -1497,7 +1485,7 @@ void main_screen()
             }
         }
     }
-    else if (choice == 5)//special customer
+    else if (choice == 5) //special customer
     {
         Special_customer s;
         s.menu();
@@ -1546,7 +1534,7 @@ void main_screen()
             exit(0);
         }
     }
-    else if (choice == 6)//booking
+    else if (choice == 6) //booking
     {
         Booking b;
         b.menu();
