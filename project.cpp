@@ -1415,33 +1415,6 @@ void main_screen()
             }
             else if (choice == 2)
             {
-                string u, p;
-                a1.signin(&u, &p);
-                fstream fp;
-                fp.open("airline.dat", ios::binary | ios::in);
-                while (1)
-                {
-                    fp.read((char *)&a1, sizeof(Airline));
-                    if (a1.get_username() == u && a1.get_password() == p)
-                    {
-                        system("cls");
-                        cout << "\nSIGN IN SUCCESSFUL\n";
-                        Sleep(5000);
-                        a1.airline_menu();
-                        fp.close();
-                        break;
-                    }
-                    else if (fp.eof())
-                    {
-                        system("cls");
-                        cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN\n\n";
-                        a1.signin(&u, &p);
-                    }
-                }
-                fp.close();
-            }
-            else if (choice == 3)
-            {
                 
                 fstream fp;
                 fp.open("airline.dat",ios::binary | ios::in);
@@ -1461,9 +1434,12 @@ void main_screen()
                 system("PAUSE");
                 a1.menu();
             }
+            else if(choice == 3){
+                exit(0);
+            }
             else
             {
-                exit(0);
+                exit(1);
             }
         }
     }
