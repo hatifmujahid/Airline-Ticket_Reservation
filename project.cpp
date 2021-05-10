@@ -638,6 +638,7 @@ class Ticket : public Booking //printing ticket //mohtada
 public:
     void menu()
     {
+        system("cls");
         cout << "\nProcessing ticket";
         Sleep(500);
         cout << ".";
@@ -652,7 +653,7 @@ public:
     void printticket()
     {
         int choice;
-        cout << "\nEnter ID of the ticket to be printed: ";
+        cout << "\n\nEnter ID of the ticket to be printed: ";
         cin >> choice;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
@@ -673,6 +674,19 @@ public:
         cout << "----------------------------------------------------------------------------------------------\n";
         cout << "                                         Ticket\n";
         cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
+        Sleep(1000);
+        cout<<"Do you want to end program?\n1) Yes\n2)No\n";
+        cin>>choice;
+        switch (choice)
+        {
+        case 1:
+            exit(1);
+            break;
+        case 2:
+            break;
+        default:
+            break;
+        }
     }
 };
 void Booking::n_booking(Customer a)
@@ -1084,23 +1098,23 @@ void Special_customer::check_flight()
 void Customer::customer_menu(int *a)
 {
     k:
-    cout << "------------------------------------------Customer Main Menu----------------------------\n\n";
+    cout << "----------------------------Customer Main Menu----------------------------\n\n";
     cout << "\n\t1. Refund Booking\n\t2. Book a flight\n\t3. Book a Holiday Package\n";
-    int choice;
+    int choice, c;
     cin >> choice;
-    *a =choice;
     if (choice == 1)
     {
-        
+        *a=choice;
     }
     else if (choice == 2)
     {
+        *a=choice;
     }
     else
     {
         cout << "Wrong choice: \nDo you wanna end the program?\n1) Yes\n2) No";
-        cin >> choice;
-        switch (choice)
+        cin >> c;
+        switch (c)
         {
         case 1:
             exit(0);
@@ -1375,7 +1389,7 @@ void main_screen()
                 fp.open("customer.dat", ios::binary | ios::in);
                 while (1)
                 {   
-                    int a;
+                    int a=0;
                     fp.read((char *)&c, sizeof(c));
                     if (c.get_username() == u && c.get_password() == p)
                     {
@@ -1384,8 +1398,11 @@ void main_screen()
                         Sleep(1000);
                         system("cls");
                         c.customer_menu(&a);
-                        
-                        if(a == 2){
+                        if(a==1){
+                            Staff s;
+                            s.refund();
+                        }
+                        else if(a == 2){
                             Booking b;
                             b.n_booking(c);
                         }break;
