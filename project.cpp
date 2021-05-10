@@ -203,45 +203,8 @@ public:
         *user = u;
         *pass = p;
     }
-    void customer_menu()
-    {
-        cout << "------------------------------------------Customer Main Menu----------------------------\n\n";
-        cout << "\n\t1. Refund Booking\n\t2. Book a flight\n\t3. Check flight status\n\t4. Book a Holiday Package";
-        int choice;
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            refund();
-            break;
-        case 2:
-            book_flight();
-            break;
-        case 3:
-            check_flight();
-            break;
-        case 4:
+    void customer_menu();
 
-            break;
-        default:
-            cout << "Wrong choice: \nDo you wanna end the program?\n1) Yes\n2) No";
-            cin >> choice;
-            switch (choice)
-            {
-            case 1:
-                exit(0);
-            case 2:
-                customer_menu();
-                break;
-            default:
-                break;
-            }
-            break;
-        }
-    }
-    void check_flight();
-    void book_flight();
-    void refund();
 };
 class HolidayPackage : virtual public Person, public Customer
 {
@@ -582,17 +545,22 @@ public:
         return f_name;
     }
 };
-class Booking : public Airline, public Customer //mohtada
+class Booking: virtual public Customer//mohtada
 {
     Airline a1;
-    int ticket_ID;
+    
+protected:
+int ticket_ID;
     string c_name, c_email, c_airline;
     int c_id;
     float price;
     float prices[3] = {4000, 10000, 15000};
 
-protected:
 public:
+    static int count;
+    Booking(){
+        count++;
+    }
     const int get_ticket_id()
     {
         return ticket_ID;
@@ -613,13 +581,12 @@ public:
     {
         return price;
     }
-    void get_data()
-    {
+    void n_booking(){
+        Airline a1;
         int i;
         c_name = get_fname();
-        c_id = get_ID();
+        c_id = count;
         c_email = get_email();
-        c_airline = Airline::get_name();
         srand((unsigned)time(0)); //random price generator
         i = (rand() % 3);
         price = prices[i];
@@ -627,43 +594,57 @@ public:
         {
             price = price * 0.85;
         }
-    }
-    void menu();
-    void book_tickets()
-    {
-        Booking a;
-        int choice;
-        loading_screen();
         cout << "List of airlines: ";
-        cout << "Enter ID of the Airline choosen: ";
-        cin >> choice;
-        reading(choice);
-        get_data();
-        fstream fp("ticket.dat", ios::app | ios::binary);
-        fp.write((char *)&a, sizeof(a));
-        fp.close();
-        menu();
+            fstream fp;
+            fp.open("airline.dat",ios::binary | ios::in);
+            cout << "\nAirline name:  \tAirline rating: \tID: \tEmail: "<< endl;
+            while(1){
+                fp.read((char *)&a1, sizeof(a1));
+                if (fp.eof())
+                {
+                break;
+                }
+                else
+                {
+                    cout << a1.get_name() << "\t"<<a1.get_rating()<<"\t" << a1.get_ID() << "\t" << a1.get_email() << endl;
+                }
+            }
+            fp.close();
+            int choice;
+            cout << "Enter ID of the Airline choosen: ";
+            cin >> choice;
+            fstream fpt("airline.dat", ios::in | ios::binary);
+            while (1)
+            {
+                fpt.read((char *)&a1, sizeof(Airline));
+                if (a1.get_ID() == choice)
+                {
+                    break;
+                }
+                else if (fpt.eof())
+                {
+                    cout << "\nChoice not found\n";
+                    break;
+                }
+            }
+            fpt.close();
+            c_airline=a1.get_name();
+            file();
     }
-    void reading(int c)
-    {
-        Airline a1;
-        fstream fpt("airline.dat", ios::in | ios::binary);
-        while (1)
-        {
-            fpt.read((char *)&a1, sizeof(Airline));
-            if (a1.get_ID() == c)
-            {
-                break;
-            }
-            else if (fpt.eof())
-            {
-                cout << "\nChoice not found\n";
-                break;
-            }
-        }
-        fpt.close();
+    void s_booking();
+    void file(){
+        fstream fp;
+        fp.open("ticket.txt", ios::app);
+        fp<<c_name<<" "<<c_email<<" "<<c_airline<<" "<<c_id<<" "<<price<<endl;
+        fp.close();
+        cout<<"Ticket is generated.\nID: "<<c_id;
     }
 };
+void Booking::s_booking(){
+
+}
+int Booking::count = 1000;
+   
 
 class Ticket : public Booking //printing ticket //mohtada
 {
@@ -686,49 +667,24 @@ public:
         int choice;
         cout << "Enter ID of the ticket to be printed: ";
         cin >> choice;
-        Booking t;
         fstream fpt;
-        fpt.open("ticket.dat", ios::in | ios::binary);
+        fpt.open("ticket.txt", ios::in);
         while (1)
         {
-            fpt.read((char *)&t, sizeof(Ticket));
-            if (t.get_ticket_id() == choice)
-            {
-                system("cls");
-                cout << "\n\t\t\t\t\t\t\t\t\t\t\tTICKET ";
-                cout << "\tName\tEmail\tAirline\tPrice";
-                cout << "\t" << get_c_name() << "\t" << get_c_email() << "\t" << get_c_airline() << "\t" << get_price();
+            fpt>>c_name>>c_email>>c_airline>>c_id>>price;
+            fpt.close();
+            if(c_id==choice){
                 break;
-            }
-            else if (fpt.eof())
-            {
-                cout << "Wrong ID";
-                printticket();
-            }
+            }   
         }
+        loading_screen();
+        cout<<"----------------------------------------------------------------------------------------------\n";
+        cout<<"                                         Ticket\n";
+        cout<<"\nCustomer Name: "<<c_name<<"\nCustomer Email: "<<c_email<<"\nChoosen Airline: "<<c_airline<<"\nPrice: "<<price<<endl;
+
     }
 };
-void Booking::menu()
-{
 
-    cout << "___________________________MENU BOOKING_______________________________\n ";
-    cout << "\t1) Book a ticket\t2) Print a ticket\t3) Exit\n";
-    int choice;
-    cin >> choice;
-    if (choice == 1)
-    {
-        book_tickets();
-    }
-    else if (choice == 2)
-    {
-        Ticket t;
-        t.menu();
-    }
-    else
-    {
-        exit(0);
-    }
-}
 class Staff : virtual public Person //maarij
 {
 private:
@@ -1084,52 +1040,70 @@ void Admin::delete_customer()
 }
 void Special_customer::book_flight()
 {
-    Booking b;
-    b.get_data();
-    b.menu();
-    s_customer_menu();
+
 }
 void Special_customer::check_flight()
 {
-    Customer c;
+    Special_customer c;
     c.check_flight();
-    s_customer_menu();
+    c.s_customer_menu();
 }
-
-void Customer::book_flight()
-{
-    Booking a;
-    a.menu();
-    Customer::menu();
-}
-void Customer::check_flight()
-{
-    int c;
-    cout << "Enter ticket ID" << endl;
-    cin >> c;
-    Booking b;
-    fstream fpt;
-    fpt.open("ticket.dat", ios::in | ios::binary);
-    while (1)
+void Customer::customer_menu()
     {
-        fpt.read((char *)&b, sizeof(Ticket));
-        if (b.get_ticket_id() == c)
+        cout << "------------------------------------------Customer Main Menu----------------------------\n\n";
+        cout << "\n\t1. Refund Booking\n\t2. Book a flight\n\t3. Book a Holiday Package\n";
+        int choice;
+        cin >> choice;
+        if(choice==1)
         {
-            cout << "FLIGHT ON TIME" << endl;
-        }
-        else if (fpt.eof())
-        {
-            cout << "Wrong ID";
-            check_flight();
+            //refund();
+        }else if(choice== 2){
+            Booking b;
+            b.n_booking();
+        }else{
+            cout << "Wrong choice: \nDo you wanna end the program?\n1) Yes\n2) No";
+            cin >> choice;
+            switch (choice)
+            {
+            case 1:
+                exit(0);
+            case 2:
+                customer_menu();
+                break;
+            default:
+                break;
+            }
         }
     }
-}
-void Customer::refund()
-{
-    loading_screen();
-    cout << "Contact Agency or Staff for further Information" << endl;
-    cout << "TOLL-FREE : 0800-1006859" << endl;
-}
+
+// void Customer::check_flight()
+// {
+//     int c;
+//     cout << "Enter ticket ID" << endl;
+//     cin >> c;
+//     Booking b;
+//     fstream fpt;
+//     fpt.open("ticket.dat", ios::in | ios::binary);
+//     while (1)
+//     {
+//         fpt.read((char *)&b, sizeof(Ticket));
+//         if (b.get_ticket_id() == c)
+//         {
+//             cout << "FLIGHT ON TIME" << endl;
+//         }
+//         else if (fpt.eof())
+//         {
+//             cout << "Wrong ID";
+//             check_flight();
+//         }
+//     }
+// }
+// void Customer::refund()
+// {
+//     loading_screen();
+//     cout << "Contact Agency or Staff for further Information" << endl;
+//     cout << "TOLL-FREE : 0800-1006859" << endl;
+// }
 class Payment : protected Booking
 {
     string bank;
@@ -1139,7 +1113,7 @@ class Payment : protected Booking
 public:
     void menu()
     {
-        cout << "How do you want to pay for your flight MR." << get_fname() << " " << get_lname() << ": ";
+        cout << "How do you want to pay for your flight MR." << get_c_name() << ": ";
         cout << "\n	1) Card Payment\n	2) Online Banking";
         int choice;
         cout << "\n\n\tEnter your choice: ";
@@ -1428,7 +1402,7 @@ void main_screen()
                     }
                     else
                     {
-                        cout << "\t" << a1.get_name() << "\t" << a1.get_ID() << "\t" << a1.get_planes() << "\t" << a1.get_email() << "\t" << a1.get_rating() << endl;
+                        cout << a1.get_name() << "\t" << a1.get_ID() << "\t" << a1.get_email() << "\t" << a1.get_rating() << endl;
                     }
                 }
                 system("PAUSE");
@@ -1494,8 +1468,7 @@ void main_screen()
     }
     else if (choice == 6) //booking
     {
-        Booking b;
-        b.menu();
+
     }
     else if (choice == 7)
     {
