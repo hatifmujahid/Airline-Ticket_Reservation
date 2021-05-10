@@ -162,7 +162,7 @@ public:
                 "\tEmail: "
              << endl;
         while (1)
-        {
+        {   fp.read((char *)&a, sizeof(Airline));
             if (fp.eof())
             {
                 break;
@@ -173,9 +173,7 @@ public:
             }
         }
     }
-    void airline_menu()
-    {
-    }
+    void airline_menu(){}
 };
 class Customer : virtual public Person // hatif
 {
@@ -672,8 +670,8 @@ class Booking : public Airline, public Customer //mohtada
     int ticket_ID;
     string c_name, c_email, c_airline;
     int c_id;
-    int price;
-    int prices[3]={4000,10000,15000};
+    float price;
+    float prices[3]={4000,10000,15000};
 protected:
 
 public:
@@ -704,12 +702,12 @@ public:
         srand((unsigned)time(0)); //random price generator
         i= (rand() % 3);
         price = prices[i];
+        if(is_special==true){
+            price = price*0.85;
+        }
 
     }
-    void menu()
-    {
-        cout << "___________________________MENU BOOKING_______________________________\n ";
-    }
+    void menu();
     void book_tickets()
     {
         Booking a;
@@ -720,13 +718,15 @@ public:
         cout << "Enter ID of the Airline choosen: ";
         cin >> choice;
         reading(choice);
-        ofstream fp("ticket.dat", ios::app | ios::binary);
+        fstream fp("ticket.dat", ios::app | ios::binary);
         fp.write((char *)&a, sizeof(a));
         fp.close();
+        menu();
     }
     void reading(int c)
     {
-        ifstream fpt("airline.dat", ios::in | ios::binary);
+        Airline a1;
+        fstream fpt("airline.dat", ios::in | ios::binary);
         while (1)
         {
             fpt.read((char *)&a1, sizeof(Airline));
@@ -743,12 +743,12 @@ public:
         fpt.close();
     }
 };
+
 class Ticket : protected Booking //printing ticket //mohtada
 {
 public:
     void menu()
     {
-        
         cout << "\nProcessing ticket";
         Sleep(500);
         cout << ".";
@@ -762,8 +762,48 @@ public:
     }
     void printticket()
     {
+        int choice;
+        cout<<"Enter ID of the ticket to be printed: ";
+        cin>>choice;
+        Booking t;
+        fstream fpt;
+        fpt.open("ticket.dat", ios::in|ios::binary);
+        while(1){
+            fpt.read((char*)&t, sizeof(Ticket));
+            if(t.get_ticket_id()==choice){
+                system("cls");
+                cout<<"\n\t\t\t\t\t\t\t\t\t\t\tTICKET ";
+                cout<<"\tName\tEmail\tAirline\tPrice";
+                cout<<"\t"<<get_c_name()<<"\t"<<get_c_email()<<"\t"<<get_c_airline()<<"\t"<<get_price();
+                break;
+            }
+            else if(fpt.eof()){
+                cout<<"Wrong ID";
+                printticket();
+            }
+        }
+       
     }
 };
+void Booking::menu(){
+    
+    cout << "___________________________MENU BOOKING_______________________________\n ";
+    cout<<"\t1) Book a ticket\t2) Print a ticket\t3) Exit\n";
+    int choice;
+    cin>>choice;
+    if (choice==1)
+    {
+        book_tickets();
+    }
+    else if(choice==2){
+        Ticket t;
+        t.menu();
+    }
+    else{
+        exit(0);
+    } 
+    
+}
 class Staff : virtual public Person //maarij
 {
 private:
