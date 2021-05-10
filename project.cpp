@@ -220,6 +220,9 @@ public:
         cout << "\n\t\tWelcome to the customer Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
     }
+    void output(){
+        cout<<f_name<<" "<<l_name;
+    }
     void signup()
     {
         system("cls");
@@ -246,7 +249,7 @@ public:
         *user = u;
         *pass = p;
     }
-    void customer_menu();
+    void customer_menu(int *a);
 };
 class HolidayPackage : virtual public Person, public Customer
 {
@@ -626,7 +629,7 @@ public:
     {
         return price;
     }
-    void n_booking();
+    void n_booking(Customer a);
     void s_booking();
 };
 
@@ -672,13 +675,14 @@ public:
         cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
     }
 };
-void Booking::n_booking()
+void Booking::n_booking(Customer a)
 {
+    
     int i;
-    cout << get_fname();
+    c_name= a.get_fname();
     cout << "Enter ticket ID: ";
     cin >> ticket_ID;
-    c_email = get_email();
+    c_email = a.get_email();
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
     price = prices[i];
@@ -1077,20 +1081,20 @@ void Special_customer::check_flight()
     c.check_flight();
     c.s_customer_menu();
 }
-void Customer::customer_menu()
+void Customer::customer_menu(int *a)
 {
+    k:
     cout << "------------------------------------------Customer Main Menu----------------------------\n\n";
     cout << "\n\t1. Refund Booking\n\t2. Book a flight\n\t3. Book a Holiday Package\n";
     int choice;
     cin >> choice;
+    *a =choice;
     if (choice == 1)
     {
-        //refund();
+        
     }
     else if (choice == 2)
     {
-        Booking b;
-        b.n_booking();
     }
     else
     {
@@ -1101,7 +1105,7 @@ void Customer::customer_menu()
         case 1:
             exit(0);
         case 2:
-            customer_menu();
+            goto k;
             break;
         default:
             break;
@@ -1370,7 +1374,8 @@ void main_screen()
                 fstream fp;
                 fp.open("customer.dat", ios::binary | ios::in);
                 while (1)
-                {
+                {   
+                    int a;
                     fp.read((char *)&c, sizeof(c));
                     if (c.get_username() == u && c.get_password() == p)
                     {
@@ -1378,8 +1383,12 @@ void main_screen()
                         cout << "\nSIGN IN SUCCESSFUL\n";
                         Sleep(1000);
                         system("cls");
-                        c.customer_menu();
-                        break;
+                        c.customer_menu(&a);
+                        
+                        if(a == 2){
+                            Booking b;
+                            b.n_booking(c);
+                        }break;
                     }
                     else if (fp.eof())
                     {
