@@ -681,7 +681,7 @@ public:
     }
 };
 
-class Ticket : protected Booking //printing ticket //mohtada
+class Ticket : public Booking //printing ticket //mohtada
 {
 public:
     void menu()
