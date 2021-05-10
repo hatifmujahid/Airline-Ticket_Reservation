@@ -15,7 +15,7 @@ void loading_screen()
 {
     cout << "\n\n\t\t\t\t\t ";
     printf("%c", 219);
-    for (int a = 1; a < 70; a++)
+    for (int a = 1; a < 50; a++)
     {
         Sleep(20);
         printf("%c", 219);
@@ -136,17 +136,17 @@ public:
         cout << "\n\t\tWelcome to the Airline Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)Show all airlines\n";
     }
-    void signup() //inherit karwalo
+    void signup() 
     {
         fflush(stdin);
+        Person::signup();
+        srand((unsigned)time(0)); //random rating generator
+        rating = 1 + (rand() % 6);
         cout << "Enter name of airline: ";
         getline(cin, name);
         fflush(stdin);
         cout << "Enter no of planes in the fleet: ";
         cin >> no_of_planes;
-        Person::signup();
-        srand((unsigned)time(0)); //random rating generator
-        rating = 1 + (rand() % 6);
     }
     void signin(string *u, string *p)
     {
@@ -1001,14 +1001,14 @@ public:
         cout << "\t\t\t\t\tADMIN LIST";
         cout << "\nFirst name:  \tLast name: "
                 "\tID: "
-                "\tEmail: "
+                "\t\tEmail: "
              << endl;
         while (1)
         {
             if (!fp.eof())
             {
                 fp.read((char *)&a, sizeof(a));
-                cout << "\t" << a.get_fname() << "\t" << a.get_lname() << "\t" << a.get_ID() << "\t" << a.get_email() << endl;
+                cout << a.get_fname() << "\t\t" << a.get_lname() << "\t\t" << a.get_ID() << "\t\t" << a.get_email() << endl;
             }
             else
             {
@@ -1024,11 +1024,11 @@ void Admin::delete_airline()
     cout << "Enter ID of the Airline you want to delete: ";
     cin >> ID;
     loading_screen();
-    ifstream original("airline.dat", ios::out | ios::binary);
-    ofstream new_file("new.dat", ios::in | ios::binary);
-    original.read((char *)&a, sizeof(Airline));
+    fstream original("airline.dat", ios::in | ios::binary);
+    fstream new_file("new.dat", ios::out | ios::binary);
     while (1)
-    {
+    {   
+        original.read((char *)&a, sizeof(Airline));
         if (a.get_ID() != ID)
         {
             new_file.write((char *)&a, sizeof(Airline));
@@ -1038,6 +1038,7 @@ void Admin::delete_airline()
     original.close();
     remove("airline.dat");
     rename("new.dat", "airline.dat");
+    admin_menu();
 }
 void Admin::delete_staff()
 {
@@ -1046,20 +1047,26 @@ void Admin::delete_staff()
     cout << "Enter ID of the Staff you want to delete: ";
     cin >> ID;
     loading_screen();
-    ifstream original("staff.dat", ios::out | ios::binary);
-    ofstream new_file("new.dat", ios::in | ios::binary);
-    original.read((char *)&a, sizeof(Staff));
+    fstream original("staff.dat", ios::in | ios::binary);
+    fstream new_file("new.dat", ios::out | ios::binary);
     while (1)
     {
-        if (a.ID != ID)
+        original.read((char *)&a, sizeof(Staff));
+        if(original.eof()){
+            cout<<"ID not found!";
+            break;
+        }
+        if (a.get_ID() != ID)
         {
             new_file.write((char *)&a, sizeof(Staff));
         }
+        
     }
     new_file.close();
     original.close();
     remove("staff.dat");
     rename("new.dat", "staff.dat");
+    admin_menu();
 }
 void Admin::delete_customer()
 {
@@ -1068,11 +1075,15 @@ void Admin::delete_customer()
     cout << "Enter ID of the customer you want to delete: ";
     cin >> ID;
     loading_screen();
-    ifstream original("customer.dat", ios::out | ios::binary);
-    ofstream new_file("new.dat", ios::in | ios::binary);
-    original.read((char *)&a, sizeof(Customer));
+    fstream original("customer.dat", ios::in | ios::binary);
+    fstream new_file("new.dat", ios::out | ios::binary);
     while (1)
     {
+        original.read((char *)&a, sizeof(Customer));
+        if(original.eof()){
+            cout<<"ID not found!";
+            break;
+        }
         if (a.get_ID() != ID)
         {
             new_file.write((char *)&a, sizeof(Customer));
@@ -1082,6 +1093,7 @@ void Admin::delete_customer()
     original.close();
     remove("customer.dat");
     rename("new.dat", "customer.dat");
+    admin_menu();
 }
 
 void Customer::book_flight()
@@ -1209,6 +1221,7 @@ void main_screen()
                 fp.open("admin.dat", ios::binary | ios::app);
                 fp.write((char *)&a, sizeof(a));
                 fp.close();
+                system("cls");
                 cout << "\n\n\t\tSIGN UP SUCCESSFUL\n";
             }
             else if (choice == 1)
