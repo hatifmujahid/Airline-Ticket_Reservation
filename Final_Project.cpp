@@ -878,7 +878,7 @@ public:
     void verify()
     {
         system("CLS");
-        Ticket t1;
+        Booking t1;
         int i;
         cout << "Enter Ticket ID" << endl;
         cin>>i;
@@ -1106,9 +1106,30 @@ void Customer::book_flight()
 }
 void Customer::check_flight()
 {
+    int c;
+        cout << "Enter ticket ID"<<endl;
+        cin >> c;
+        Booking b;
+        fstream fpt;
+        fpt.open("ticket.dat", ios::in | ios::binary);
+        while (1)
+        {
+            fpt.read((char *)&b, sizeof(Ticket));
+            if (b.get_ticket_id() == c){
+               cout<<"FLIGHT ON TIME"<<endl;
+            }
+            else if (fpt.eof())
+            {
+                cout << "Wrong ID";
+               check_flight();
+            }
+            
+}
 }
 void Customer::refund()
-{
+{   loading_screen();
+    cout<<"Contact Agency or Staff for further Information"<<endl;
+    cout<<"TOLL-FREE : 0800-1006859"<<endl;
 }
 class Payment : protected Booking
 {
