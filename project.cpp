@@ -138,7 +138,7 @@ public:
     {
         cout << "::::::::::::::::::::::::::::::::::AIRLINE MENU::::::::::::::::::::::::::::::::::\n";
         cout << "\n\t\tWelcome to the Airline Login/Logout menu!!";
-        cout << "\n1) Sign Up\n2) Sign in\n3)Show all airlines\n";
+        cout << "\n1) Register an Airline\n2) Show all airlines\n3) Exit";
     }
     void signup()
     {
@@ -153,26 +153,7 @@ public:
         cout << "Enter no of planes in the fleet: ";
         cin >> no_of_planes;
     }
-    void signin(string *u, string *p)
-    {
-        cout << "---------------------------------------Airline SIGN IN----------------------------------------------------\n\n";
-        char c;
-        fflush(stdin);
-        cout << "Enter username: ";
-        getline(cin, user);
-        fflush(stdin);
-        cout << "Enter password: ";
-        pass = inputmasking();
-        *u = user;
-        *p = pass;
-    }
 
-    void show_airlines();
-    void airline_menu()
-    {
-        cout << "_____________________Airline Menu________________________________________";
-    }
-    
 };
 
 class Customer : virtual public Person // hatif
@@ -1429,7 +1410,7 @@ void main_screen()
                 fp.write((char *)&a1, sizeof(Airline));
                 fp.close();
                 system("cls");
-                cout << "\nSIGN UP SUCCESSFUL\n";
+                cout << "\nAirline Reistered SUCCESSFULLY\n";
                 Sleep(500);
             }
             else if (choice == 2)
