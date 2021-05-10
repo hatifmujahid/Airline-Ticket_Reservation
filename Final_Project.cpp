@@ -533,24 +533,28 @@ public:
     {
         int c;
         cout << "_______________SPECIAL CUSTOMER MENU_________________" << endl;
-        cout << "1.Refund Booking\t\t2.Book a flight\t\t3.Check flight status\t\t4.Book a Holiday Package" << endl;
+        cout << "1.Refund Booking\t\t2.Book a flight\t\t3.Check flight status\t\t4.Book a Holiday Package\t\t0.Exit To Main" << endl;
         cin >> c;
         if (c == 1)
         {
             b_refund();
         }
         else if (c == 2)
-        {
-            s_customer_menu();
+        {   book_flight();
+
         }
         else if (c == 3)
-        {
-            s_customer_menu();
+        {   check_flight();
+        
         }
         else if (c == 4)
         {
             HolidayPackage h;
             h.menu();
+            s_customer_menu();
+        }
+        else if(c==0){
+            menu();
         }
     }
     void b_refund()
@@ -596,6 +600,15 @@ public:
             remove("packages.txt");
             rename("new.txt", "packages.txt");
         }
+
+        else if(choice==2){
+            cout<<"Normal Tickets are Non-Refundable at the moment"<<endl;
+        }
+    }
+    void check_flight();
+    void book_flight();
+    string get_fname(){
+        return f_name;
     }
 };
 class Booking : public Airline, public Customer //mohtada
@@ -1096,6 +1109,17 @@ void Admin::delete_customer()
     remove("customer.dat");
     rename("new.dat", "customer.dat");
     admin_menu();
+}
+void Special_customer::book_flight(){
+	Booking b;
+	b.get_sdata();
+	b.menu();
+	s_customer_menu();
+}
+void Special_customer::check_flight(){
+	Customer c;
+	c.check_flight();
+	s_customer_menu();
 }
 
 void Customer::book_flight()
