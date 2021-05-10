@@ -23,32 +23,35 @@ void loading_screen()
     Sleep(30);
     system("cls");
 }
-string inputmasking(){
-				char c;
-				string password;
-				
-				
-				while (1)
-				{	
-				
-					c=getch();
-					if (c!='\b'&&c!=13){
-						password.push_back(c);
-						putch('*');
-					}
-					else if(c=='\b'){
-						if(password.size()!=0){
-							password.erase(password.size()-1);
-							cout<<"\b \b";
-					
-					}
-			}
-					else if (c==13){
-						break;
-					}
-				}
-				return password;	
-		}
+string inputmasking()
+{
+    char c;
+    string password;
+
+    while (1)
+    {
+
+        c = getch();
+        if (c != '\b' && c != 13)
+        {
+            password.push_back(c);
+            putch('*');
+        }
+        else if (c == '\b')
+        {
+            if (password.size() != 0)
+            {
+                password.erase(password.size() - 1);
+                cout << "\b \b";
+            }
+        }
+        else if (c == 13)
+        {
+            break;
+        }
+    }
+    return password;
+}
 class ui //user interface class
 {
 public:
@@ -136,7 +139,7 @@ public:
         cout << "\n\t\tWelcome to the Airline Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)Show all airlines\n";
     }
-    void signup() 
+    void signup()
     {
         fflush(stdin);
         Person::signup();
@@ -162,31 +165,32 @@ public:
         *p = sign_p;
     }
 
-    void showAirlines()
-    {
-        Airline a;
-        fstream fp("airline.dat", ios::in | ios::binary);
-        fp.read((char *)&a, sizeof(Airline));
-        system("cls");
-        cout << "\nAirline name:  \tAirline rating: "
-                "\tID: "
-                "\tEmail: "
-             << endl;
-        while (1)
-        {
-            fp.read((char *)&a, sizeof(Airline));
-            if (fp.eof())
-            {
-                break;
-            }
-            else
-            {
-                cout << "\t" << a.get_name() << "\t" << a.get_ID() << "\t" << a.get_planes() << "\t" << a.get_email() << "\t" << a.get_rating() << endl;
-            }
-        }
-    }
+    void showAirlines();
     void airline_menu() {}
 };
+void Airline::showAirlines()
+{
+    Airline a;
+    fstream fp("airline.dat", ios::in | ios::binary);
+    fp.read((char *)&a, sizeof(Airline));
+    system("cls");
+    cout << "\nAirline name:  \tAirline rating: "
+            "\tID: "
+            "\tEmail: "
+         << endl;
+    while (1)
+    {
+        fp.read((char *)&a, sizeof(Airline));
+        if (fp.eof())
+        {
+            break;
+        }
+        else
+        {
+            cout << "\t" << a.get_name() << "\t" << a.get_ID() << "\t" << a.get_planes() << "\t" << a.get_email() << "\t" << a.get_rating() << endl;
+        }
+    }
+}
 class Customer : virtual public Person // hatif
 {
 private:
@@ -492,7 +496,6 @@ public:
     {
         cout << "\n\t\tWelcome to the Special customer Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
-       
     }
     void signup()
     {
@@ -881,13 +884,13 @@ public:
         Booking t1;
         int i;
         cout << "Enter Ticket ID" << endl;
-        cin>>i;
+        cin >> i;
         fstream fpt;
         fpt.open("ticket.dat", ios::in | ios::binary);
         while (1)
         {
             fpt.read((char *)&t1, sizeof(Ticket));
-            if (t1.get_ticket_id()==i)
+            if (t1.get_ticket_id() == i)
             {
                 Sleep(500);
                 loading_screen();
@@ -895,7 +898,7 @@ public:
                      << "ISSUE BOARDING PASS" << endl;
                 break;
             }
-        
+
             else if (fpt.eof())
             {
                 cout << "BOOKING UNAVAILABLE" << endl;
@@ -1029,7 +1032,7 @@ void Admin::delete_airline()
     fstream original("airline.dat", ios::in | ios::binary);
     fstream new_file("new.dat", ios::out | ios::binary);
     while (1)
-    {   
+    {
         original.read((char *)&a, sizeof(Airline));
         if (a.get_ID() != ID)
         {
@@ -1054,15 +1057,15 @@ void Admin::delete_staff()
     while (1)
     {
         original.read((char *)&a, sizeof(Staff));
-        if(original.eof()){
-            cout<<"ID not found!";
+        if (original.eof())
+        {
+            cout << "ID not found!";
             break;
         }
         if (a.get_ID() != ID)
         {
             new_file.write((char *)&a, sizeof(Staff));
         }
-        
     }
     new_file.close();
     original.close();
@@ -1082,8 +1085,9 @@ void Admin::delete_customer()
     while (1)
     {
         original.read((char *)&a, sizeof(Customer));
-        if(original.eof()){
-            cout<<"ID not found!";
+        if (original.eof())
+        {
+            cout << "ID not found!";
             break;
         }
         if (a.get_ID() != ID)
@@ -1107,29 +1111,30 @@ void Customer::book_flight()
 void Customer::check_flight()
 {
     int c;
-        cout << "Enter ticket ID"<<endl;
-        cin >> c;
-        Booking b;
-        fstream fpt;
-        fpt.open("ticket.dat", ios::in | ios::binary);
-        while (1)
+    cout << "Enter ticket ID" << endl;
+    cin >> c;
+    Booking b;
+    fstream fpt;
+    fpt.open("ticket.dat", ios::in | ios::binary);
+    while (1)
+    {
+        fpt.read((char *)&b, sizeof(Ticket));
+        if (b.get_ticket_id() == c)
         {
-            fpt.read((char *)&b, sizeof(Ticket));
-            if (b.get_ticket_id() == c){
-               cout<<"FLIGHT ON TIME"<<endl;
-            }
-            else if (fpt.eof())
-            {
-                cout << "Wrong ID";
-               check_flight();
-            }
-            
-}
+            cout << "FLIGHT ON TIME" << endl;
+        }
+        else if (fpt.eof())
+        {
+            cout << "Wrong ID";
+            check_flight();
+        }
+    }
 }
 void Customer::refund()
-{   loading_screen();
-    cout<<"Contact Agency or Staff for further Information"<<endl;
-    cout<<"TOLL-FREE : 0800-1006859"<<endl;
+{
+    loading_screen();
+    cout << "Contact Agency or Staff for further Information" << endl;
+    cout << "TOLL-FREE : 0800-1006859" << endl;
 }
 class Payment : protected Booking
 {
@@ -1449,7 +1454,8 @@ void main_screen()
             }
         }
     }
-    else if (choice == 5){
+    else if (choice == 5)
+    {
         Special_customer s;
         s.menu();
         int c;
@@ -1469,34 +1475,33 @@ void main_screen()
         else if (c == 2)
         {
             string u, p;
-                s.signin(&u, &p);
-                fstream fp;
-                fp.open("special_customer.dat", ios::binary | ios::in);
-                while (1)
+            s.signin(&u, &p);
+            fstream fp;
+            fp.open("special_customer.dat", ios::binary | ios::in);
+            while (1)
+            {
+                fp.read((char *)&s, sizeof(s));
+                if (s.get_username() == u && s.get_password() == p)
                 {
-                    fp.read((char *)&s, sizeof(s));
-                    if (s.get_username() == u && s.get_password() == p)
-                    {
-                        system("cls");
-                        cout << "\nSIGN IN SUCCESSFUL\n";
-                        s.s_customer_menu();
-                        break;
-                    }
-                    else if (fp.eof())
-                    {
-                        system("cls");
-                        cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
-                        s.signin(&u, &p);
-                    }
+                    system("cls");
+                    cout << "\nSIGN IN SUCCESSFUL\n";
+                    s.s_customer_menu();
+                    break;
                 }
-                fp.close();
+                else if (fp.eof())
+                {
+                    system("cls");
+                    cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
+                    s.signin(&u, &p);
+                }
             }
+            fp.close();
+        }
 
         else if (c == 3)
         {
             exit(0);
         }
-
     }
     else if (choice == 6)
     {
