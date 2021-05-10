@@ -112,19 +112,28 @@ public:
     }
     //maybe sign in function to be made for abstraction
 };
-class Airline : virtual public Person // mohtada
+class Airline // mohtada
 {
 protected:
-    string name;
+    string name, airline_email;
     int no_of_planes, rating;
-    string user, pass;
-
+    int airline_id;
 public:
+<<<<<<< HEAD
     Airline()
     {
         no_of_planes = 0;
         rating = 0;
     }
+=======
+    int get_airline_id(){
+        return airline_id;
+    }
+    string get_airline_email(){
+        return email;
+    }
+    Airline(){no_of_planes=0;rating=0;}
+>>>>>>> 9369718858ad83e8cf75fd66714d5ec787e03e4a
     string get_name()
     {
         return name;
@@ -160,15 +169,39 @@ public:
     void signup()
     {
         fflush(stdin);
-        Person::signup();
         srand((unsigned)time(0)); //random rating generator
         rating = 1 + (rand() % 6);
         fflush(stdin);
         cout << "Enter name of airline: ";
         getline(cin, name);
+        cout<<"Enter email: ";
+        getline(cin, email);
+        cout<<"Enter ID: ";
+        cin>>airline_id;
         fflush(stdin);
         cout << "Enter no of planes in the fleet: ";
         cin >> no_of_planes;
+        fstream fp;
+        fp.open("airline.txt", ios::app);
+        fp<<name<<" "<<email<<" "<<airline_id<<" "<<rating<<" "<<no_of_planes<<endl;
+        fp.close();
+        system("cls");
+        cout << "\nAirline Reistered SUCCESSFULLY\n";
+        Sleep(500);
+    }
+    void showAirlines(){        
+        fstream fp;
+        fp.open("airline.txt", ios::in);
+        while(1){
+            if(fp.eof()){
+                break;
+            }
+            fp>>name>>email>>airline_id>>rating>>no_of_planes;
+        }
+        fp.close();
+        system("cls");
+        cout << "\nAirline Reistered SUCCESSFULLY\n";
+        Sleep(500);
     }
 };
 
@@ -566,7 +599,11 @@ public:
         return f_name;
     }
 };
+<<<<<<< HEAD
 class Booking : virtual public Customer //mohtada
+=======
+class Booking: virtual public Customer, public Airline//mohtada
+>>>>>>> 9369718858ad83e8cf75fd66714d5ec787e03e4a
 {
     Airline a1;
 
@@ -604,11 +641,15 @@ public:
     {
         return price;
     }
+<<<<<<< HEAD
 
     //booking function. Shows available airlines saved in binary file
     void n_booking()
     {
         Airline a1;
+=======
+    void n_booking(){
+>>>>>>> 9369718858ad83e8cf75fd66714d5ec787e03e4a
         int i;
         c_name = get_fname();
         c_id = count;
@@ -621,6 +662,7 @@ public:
             price = price * 0.85;
         }
         cout << "List of airlines: ";
+<<<<<<< HEAD
         fstream fp;
         fp.open("airline.dat", ios::binary | ios::in);
         cout << "\nAirline name:  \tAirline rating: \tID: \tEmail: " << endl;
@@ -657,6 +699,25 @@ public:
         fpt.close();
         c_airline = a1.get_name();
         file();
+=======
+            a1.showAirlines();
+            int choice;
+            cout << "Enter ID of the Airline choosen: ";
+            cin >> choice;
+            fstream fp;
+            fp.open("airline.txt", ios::in);
+            while(1){
+                fp>>name>>Airline::email>>airline_id>>rating>>no_of_planes;
+                if(fp.eof()){
+                    break;
+                }
+                if(airline_id==choice){
+                    break;
+                }
+            }
+            fp.close();
+            c_airline=name;
+>>>>>>> 9369718858ad83e8cf75fd66714d5ec787e03e4a
     }
     void s_booking();
     void file()
@@ -668,10 +729,16 @@ public:
         cout << "Ticket is generated.\nID: " << c_id;
     }
 };
+<<<<<<< HEAD
 void Booking::s_booking()
 {
 }
 int Booking::count = 1000;
+=======
+
+
+   
+>>>>>>> 9369718858ad83e8cf75fd66714d5ec787e03e4a
 
 //Simple class to print tickets
 class Ticket : public Booking //printing ticket //mohtada
@@ -999,7 +1066,7 @@ void Admin::delete_airline()
     while (1)
     {
         original.read((char *)&a, sizeof(Airline));
-        if (a.get_ID() != ID)
+        if (a.get_airline_id() != ID)
         {
             new_file.write((char *)&a, sizeof(Airline));
         }
@@ -1223,8 +1290,12 @@ public:
         t.menu();
     }
 };
+<<<<<<< HEAD
 
 //Main menu. User is directed to this page and then redirected to their chosen feature.
+=======
+int Booking::count = 1000;
+>>>>>>> 9369718858ad83e8cf75fd66714d5ec787e03e4a
 void main_screen()
 {
     cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6)Book a ticket\n\t7) Print Ticket\n";
@@ -1412,16 +1483,10 @@ void main_screen()
             if (choice == 1)
             {
                 a1.signup();
-                fstream fp;
-                fp.open("airline.dat", ios::binary | ios::app);
-                fp.write((char *)&a1, sizeof(Airline));
-                fp.close();
-                system("cls");
-                cout << "\nAirline Reistered SUCCESSFULLY\n";
-                Sleep(500);
             }
             else if (choice == 2)
             {
+<<<<<<< HEAD
 
                 fstream fp;
                 fp.open("airline.dat", ios::binary | ios::in);
@@ -1441,6 +1506,9 @@ void main_screen()
                 }
                 system("PAUSE");
                 a1.menu();
+=======
+                a1.showAirlines();
+>>>>>>> 9369718858ad83e8cf75fd66714d5ec787e03e4a
             }
             else if (choice == 3)
             {
