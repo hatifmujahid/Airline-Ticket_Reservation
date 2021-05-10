@@ -168,7 +168,7 @@ public:
 
     void showAirlines();
     void airline_menu() {
-        cout<<"Airline Menu";
+        cout<<"_____________________Airline Menu________________________________________";
     }
 };
 void Airline::showAirlines()
@@ -182,7 +182,7 @@ void Airline::showAirlines()
         if(fp.eof()){
             break;
         }
-        cout<<a1.get_name()<<a1.get_email()<<a1.get_rating();
+        cout<<"\n"<<a1.name<<"\t"<<a1.rating<<"\t"<<a1.rating<<"\t"<<a1.email<<endl;
     }
     Sleep(5000);
     menu();
@@ -1457,6 +1457,7 @@ void main_screen()
                     {
                         system("cls");
                         cout << "\nSIGN IN SUCCESSFUL\n";
+                        Sleep(5000);
                         a1.airline_menu();
                         break;
                     }
