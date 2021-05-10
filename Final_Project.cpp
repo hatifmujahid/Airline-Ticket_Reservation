@@ -165,7 +165,7 @@ public:
     void showAirlines()
     {
         Airline a;
-        ifstream fp("airline.dat", ios::in | ios::binary);
+        fstream fp("airline.dat", ios::in | ios::binary);
         fp.read((char *)&a, sizeof(Airline));
         system("cls");
         cout << "\nAirline name:  \tAirline rating: "
@@ -1198,7 +1198,6 @@ public:
         t.menu();
     }
 };
-
 void main_screen()
 {
     cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6)Book a ticket\n\t7) Print Ticket\n";
