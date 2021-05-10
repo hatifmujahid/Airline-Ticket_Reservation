@@ -109,6 +109,7 @@ protected:
     string user, pass;
 
 public:
+    Airline(){no_of_planes=0;rating=0;}
     string get_name()
     {
         return name;
@@ -166,16 +167,14 @@ public:
         *p = pass;
     }
 
-    friend void showAirlines();
+    void show_airlines();
     void airline_menu()
     {
         cout << "_____________________Airline Menu________________________________________";
     }
-    void output()
-    {
-        cout << name << " " << no_of_planes << " " << email;
-    }
+    
 };
+
 class Customer : virtual public Person // hatif
 {
 private:
@@ -1448,6 +1447,7 @@ void main_screen()
                         cout << "\nSIGN IN SUCCESSFUL\n";
                         Sleep(5000);
                         a1.airline_menu();
+                        fp.close();
                         break;
                     }
                     else if (fp.eof())
@@ -1461,22 +1461,23 @@ void main_screen()
             }
             else if (choice == 3)
             {
-
+                
                 fstream fp;
-                fp.open("airline.dat", ios::binary | ios::in);
+                fp.open("airline.dat",ios::binary | ios::in);
                 system("cls");
-                cout << "\nAirline name:  \tAirline rating: \tID: \tEmail: " << endl;
-                while (1)
-                {
-                    fp.read((char *)&a1, sizeof(Airline));
+                cout << "\nAirline name:  \tAirline rating: \tID: \tEmail: "<< endl;
+                while(1){
+                    fp.read((char *)&a1, sizeof(a1));
                     if (fp.eof())
                     {
                         break;
                     }
-                    a1.output();
+                    else
+                    {
+                        cout << "\t" << a1.get_name() << "\t" << a1.get_ID() << "\t" << a1.get_planes() << "\t" << a1.get_email() << "\t" << a1.get_rating() << endl;
+                    }
                 }
-                fp.close();
-                Sleep(5000);
+                system("PAUSE");
                 a1.menu();
             }
             else
