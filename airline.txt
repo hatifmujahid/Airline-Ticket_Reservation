@@ -1,2 +1,0 @@
-PIA pia 1234 6 20
-Emirates emirates 4321 4 3000
