@@ -878,7 +878,7 @@ public:
     void verify()
     {
         system("CLS");
-        Booking b1;
+        Ticket t1;
         int i;
         cout << "Enter Ticket ID" << endl;
         cin>>i;
