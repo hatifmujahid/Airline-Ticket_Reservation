@@ -106,7 +106,7 @@ class Airline : virtual public Person // mohtada
 protected:
     string name;
     int no_of_planes, rating;
-    string sign_u, sign_p;
+    string user,pass;
 
 public:
     string get_name()
@@ -145,6 +145,7 @@ public:
         Person::signup();
         srand((unsigned)time(0)); //random rating generator
         rating = 1 + (rand() % 6);
+        fflush(stdin);
         cout << "Enter name of airline: ";
         getline(cin, name);
         fflush(stdin);
@@ -157,39 +158,34 @@ public:
         char c;
         fflush(stdin);
         cout << "Enter username: ";
-        getline(cin, sign_u);
+        getline(cin, user);
         fflush(stdin);
         cout << "Enter password: ";
-        sign_p = inputmasking();
-        *u = sign_u;
-        *p = sign_p;
+        pass = inputmasking();
+        *u = user;
+        *p = pass;
     }
 
     void showAirlines();
-    void airline_menu() {}
+    void airline_menu() {
+        cout<<"Airline Menu";
+    }
 };
 void Airline::showAirlines()
 {
-    Airline a;
+    Airline a1;
     fstream fp("airline.dat", ios::in | ios::binary);
-    fp.read((char *)&a, sizeof(Airline));
     system("cls");
-    cout << "\nAirline name:  \tAirline rating: "
-            "\tID: "
-            "\tEmail: "
-         << endl;
-    while (1)
-    {
-        fp.read((char *)&a, sizeof(Airline));
-        if (fp.eof())
-        {
+    cout << "\nAirline name:  \tAirline rating: \tID: \tEmail: " << endl;
+    while(1){
+        fp.read((char*)&a1, sizeof(Airline));
+        if(fp.eof()){
             break;
         }
-        else
-        {
-            cout << "\t" << a.get_name() << "\t" << a.get_ID() << "\t" << a.get_planes() << "\t" << a.get_email() << "\t" << a.get_rating() << endl;
-        }
+        cout<<a1.get_name()<<a1.get_email()<<a1.get_rating();
     }
+    Sleep(5000);
+    menu();
 }
 class Customer : virtual public Person // hatif
 {
@@ -543,12 +539,12 @@ public:
             b_refund();
         }
         else if (c == 2)
-        {   book_flight();
-
+        {
+            book_flight();
         }
         else if (c == 3)
-        {   check_flight();
-        
+        {
+            check_flight();
         }
         else if (c == 4)
         {
@@ -556,7 +552,8 @@ public:
             h.menu();
             s_customer_menu();
         }
-        else if(c==0){
+        else if (c == 0)
+        {
             menu();
         }
     }
@@ -604,13 +601,15 @@ public:
             rename("new.txt", "packages.txt");
         }
 
-        else if(choice==2){
-            cout<<"Normal Tickets are Non-Refundable at the moment"<<endl;
+        else if (choice == 2)
+        {
+            cout << "Normal Tickets are Non-Refundable at the moment" << endl;
         }
     }
     void check_flight();
     void book_flight();
-    string get_fname(){
+    string get_fname()
+    {
         return f_name;
     }
 };
@@ -1114,16 +1113,18 @@ void Admin::delete_customer()
     rename("new.dat", "customer.dat");
     admin_menu();
 }
-void Special_customer::book_flight(){
-	Booking b;
-	b.get_sdata();
-	b.menu();
-	s_customer_menu();
+void Special_customer::book_flight()
+{
+    Booking b;
+    b.get_data();
+    b.menu();
+    s_customer_menu();
 }
-void Special_customer::check_flight(){
-	Customer c;
-	c.check_flight();
-	s_customer_menu();
+void Special_customer::check_flight()
+{
+    Customer c;
+    c.check_flight();
+    s_customer_menu();
 }
 
 void Customer::book_flight()
@@ -1436,7 +1437,7 @@ void main_screen()
             {
                 a1.signup();
                 fstream fp;
-                fp.open("customer.dat", ios::binary | ios::app);
+                fp.open("airline.dat", ios::binary | ios::app);
                 fp.write((char *)&a1, sizeof(a1));
                 fp.close();
                 system("cls");
@@ -1448,7 +1449,7 @@ void main_screen()
                 string u, p;
                 a1.signin(&u, &p);
                 fstream fp;
-                fp.open("customer.dat", ios::binary | ios::in);
+                fp.open("airline.dat", ios::binary | ios::in);
                 while (1)
                 {
                     fp.read((char *)&a1, sizeof(a1));
@@ -1462,7 +1463,7 @@ void main_screen()
                     else if (fp.eof())
                     {
                         system("cls");
-                        cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
+                        cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN\n";
                         a1.signin(&u, &p);
                     }
                 }
