@@ -1414,7 +1414,7 @@ void main_screen()
             }
         }
     }
-    else if(choice==5){
+    else if (choice == 5){
         Special_customer s;
         s.menu();
         int c;
