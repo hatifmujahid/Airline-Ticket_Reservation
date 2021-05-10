@@ -1474,7 +1474,22 @@ void main_screen()
             }
             else if (choice == 3)
             {
-                showAirlines();
+                Airline a1;
+                fstream fp;
+                fp.open("airline.dat", ios::binary|ios::in);
+                system("cls");
+                cout << "\nAirline name:  \tAirline rating: \tID: \tEmail: " << endl;
+                while(1){
+                    fp.read((char*)&a1, sizeof(Airline));
+                    if(fp.eof()){
+                        break;
+                    }
+                    cout<<"\n"<<a1.get_name()<<"\t"<<a1.get_rating()<<"\t"<<a1.get_ID()<<"\t"<<a1.get_email()<<endl;
+                }
+                fp.close();
+                Sleep(5000);
+                a1.menu();
+
             }
             else
             {
