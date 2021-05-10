@@ -879,14 +879,15 @@ public:
     {
         system("CLS");
         Booking b1;
-        string i;
-        cout << "Enter customer ID" << endl;
-        getline(cin, i);
-        ifstream fpt("booking.dat", ios::in | ios::binary);
+        int i;
+        cout << "Enter Ticket ID" << endl;
+        cin>>i;
+        fstream fpt;
+        fpt.open("ticket.dat", ios::in | ios::binary);
         while (1)
         {
-            fpt.read((char *)&b1, sizeof(Booking));
-            if (b1.get_fname() == i)
+            fpt.read((char *)&t1, sizeof(Ticket));
+            if (t1.get_ticket_id()==i)
             {
                 Sleep(500);
                 loading_screen();
@@ -894,6 +895,7 @@ public:
                      << "ISSUE BOARDING PASS" << endl;
                 break;
             }
+        
             else if (fpt.eof())
             {
                 cout << "BOOKING UNAVAILABLE" << endl;
