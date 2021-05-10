@@ -184,6 +184,7 @@ void Airline::showAirlines()
         }
         cout<<"\n"<<a1.name<<"\t"<<a1.rating<<"\t"<<a1.rating<<"\t"<<a1.email<<endl;
     }
+    fp.close();
     Sleep(5000);
     menu();
 }
