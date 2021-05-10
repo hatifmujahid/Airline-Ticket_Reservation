@@ -107,14 +107,21 @@ protected:
     string name, airline_email;
     int no_of_planes, rating;
     int airline_id;
+
 public:
-    int get_airline_id(){
+    int get_airline_id()
+    {
         return airline_id;
     }
-    string get_airline_email(){
-        return email;
+    string get_airline_email()
+    {
+        return airline_email;
     }
-    Airline(){no_of_planes=0;rating=0;}
+    Airline()
+    {
+        no_of_planes = 0;
+        rating = 0;
+    }
     string get_name()
     {
         return name;
@@ -153,34 +160,42 @@ public:
         fflush(stdin);
         cout << "Enter name of airline: ";
         getline(cin, name);
-        cout<<"Enter email: ";
-        getline(cin, email);
-        cout<<"Enter ID: ";
-        cin>>airline_id;
+        cout << "Enter airline email: ";
+        getline(cin, airline_email);
+        cout << "Enter ID: ";
+        cin >> airline_id;
         fflush(stdin);
         cout << "Enter no of planes in the fleet: ";
         cin >> no_of_planes;
         fstream fp;
         fp.open("airline.txt", ios::app);
-        fp<<name<<" "<<email<<" "<<airline_id<<" "<<rating<<" "<<no_of_planes<<endl;
+        fp << name << " " << airline_email << " " << airline_id << " " << rating << " " << no_of_planes << endl;
         fp.close();
         system("cls");
         cout << "\nAirline Reistered SUCCESSFULLY\n";
         Sleep(500);
     }
-    void showAirlines(){        
+    void showAirlines()
+    {
         fstream fp;
         fp.open("airline.txt", ios::in);
-        while(1){
-            if(fp.eof()){
+        cout << "\nName\tID\trating\n\n";
+        while (1)
+        {
+
+            if (!fp)
+            {
                 break;
             }
-            fp>>name>>email>>airline_id>>rating>>no_of_planes;
+            fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+            if (fp.eof())
+            {
+                break;
+            }
+            cout << endl
+                 << name << "\t" << airline_id << "\t" << rating << "\t" << endl;
         }
         fp.close();
-        system("cls");
-        cout << "\nAirline Reistered SUCCESSFULLY\n";
-        Sleep(500);
     }
 };
 
@@ -232,7 +247,6 @@ public:
         *pass = p;
     }
     void customer_menu();
-
 };
 class HolidayPackage : virtual public Person, public Customer
 {
@@ -573,21 +587,24 @@ public:
         return f_name;
     }
 };
-class Booking: virtual public Customer, public Airline//mohtada
+class Booking : public Customer, public Airline //mohtada
 {
-    Airline a1;
-    
 protected:
-int ticket_ID;
+    int ticket_ID;
     string c_name, c_email, c_airline;
     int c_id;
     float price;
-    float prices[3] = {4000, 10000, 15000};
+    float prices[3];
 
 public:
-    static int count;
-    Booking(){
-        count++;
+    Booking()
+    {
+        c_id = 0;
+        price = 0;
+        ticket_ID = 0;
+        prices[0] = 4000;
+        prices[1] = 10000;
+        prices[2] = 15000;
     }
     const int get_ticket_id()
     {
@@ -609,49 +626,9 @@ public:
     {
         return price;
     }
-    void n_booking(){
-        int i;
-        c_name = get_fname();
-        c_id = count;
-        c_email = get_email();
-        srand((unsigned)time(0)); //random price generator
-        i = (rand() % 3);
-        price = prices[i];
-        if (is_special == true)
-        {
-            price = price * 0.85;
-        }
-        cout << "List of airlines: ";
-            a1.showAirlines();
-            int choice;
-            cout << "Enter ID of the Airline choosen: ";
-            cin >> choice;
-            fstream fp;
-            fp.open("airline.txt", ios::in);
-            while(1){
-                fp>>name>>Airline::email>>airline_id>>rating>>no_of_planes;
-                if(fp.eof()){
-                    break;
-                }
-                if(airline_id==choice){
-                    break;
-                }
-            }
-            fp.close();
-            c_airline=name;
-    }
+    void n_booking();
     void s_booking();
-    void file(){
-        fstream fp;
-        fp.open("ticket.txt", ios::app);
-        fp<<c_name<<" "<<c_email<<" "<<c_airline<<" "<<c_id<<" "<<price<<endl;
-        fp.close();
-        cout<<"Ticket is generated.\nID: "<<c_id;
-    }
 };
-
-
-   
 
 class Ticket : public Booking //printing ticket //mohtada
 {
@@ -672,26 +649,72 @@ public:
     void printticket()
     {
         int choice;
-        cout << "Enter ID of the ticket to be printed: ";
+        cout << "\nEnter ID of the ticket to be printed: ";
         cin >> choice;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
         while (1)
         {
-            fpt>>c_name>>c_email>>c_airline>>c_id>>price;
-            fpt.close();
-            if(c_id==choice){
+            fpt >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+            if (ticket_ID == choice)
+            {
                 break;
-            }   
+            }
+            if (fpt.eof())
+            {
+                break;
+            }
         }
+        fpt.close();
         loading_screen();
-        cout<<"----------------------------------------------------------------------------------------------\n";
-        cout<<"                                         Ticket\n";
-        cout<<"\nCustomer Name: "<<c_name<<"\nCustomer Email: "<<c_email<<"\nChoosen Airline: "<<c_airline<<"\nPrice: "<<price<<endl;
-
+        cout << "----------------------------------------------------------------------------------------------\n";
+        cout << "                                         Ticket\n";
+        cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
     }
 };
-
+void Booking::n_booking()
+{
+    int i;
+    cout << get_fname();
+    cout << "Enter ticket ID: ";
+    cin >> ticket_ID;
+    c_email = get_email();
+    srand((unsigned)time(0)); //random price generator
+    i = (rand() % 3);
+    price = prices[i];
+    if (is_special == true)
+    {
+        price = price * 0.85;
+    }
+    cout << "List of airlines: ";
+    showAirlines();
+    int choice;
+    cout << "\nEnter ID of the Airline choosen: ";
+    cin >> choice;
+    fstream fp;
+    fp.open("airline.txt", ios::in);
+    while (1)
+    {
+        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+        if (fp.eof())
+        {
+            break;
+        }
+        if (airline_id == choice)
+        {
+            break;
+        }
+    }
+    fp.close();
+    c_airline = name;
+    fstream fpt;
+    fpt.open("ticket.txt", ios::app);
+    fpt << c_name << " " << c_email << " " << c_airline << " " << c_id << " " << price << " " << ticket_ID << endl;
+    fpt.close();
+    cout << "Ticket is generated.\nID: " << ticket_ID;
+    Ticket t;
+    t.menu();
+}
 class Staff : virtual public Person //maarij
 {
 private:
@@ -1047,7 +1070,6 @@ void Admin::delete_customer()
 }
 void Special_customer::book_flight()
 {
-
 }
 void Special_customer::check_flight()
 {
@@ -1056,32 +1078,36 @@ void Special_customer::check_flight()
     c.s_customer_menu();
 }
 void Customer::customer_menu()
+{
+    cout << "------------------------------------------Customer Main Menu----------------------------\n\n";
+    cout << "\n\t1. Refund Booking\n\t2. Book a flight\n\t3. Book a Holiday Package\n";
+    int choice;
+    cin >> choice;
+    if (choice == 1)
     {
-        cout << "------------------------------------------Customer Main Menu----------------------------\n\n";
-        cout << "\n\t1. Refund Booking\n\t2. Book a flight\n\t3. Book a Holiday Package\n";
-        int choice;
+        //refund();
+    }
+    else if (choice == 2)
+    {
+        Booking b;
+        b.n_booking();
+    }
+    else
+    {
+        cout << "Wrong choice: \nDo you wanna end the program?\n1) Yes\n2) No";
         cin >> choice;
-        if(choice==1)
+        switch (choice)
         {
-            //refund();
-        }else if(choice== 2){
-            Booking b;
-            b.n_booking();
-        }else{
-            cout << "Wrong choice: \nDo you wanna end the program?\n1) Yes\n2) No";
-            cin >> choice;
-            switch (choice)
-            {
-            case 1:
-                exit(0);
-            case 2:
-                customer_menu();
-                break;
-            default:
-                break;
-            }
+        case 1:
+            exit(0);
+        case 2:
+            customer_menu();
+            break;
+        default:
+            break;
         }
     }
+}
 
 // void Customer::check_flight()
 // {
@@ -1199,7 +1225,7 @@ public:
         t.menu();
     }
 };
-int Booking::count = 1000;
+
 void main_screen()
 {
     cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6)Book a ticket\n\t7) Print Ticket\n";
@@ -1392,7 +1418,8 @@ void main_screen()
             {
                 a1.showAirlines();
             }
-            else if(choice == 3){
+            else if (choice == 3)
+            {
                 exit(0);
             }
             else
@@ -1452,7 +1479,6 @@ void main_screen()
     }
     else if (choice == 6) //booking
     {
-
     }
     else if (choice == 7)
     {
