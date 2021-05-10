@@ -505,7 +505,7 @@ public:
         *user = u;
         *pass = p;
     }
-    void s_customer_menu()
+    void s_customer_menu(int *a)
     {
         int c;
         cout << "_______________SPECIAL CUSTOMER MENU_________________" << endl;
@@ -517,17 +517,16 @@ public:
         }
         else if (c == 2)
         {
-            book_flight();
+            *a =c;
         }
         else if (c == 3)
         {
-            check_flight();
+            //check_flight();
         }
         else if (c == 4)
         {
             HolidayPackage h;
             h.menu();
-            s_customer_menu();
         }
         else if (c == 0)
         {
@@ -630,7 +629,7 @@ public:
         return price;
     }
     void n_booking(Customer a);
-    void s_booking();
+    void s_booking(Special_customer a);
 };
 
 class Ticket : public Booking //printing ticket //mohtada
@@ -691,7 +690,48 @@ public:
 };
 void Booking::n_booking(Customer a)
 {
-    
+    int i;
+    c_name= a.get_fname();
+    cout << "Enter ticket ID: ";
+    cin >> ticket_ID;
+    c_email = a.get_email();
+    srand((unsigned)time(0)); //random price generator
+    i = (rand() % 3);
+    price = prices[i];
+    if (is_special == true)
+    {
+        price = price * 0.85;
+    }
+    cout << "List of airlines: ";
+    showAirlines();
+    int choice;
+    cout << "\nEnter ID of the Airline choosen: ";
+    cin >> choice;
+    fstream fp;
+    fp.open("airline.txt", ios::in);
+    while (1)
+    {
+        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+        if (fp.eof())
+        {
+            break;
+        }
+        if (airline_id == choice)
+        {
+            break;
+        }
+    }
+    fp.close();
+    c_airline = name;
+    fstream fpt;
+    fpt.open("ticket.txt", ios::app);
+    fpt << c_name << " " << c_email << " " << c_airline << " " << c_id << " " << price << " " << ticket_ID << endl;
+    fpt.close();
+    cout << "Ticket is generated.\nID: " << ticket_ID;
+    Ticket t;
+    t.menu();
+}
+void Booking::s_booking(Special_customer a){
     int i;
     c_name= a.get_fname();
     cout << "Enter ticket ID: ";
@@ -1089,12 +1129,11 @@ void Admin::delete_customer()
 void Special_customer::book_flight()
 {
 }
-void Special_customer::check_flight()
-{
-    Special_customer c;
-    c.check_flight();
-    c.s_customer_menu();
-}
+// void Special_customer::check_flight()
+// {
+//     Special_customer c;
+
+// }
 void Customer::customer_menu(int *a)
 {
     k:
@@ -1457,6 +1496,7 @@ void main_screen()
     else if (choice == 5) //special customer
     {
         Special_customer s;
+        while(1){
         s.menu();
         int c;
         cout << "\nEnter choice: ";
@@ -1474,6 +1514,7 @@ void main_screen()
         }
         else if (c == 2)
         {
+            int a=0;
             string u, p;
             s.signin(&u, &p);
             fstream fp;
@@ -1485,8 +1526,11 @@ void main_screen()
                 {
                     system("cls");
                     cout << "\nSIGN IN SUCCESSFUL\n";
-                    s.s_customer_menu();
-                    break;
+                    s.s_customer_menu(&a);
+                    if(a==2){
+                        Booking b;
+                        b.s_booking(s);
+                    }
                 }
                 else if (fp.eof())
                 {
@@ -1503,6 +1547,8 @@ void main_screen()
             exit(0);
         }
     }
+}
+
     else if (choice == 6) //booking
     {
     }
