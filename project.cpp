@@ -112,7 +112,7 @@ public:
         return airline_id;
     }
     string get_airline_email(){
-        return email;
+        return airline_email;
     }
     Airline(){no_of_planes=0;rating=0;}
     string get_name()
@@ -154,7 +154,7 @@ public:
         cout << "Enter name of airline: ";
         getline(cin, name);
         cout<<"Enter email: ";
-        getline(cin, email);
+        getline(cin, airline_email);
         cout<<"Enter ID: ";
         cin>>airline_id;
         fflush(stdin);
@@ -162,25 +162,29 @@ public:
         cin >> no_of_planes;
         fstream fp;
         fp.open("airline.txt", ios::app);
-        fp<<name<<" "<<email<<" "<<airline_id<<" "<<rating<<" "<<no_of_planes<<endl;
+        fp<<name<<" "<<airline_email<<" "<<airline_id<<" "<<rating<<" "<<no_of_planes<<endl;
         fp.close();
         system("cls");
         cout << "\nAirline Reistered SUCCESSFULLY\n";
         Sleep(500);
+        menu();
     }
     void showAirlines(){        
+        system("cls");
         fstream fp;
         fp.open("airline.txt", ios::in);
+        cout<<"\nName\tEmail\tID\trating\tNo of Planes \n";
         while(1){
+            fp>>name>>airline_email>>airline_id>>rating>>no_of_planes;
             if(fp.eof()){
                 break;
             }
-            fp>>name>>email>>airline_id>>rating>>no_of_planes;
+           
+            cout<<endl<<name<<"\t"<<airline_email<<"\t"<<airline_id<<"\t"<<rating<<"\t"<<no_of_planes<<endl;
         }
         fp.close();
-        system("cls");
-        cout << "\nAirline Reistered SUCCESSFULLY\n";
-        Sleep(500);
+        system("PAUSE");
+        
     }
 };
 
@@ -574,16 +578,13 @@ public:
     }
 };
 class Booking: virtual public Customer, public Airline//mohtada
-{
-    Airline a1;
-    
+{    
 protected:
 int ticket_ID;
     string c_name, c_email, c_airline;
     int c_id;
     float price;
     float prices[3] = {4000, 10000, 15000};
-
 public:
     static int count;
     Booking(){
@@ -612,7 +613,7 @@ public:
     void n_booking(){
         int i;
         c_name = get_fname();
-        c_id = count;
+        
         c_email = get_email();
         srand((unsigned)time(0)); //random price generator
         i = (rand() % 3);
@@ -622,14 +623,14 @@ public:
             price = price * 0.85;
         }
         cout << "List of airlines: ";
-            a1.showAirlines();
+            showAirlines();
             int choice;
             cout << "Enter ID of the Airline choosen: ";
             cin >> choice;
             fstream fp;
             fp.open("airline.txt", ios::in);
             while(1){
-                fp>>name>>Airline::email>>airline_id>>rating>>no_of_planes;
+                fp>>name>>airline_email>>airline_id>>rating>>no_of_planes;
                 if(fp.eof()){
                     break;
                 }
@@ -639,6 +640,7 @@ public:
             }
             fp.close();
             c_airline=name;
+            file();
     }
     void s_booking();
     void file(){
@@ -649,9 +651,6 @@ public:
         cout<<"Ticket is generated.\nID: "<<c_id;
     }
 };
-
-
-   
 
 class Ticket : public Booking //printing ticket //mohtada
 {
