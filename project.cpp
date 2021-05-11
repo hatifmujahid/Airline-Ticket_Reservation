@@ -195,7 +195,7 @@ public:
                 break;
             }
             cout << endl
-                 << name <<"\t"<< airline_email << "\t"
+                 << name << "\t" << airline_email << "\t"
                  << "\t" << airline_id << "\t" << rating << "\t" << endl;
         }
         system("PAUSE");
@@ -520,7 +520,7 @@ public:
         cout << "\n\t\tWelcome to the Special customer Login/Logout menu!!";
         cout << "\n1) Sign Up\n2)Back to Main Menu\n3)EXIT\nEnter choice: ";
         int choice;
-        cin>>choice;
+        cin >> choice;
         switch (choice)
         {
         case 1:
@@ -719,11 +719,12 @@ public:
     {
         return price;
     }
-    void menu(){
-        cout<<"-----------------------BOOKING MENU------------------------";
-        cout<<"\n1) Customer Ticket\n2) Special Customer ticket\nEnter choice: ";
+    void menu()
+    {
+        cout << "-----------------------BOOKING MENU------------------------";
+        cout << "\n1) Customer Ticket\n2) Special Customer ticket\nEnter choice: ";
         int choice;
-        cin>>choice;
+        cin >> choice;
         switch (choice)
         {
         case 1:
@@ -747,7 +748,14 @@ public:
     {
         system("cls");
         cout << "\nProcessing ticket";
-        printticket();
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
     }
     void printticket()
     {
@@ -770,14 +778,17 @@ public:
         }
         fpt.close();
         loading_screen();
-        cout << "-----------------------------------------------"<<"-----------------------------------------------\n";
+        cout << "-----------------------------------------------"
+             << "-----------------------------------------------\n";
         cout << "                                              Ticket\n";
-        cout << "-----------------------------------------------"<<"-----------------------------------------------\n";
+        cout << "-----------------------------------------------"
+             << "-----------------------------------------------\n";
         cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
         system("PAUSE");
     }
 };
-void Booking::s_booking(){
+void Booking::s_booking()
+{
     int i;
     Special_customer a;
     a.signin();
@@ -823,7 +834,7 @@ void Booking::s_booking(){
     c_airline = name;
     fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
     fpt.close();
-    cout << "Ticket is generated.\nID: " << ticket_ID<<endl;
+    cout << "Ticket is generated.\nID: " << ticket_ID << endl;
     system("PAUSE");
 }
 void Booking::n_booking()
@@ -873,7 +884,7 @@ void Booking::n_booking()
     c_airline = name;
     fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
     fpt.close();
-    cout << "Ticket is generated.\nID: " << ticket_ID<<endl;
+    cout << "Ticket is generated.\nID: " << ticket_ID << endl;
     system("PAUSE");
 }
 class Staff : virtual public Person
@@ -1332,7 +1343,6 @@ void Admin::delete_customer() //working
     admin_menu();
 }
 
-
 class Payment
 {
     string bank;
@@ -1346,9 +1356,10 @@ public:
         t.menu();
         cout << "How do you want to pay for your flight: ";
         cout << "\n	1) Card Payment\n	2) Online Banking";
-        int choice;
+        int c;
         cout << "\n\n\tEnter your choice: ";
-        switch (choice)
+        cin >> c;
+        switch (c)
         {
         case 1:
             card_payment();
@@ -1475,7 +1486,6 @@ void main_screen()
     }
     else if (choice == 7)
     {
-        system("cls");
         Payment p;
         p.menu();
         main_screen();
