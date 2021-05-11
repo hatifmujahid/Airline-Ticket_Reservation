@@ -935,7 +935,7 @@ void Booking::n_booking() //working
     cout << "Ticket is generated.\nID: " << ticket_ID << endl;
     system("PAUSE");
 }
-class Staff : virtual public Person
+class Staff : virtual public Person //not known if working
 {
 private:
     string u, p, user, pass;
@@ -1161,7 +1161,7 @@ public:
         return p;
     }
 };
-class Admin : public Person
+class Admin : public Person //working
 {
     string user, pass, u, p;
 
@@ -1394,7 +1394,7 @@ void Admin::delete_customer() //working
     admin_menu();
 }
 
-class Payment
+class Payment   //working
 {
     string bank;
     long int card_no;
