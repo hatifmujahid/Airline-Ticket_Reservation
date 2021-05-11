@@ -101,7 +101,7 @@ public:
     }
     //maybe sign in function to be made for abstraction
 };
-class Airline // mohtada
+class Airline 
 {
 protected:
     string name, airline_email;
@@ -201,7 +201,7 @@ public:
         fp.close();
     }
 };
-class Customer : virtual public Person // hatif
+class Customer : virtual public Person 
 {
 private:
     string user, pass, u, p;
@@ -504,7 +504,7 @@ public:
         file.close();
     }
 };
-class Special_customer : public Person //maarij
+class Special_customer : public Person 
 {
     string u, p, user, pass;
 
@@ -669,7 +669,7 @@ public:
         return f_name;
     }
 };
-class Booking : public Customer, public Airline //mohtada
+class Booking : public Customer, public Airline 
 {
 protected:
     int ticket_ID;
@@ -708,11 +708,101 @@ public:
     {
         return price;
     }
-    void n_booking(Customer a);
-    void s_booking(Special_customer a);
+    void n_booking(){
+        int i;
+        c_id = ID;
+        c_name = f_name;
+        c_email = email;
+        cout<<"Enter ticket ID: ";
+        cin>>ticket_ID;
+        srand((unsigned)time(0)); //random price generator
+        i = (rand() % 3);
+        price = prices[i];
+        if (is_special == true)
+        {
+            price = price * 0.85;
+        }
+        cout << "List of airlines: ";
+        showAirlines();
+        int choice;
+        cout << "\nEnter ID of the Airline choosen: ";
+        cin >> choice;
+        fstream fp;
+        fp.open("airline.txt", ios::in);
+        while (1)
+        {
+            fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+            if (fp.eof())
+            {
+                break;
+            }
+            if (airline_id == choice)
+            {
+                break;
+            }
+        }
+        c_airline = name;
+        fstream fp;
+        fp.open("ticket.txt", ios::in);
+        if (!fp)
+        {
+            cout << "\nFILE DOES NOT EXIST\n";
+            exit(1);
+        }
+        while (1)
+        {
+            fp << c_name <<"\t" << c_email<<"\t"<<c_airline <<"\t"<<c_id <<"\t"<<price<<"\t"<<ticket_ID<<endl;
+            
+        }
+        fp.close();
+        cout << "Ticket is generated.\nID: " << ticket_ID;
+    }
+    void s_booking(){
+        int i;
+        c_name = get_fname();
+        c_id = get_ID();
+        cout << "Enter ticket ID: ";
+        cin >> ticket_ID;
+        c_email = get_email();
+        srand((unsigned)time(0)); //random price generator
+        i = (rand() % 3);
+        price = prices[i];
+        if (is_special == true)
+        {
+            price = price * 0.85;
+        }
+        cout << "List of airlines: ";
+        showAirlines();
+        int choice;
+        cout << "\nEnter ID of the Airline choosen: ";
+        cin >> choice;
+        fstream fp;
+        fp.open("airline.txt", ios::in);
+        while (1)
+        {
+            fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+            if (fp.eof())
+            {
+                break;
+            }
+            if (airline_id == choice)
+            {
+                break;
+            }
+        }
+        fp.close();
+        c_airline = name;
+        fstream fpt;
+        fpt.open("ticket.txt", ios::app);
+        fpt << c_name << " " << c_email << " " << c_airline << " " << c_id << " " << price << " " << ticket_ID << endl;
+        fpt.close();
+        
+        Ticket t;
+        t.menu();
+    }
 };
 
-class Ticket : public Booking //printing ticket //mohtada
+class Ticket : public Booking 
 {
 public:
     void menu()
@@ -768,94 +858,8 @@ public:
         }
     }
 };
-void Booking::n_booking(Customer a)
-{
-    int i;
-    c_name = a.get_fname();
-    cout << "Enter ticket ID: ";
-    cin >> ticket_ID;
-    c_email = a.get_email();
-    srand((unsigned)time(0)); //random price generator
-    i = (rand() % 3);
-    price = prices[i];
-    if (is_special == true)
-    {
-        price = price * 0.85;
-    }
-    cout << "List of airlines: ";
-    showAirlines();
-    int choice;
-    cout << "\nEnter ID of the Airline choosen: ";
-    cin >> choice;
-    fstream fp;
-    fp.open("airline.txt", ios::in);
-    while (1)
-    {
-        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
-        if (fp.eof())
-        {
-            break;
-        }
-        if (airline_id == choice)
-        {
-            break;
-        }
-    }
-    fp.close();
-    c_airline = name;
-    fstream fpt;
-    fpt.open("ticket.txt", ios::app);
-    fpt << c_name << " " << c_email << " " << c_airline << " " << c_id << " " << price << " " << ticket_ID << endl;
-    fpt.close();
-    cout << "Ticket is generated.\nID: " << ticket_ID;
-    Ticket t;
-    t.menu();
-}
-void Booking::s_booking(Special_customer a)
-{
-    int i;
-    c_name = a.get_fname();
-    c_id = a.get_ID();
-    cout << "Enter ticket ID: ";
-    cin >> ticket_ID;
-    c_email = a.get_email();
-    srand((unsigned)time(0)); //random price generator
-    i = (rand() % 3);
-    price = prices[i];
-    if (is_special == true)
-    {
-        price = price * 0.85;
-    }
-    cout << "List of airlines: ";
-    showAirlines();
-    int choice;
-    cout << "\nEnter ID of the Airline choosen: ";
-    cin >> choice;
-    fstream fp;
-    fp.open("airline.txt", ios::in);
-    while (1)
-    {
-        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
-        if (fp.eof())
-        {
-            break;
-        }
-        if (airline_id == choice)
-        {
-            break;
-        }
-    }
-    fp.close();
-    c_airline = name;
-    fstream fpt;
-    fpt.open("ticket.txt", ios::app);
-    fpt << c_name << " " << c_email << " " << c_airline << " " << c_id << " " << price << " " << ticket_ID << endl;
-    fpt.close();
-    cout << "Ticket is generated.\nID: " << ticket_ID;
-    Ticket t;
-    t.menu();
-}
-class Staff : virtual public Person //maarij
+
+class Staff : virtual public Person 
 {
 private:
     string u, p, user, pass;
@@ -1080,7 +1084,7 @@ public:
         return p;
     }
 };
-class Admin : public Person //hatif
+class Admin : public Person
 {
     string user, pass, u, p;
 
