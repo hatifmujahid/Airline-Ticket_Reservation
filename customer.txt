@@ -1,1 +1,2 @@
-hatif	mujahid	hatif@gmail.com	4444	hatif	1234
+areeb	mujahid	areeb@gmail.com	1111	areeb	1234	0
+hatif	mujahid	hatif@gmail.com	2222	hatif	1234	0

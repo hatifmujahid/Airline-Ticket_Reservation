@@ -202,7 +202,8 @@ public:
 class Customer : virtual public Person // hatif
 {
 private:
-    string user, pass,u,p;
+    string user, pass, u, p;
+
 protected:
     string f_name, l_name;
 
@@ -219,9 +220,9 @@ public:
         system("cls");
         cout << "\n\t\tWelcome to the customer Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
-        cout<<"\nEnter choice: ";
+        cout << "\nEnter choice: ";
         int choice;
-        cin>>choice;
+        cin >> choice;
         switch (choice)
         {
         case 1:
@@ -234,8 +235,9 @@ public:
             break;
         }
     }
-    void output(){
-        cout<<f_name<<" "<<l_name;
+    void output()
+    {
+        cout << f_name << " " << l_name;
     }
     void signup()
     {
@@ -249,9 +251,9 @@ public:
         fflush(stdin);
         fstream fp;
         fp.open("customer.txt", ios::app);
-        fp<<f_name<<"\t"<<l_name<<"\t"<<email<<"\t"<<ID<<"\t"<<get_username()<<"\t"<<get_password()<<"\t"<<is_special<<endl;
+        fp << f_name << "\t" << l_name << "\t" << email << "\t" << ID << "\t" << get_username() << "\t" << get_password() << "\t" << is_special << endl;
         fp.close();
-        cout<<"\nSIGN UP SUCCESSFUL\n";
+        cout << "\nSIGN UP SUCCESSFUL\n";
         system("PAUSE");
         menu();
     }
@@ -269,17 +271,26 @@ public:
         p = inputmasking();
         fstream fp;
         fp.open("customer.txt", ios::in);
-        while(1){
-            fp>>f_name>>l_name>>email>>ID>>user>>pass>>is_special;
-            if(fp.eof()){
-                cout<<"\nSIGN IN UNSUCCESSFUL\n";
+        if (!fp)
+        {
+            cout << "\nFILE DOES NOT EXIST\n";
+            exit(1);
+        }
+        while (1)
+        {
+            fp >> f_name >> l_name >> email >> ID >> user >> pass >> is_special;
+            if (fp.eof())
+            {
+                cout << "\nSIGN IN UNSUCCESSFUL\n";
                 signin();
                 break;
             }
-            if(user==u && pass==p){
+            if (user == u && pass == p)
+            {
                 fp.close();
-                cout<<"\nSign in successful\n";
-                Sleep(5000);
+                system("cls");
+                cout << "\nSIGN IN SUCCESSFUL\n";
+                loading_screen();
                 customer_menu();
             }
         }
@@ -492,7 +503,7 @@ public:
 };
 class Special_customer : public Person //maarij
 {
-    string u, p;
+    string u, p, user, pass;
 
 protected:
     int miles;
@@ -519,6 +530,13 @@ public:
             cout << "Enter last name: ";
             getline(cin, l_name);
             fflush(stdin);
+            fstream fp;
+            fp.open("special_customer.txt", ios::app);
+            fp << f_name << "\t" << l_name << "\t" << email << "\t" << ID << "\t" << get_username() << "\t" << get_password() << "\t" << is_special << endl;
+            fp.close();
+            cout << "\nSIGN UP SUCCESSFUL\n";
+            system("PAUSE");
+            menu();
         }
         else
         {
@@ -528,7 +546,7 @@ public:
             menu();
         }
     }
-    void signin(string *user, string *pass)
+    void signin()
     {
         cout << "---------------------------------------Special Customer SIGN IN----------------------------------------------------\n\n";
         char c;
@@ -538,8 +556,32 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         p = inputmasking();
-        *user = u;
-        *pass = p;
+        fstream fp;
+        fp.open("customer.txt", ios::in);
+        if (!fp)
+        {
+            cout << "\nFILE DOES NOT EXIST\n";
+            exit(1);
+        }
+        while (1)
+        {
+            fp >> f_name >> l_name >> email >> ID >> user >> pass >> is_special;
+            if (fp.eof())
+            {
+                cout << "\nSIGN IN UNSUCCESSFUL\n";
+                signin();
+                break;
+            }
+            if (user == u && pass == p)
+            {
+                fp.close();
+                system("cls");
+                cout << "\nSIGN IN SUCCESSFUL\n";
+                loading_screen();
+                s_customer_menu();
+            }
+        }
+        fp.close();
     }
     void s_customer_menu(int *a)
     {
@@ -553,7 +595,7 @@ public:
         }
         else if (c == 2)
         {
-            *a =c;
+            *a = c;
         }
         else if (c == 3)
         {
@@ -710,8 +752,8 @@ public:
         cout << "                                         Ticket\n";
         cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
         Sleep(1000);
-        cout<<"Do you want to end program?\n1) Yes\n2)No\n";
-        cin>>choice;
+        cout << "Do you want to end program?\n1) Yes\n2)No\n";
+        cin >> choice;
         switch (choice)
         {
         case 1:
@@ -727,7 +769,7 @@ public:
 void Booking::n_booking(Customer a)
 {
     int i;
-    c_name= a.get_fname();
+    c_name = a.get_fname();
     cout << "Enter ticket ID: ";
     cin >> ticket_ID;
     c_email = a.get_email();
@@ -767,9 +809,10 @@ void Booking::n_booking(Customer a)
     Ticket t;
     t.menu();
 }
-void Booking::s_booking(Special_customer a){
+void Booking::s_booking(Special_customer a)
+{
     int i;
-    c_name= a.get_fname();
+    c_name = a.get_fname();
     c_id = a.get_ID();
     cout << "Enter ticket ID: ";
     cin >> ticket_ID;
@@ -813,7 +856,7 @@ void Booking::s_booking(Special_customer a){
 class Staff : virtual public Person //maarij
 {
 private:
-    string u, p;
+    string u, p, user, pass;
 
 protected:
     string f_name, l_name;
@@ -829,9 +872,16 @@ public:
         cout << "Enter last name: ";
         getline(cin, l_name);
         fflush(stdin);
+        fstream fp;
+        fp.open("staff.txt", ios::app);
+        fp << f_name << "\t" << l_name << "\t" << email << "\t" << ID << "\t" << get_username() << "\t" << get_password() << endl;
+        fp.close();
+        cout << "\nSIGN UP SUCCESSFUL\n";
+        system("PAUSE");
+        menu();
     }
 
-    void signin(string *username, string *password)
+    void signin()
     {
         cout << "---------------------------------------STAFF SIGN IN----------------------------------------------------\n\n";
         char c;
@@ -841,8 +891,32 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         p = inputmasking();
-        *username = u;
-        *password = p;
+        fstream fp;
+        fp.open("staff.txt", ios::in);
+        if (!fp)
+        {
+            cout << "\nFILE DOES NOT EXIST\n";
+            exit(0);
+        }
+        while (1)
+        {
+            fp >> f_name >> l_name >> email >> ID >> user >> pass;
+            if (fp.eof())
+            {
+                cout << "\nSIGN IN UNSUCCESSFUL\n";
+                signin();
+                break;
+            }
+            if (user == u && pass == p)
+            {
+                fp.close();
+                system("cls");
+                cout << "\nSIGN IN SUCCESSFUL\n";
+                loading_screen();
+                staff_menu();
+            }
+        }
+        fp.close();
     }
 
     void menu()
@@ -850,6 +924,8 @@ public:
         int c;
         cout << "__________________STAFF MENU______________________" << endl;
         cout << "1.SIGN UP\t\t2.SIGN-IN\t\t3.EXIT" << endl;
+        int choice;
+        cin >> choice;
     }
     void staff_menu()
     {
@@ -993,7 +1069,7 @@ public:
 };
 class Admin : public Person //hatif
 {
-    string user, pass,u,p;
+    string user, pass, u, p;
 
 protected:
     string f_name, l_name;
@@ -1007,9 +1083,9 @@ public:
     void menu()
     {
         cout << "__________________________________________ADMIN MENU__________________________________________\n\n\t1)Sign Up\n\t2)Sign in\n";
-        cout<<"\nEnter choice: ";
+        cout << "\nEnter choice: ";
         int choice;
-        cin>>choice;
+        cin >> choice;
         switch (choice)
         {
         case 1:
@@ -1034,14 +1110,14 @@ public:
         fflush(stdin);
         fstream fp;
         fp.open("admin.txt", ios::app);
-        fp<<f_name<<"\t"<<l_name<<"\t"<<email<<"\t"<<ID<<"\t"<<get_username()<<"\t"<<get_password()<<endl;
+        fp << f_name << "\t" << l_name << "\t" << email << "\t" << ID << "\t" << get_username() << "\t" << get_password() << endl;
         fp.close();
-        cout<<"\nSIGN UP SUCCESSFUL\n";
+        cout << "\nSIGN UP SUCCESSFUL\n";
         admin_menu();
     }
     void signin()
     {
-        
+
         cout << "__________________________________ADMIN SIGN IN______________________________________\n\n";
         fflush(stdin);
         cout << "Enter username: ";
@@ -1051,14 +1127,22 @@ public:
         p = inputmasking();
         fstream fp;
         fp.open("admin.txt", ios::in);
-        while(1){
-            fp>>f_name>>l_name>>email>>ID>>user>>pass;
-            if(fp.eof()){
+        if (!fp)
+        {
+            cout << "\nFILE DOES NOT EXIST\n";
+            exit(1);
+        }
+        while (1)
+        {
+            fp >> f_name >> l_name >> email >> ID >> user >> pass;
+            if (fp.eof())
+            {
                 break;
             }
-            if(user==u && pass==p){
+            if (user == u && pass == p)
+            {
                 fp.close();
-                cout<<"\nSign in successful\n";
+                cout << "\nSign in successful\n";
                 admin_menu();
             }
         }
@@ -1096,10 +1180,10 @@ public:
         ifstream fp("admin.txt", ios::in);
         system("cls");
         cout << "\t\t\t\t\tADMIN LIST";
-        cout << "\nFirst name  \tLast name \tID \tEmail"<< endl;
+        cout << "\nFirst name  \tLast name \tID \tEmail" << endl;
         while (1)
         {
-            fp>>f_name>>l_name>>email>>ID;
+            fp >> f_name >> l_name >> email >> ID;
             if (fp.eof())
             {
                 break;
@@ -1206,12 +1290,11 @@ void Customer::customer_menu()
     cin >> choice;
     if (choice == 1)
     {
-    
     }
     else if (choice == 2)
     {
         Booking b;
-        b.menu();
+        //b.n_booking();
     }
     else
     {
@@ -1361,65 +1444,15 @@ void main_screen()
     }
     else if (choice == 2) //staff
     {
-        int c;
+        system("cls");
         Staff s;
-        while (1)
-        {
-            s.menu();
-            cin >> c;
-            if (c == 1)
-            {
-                s.signup();
-                fstream f;
-                f.open("staff.dat", ios::binary | ios::app);
-                f.write((char *)&s, sizeof(s));
-                f.close();
-                system("CLS");
-                cout << endl
-                     << "SIGN UP SUCCESSFUL" << endl;
-            }
-            else if (c == 2)
-            {
-                string u, p;
-                s.signin(&u, &p);
-                fstream f;
-                f.open("staff.dat", ios::binary | ios::in);
-                while (1)
-                {
-                    f.read((char *)&s, sizeof(s));
-                    if (s.get_username() == u && s.get_password() == p)
-                    {
-                        system("cls");
-                        cout << "\nSIGN IN SUCCESSFUL\n";
-                        Sleep(1000);
-                        s.staff_menu();
-                        break;
-                    }
-                    else if (f.eof())
-                    {
-                        system("cls");
-                        cout << "\nWRONG USERNAME OR PASSWORD" << endl
-                             << "TRY AGAIN" << endl;
-                        s.signin(&u, &p);
-                    }
-                }
-                f.close();
-            }
-            else if (c == 3)
-            {
-                exit(0);
-            }
-            else
-            {
-                exit(1);
-            }
-        }
+        s.menu();
     }
     else if (choice == 3) //customer
     {
+        system("cls");
         Customer c;
-        c.menu();       
-        
+        c.menu();
     }
     else if (choice == 4) //airline
     {
@@ -1451,60 +1484,10 @@ void main_screen()
     }
     else if (choice == 5) //special customer
     {
+        system("cls");
         Special_customer s;
-        while(1){
         s.menu();
-        int c;
-        cout << "\nEnter choice: ";
-        cin >> c;
-        if (c == 1)
-        {
-            s.signup();
-            fstream fp;
-            fp.open("special_customer.dat", ios::binary | ios::app);
-            fp.write((char *)&s, sizeof(s));
-            fp.close();
-            system("cls");
-            cout << "\nSIGN UP SUCCESSFUL\n";
-            Sleep(500);
-        }
-        else if (c == 2)
-        {
-            int a=0;
-            string u, p;
-            s.signin(&u, &p);
-            fstream fp;
-            fp.open("special_customer.dat", ios::binary | ios::in);
-            while (1)
-            {
-                fp.read((char *)&s, sizeof(s));
-                if (s.get_username() == u && s.get_password() == p)
-                {
-                    system("cls");
-                    cout << "\nSIGN IN SUCCESSFUL\n";
-                    s.s_customer_menu(&a);
-                    if(a==2){
-                        Booking b;
-                        b.s_booking(s);
-                    }
-                }
-                else if (fp.eof())
-                {
-                    system("cls");
-                    cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
-                    s.signin(&u, &p);
-                }
-            }
-            fp.close();
-        }
-
-        else if (c == 3)
-        {
-            exit(0);
-        }
     }
-}
-
     else if (choice == 6) //booking
     {
     }
@@ -1531,6 +1514,6 @@ void main_screen()
 int main()
 {
     system("cls");
-    system("color B0");
+    system("color B5");
     main_screen();
 }
