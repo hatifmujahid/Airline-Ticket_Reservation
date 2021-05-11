@@ -734,6 +734,7 @@ void Booking::n_booking(Customer a)
 void Booking::s_booking(Special_customer a){
     int i;
     c_name= a.get_fname();
+    c_id = a.get_ID();
     cout << "Enter ticket ID: ";
     cin >> ticket_ID;
     c_email = a.get_email();
@@ -1285,7 +1286,7 @@ public:
 
 void main_screen()
 {
-    cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6)Book a ticket\n\t7) Print Ticket\n";
+    cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Print Ticket\n";
     int choice;
     cout << "Enter your choice: ";
     cin >> choice;
