@@ -101,7 +101,7 @@ public:
     }
     //maybe sign in function to be made for abstraction
 };
-class Airline//working
+class Airline //working
 {
 protected:
     string name, airline_email;
@@ -308,10 +308,9 @@ class HolidayPackage
     int choice;
 
 public:
-    
     void menu()
     {
-        
+
         cout << "WELCOME TO THE HOLIDAY TOURS AND PACKAGES MENU" << endl;
         cout << " 1.View Packages\t2.Book a Package\t3.Exit to main\n";
         cout << "Enter choice" << endl;
@@ -749,13 +748,13 @@ public:
         cout << ".";
         int s;
         cout << "\n\nEnter ID of the ticket to be printed: ";
-        cin>>s;
+        cin >> s;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
         while (1)
         {
             fpt >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
-            if (ticket_ID ==s )
+            if (ticket_ID == s)
             {
                 break;
             }
@@ -786,7 +785,7 @@ public:
         cout << ".";
         int s;
         cout << "\n\nEnter ID of the ticket to be printed: ";
-        cin>>s;
+        cin >> s;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
         while (1)
@@ -810,122 +809,6 @@ public:
         system("PAUSE");
     }
 };
-void Booking::s_booking() //working
-{
-    int i;
-    Special_customer a;
-    a.signin();
-    c_name = a.get_fname();
-    c_email = a.get_email();
-    c_id = a.get_ID();
-    srand((unsigned)time(0)); //random price generator
-    i = (rand() % 4000);
-    fstream fptr;
-    fptr.open("ticket.txt", ios::in);
-    while (1)
-    {
-        fptr>> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
-        if(fptr.eof()){
-            break;
-        }
-      
-        
-        if(i==ticket_ID){
-           continue;
-        }
-        
-    }
-    fptr.close();
-    ticket_ID=i;
-    srand((unsigned)time(0)); //random price generator
-    i = (rand() % 3);
-    price = prices[i];
-    if (a.is_special == true)
-    {
-        price = price * 0.85;
-    }
-    cout << "List of airlines: ";
-    showAirlines();
-    int choice;
-    cout << "\nEnter ID of the Airline choosen: ";
-    cin >> choice;
-    fstream fpt;
-    fpt.open("ticket.txt", ios::app);
-    if (!fpt)
-    {
-        cout << "\nFILE DOES NOT EXIST\n";
-        exit(1);
-    }
-    fstream fp;
-    fp.open("airline.txt", ios::in);
-    while (1)
-    {
-        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
-        if (fp.eof())
-        {
-            break;
-        }
-        if (airline_id == choice)
-        {
-            break;
-        }
-    }
-    c_airline = name;
-    fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
-    fpt.close();
-    cout << "Ticket is generated.\nID: " << ticket_ID << endl;
-    system("PAUSE");
-}
-void Booking::n_booking() //working
-{
-    int i;
-    Customer a;
-    a.signin();
-    c_name = a.get_fname();
-    c_email = a.get_email();
-    c_id = a.get_ID();
-    system("PAUSE");
-    cout << "Enter ticket ID: ";
-    cin >> ticket_ID;
-    srand((unsigned)time(0)); //random price generator
-    i = (rand() % 3);
-    price = prices[i];
-    if (a.is_special == true)
-    {
-        price = price * 0.85;
-    }
-    cout << "List of airlines: ";
-    showAirlines();
-    int choice;
-    cout << "\nEnter ID of the Airline choosen: ";
-    cin >> choice;
-    fstream fpt;
-    fpt.open("ticket.txt", ios::app);
-    if (!fpt)
-    {
-        cout << "\nFILE DOES NOT EXIST\n";
-        exit(1);
-    }
-    fstream fp;
-    fp.open("airline.txt", ios::in);
-    while (1)
-    {
-        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
-        if (fp.eof())
-        {
-            break;
-        }
-        if (airline_id == choice)
-        {
-            break;
-        }
-    }
-    c_airline = name;
-    fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
-    fpt.close();
-    cout << "Ticket is generated.\nID: " << ticket_ID << endl;
-    system("PAUSE");
-}
 class Staff : virtual public Person //not known if working
 {
 private:
@@ -1385,7 +1268,122 @@ void Admin::delete_customer() //working
     rename("new.txt", "customer.txt");
     admin_menu();
 }
+void Booking::s_booking() //working
+{
+    int i;
+    Special_customer a;
+    a.signin();
+    c_name = a.get_fname();
+    c_email = a.get_email();
+    c_id = a.get_ID();
+    srand((unsigned)time(0)); //random price generator
+    i = (rand() % 4000);
+    fstream fptr;
+    fptr.open("ticket.txt", ios::in);
+    while (1)
+    {
+        fptr >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+        if (fptr.eof())
+        {
+            break;
+        }
 
+        if (i == ticket_ID)
+        {
+            continue;
+        }
+    }
+    fptr.close();
+    ticket_ID = i;
+    srand((unsigned)time(0)); //random price generator
+    i = (rand() % 3);
+    price = prices[i];
+    if (a.is_special == true)
+    {
+        price = price * 0.85;
+    }
+    cout << "List of airlines: ";
+    showAirlines();
+    int choice;
+    cout << "\nEnter ID of the Airline choosen: ";
+    cin >> choice;
+    fstream fpt;
+    fpt.open("ticket.txt", ios::app);
+    if (!fpt)
+    {
+        cout << "\nFILE DOES NOT EXIST\n";
+        exit(1);
+    }
+    fstream fp;
+    fp.open("airline.txt", ios::in);
+    while (1)
+    {
+        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+        if (fp.eof())
+        {
+            break;
+        }
+        if (airline_id == choice)
+        {
+            break;
+        }
+    }
+    c_airline = name;
+    fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
+    fpt.close();
+    cout << "Ticket is generated.\nID: " << ticket_ID << endl;
+    system("PAUSE");
+}
+void Booking::n_booking() //working
+{
+    int i;
+    Customer a;
+    a.signin();
+    c_name = a.get_fname();
+    c_email = a.get_email();
+    c_id = a.get_ID();
+    system("PAUSE");
+    cout << "Enter ticket ID: ";
+    cin >> ticket_ID;
+    srand((unsigned)time(0)); //random price generator
+    i = (rand() % 3);
+    price = prices[i];
+    if (a.is_special == true)
+    {
+        price = price * 0.85;
+    }
+    cout << "List of airlines: ";
+    showAirlines();
+    int choice;
+    cout << "\nEnter ID of the Airline choosen: ";
+    cin >> choice;
+    fstream fpt;
+    fpt.open("ticket.txt", ios::app);
+    if (!fpt)
+    {
+        cout << "\nFILE DOES NOT EXIST\n";
+        exit(1);
+    }
+    fstream fp;
+    fp.open("airline.txt", ios::in);
+    while (1)
+    {
+        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+        if (fp.eof())
+        {
+            break;
+        }
+        if (airline_id == choice)
+        {
+            break;
+        }
+    }
+    c_airline = name;
+    fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
+    fpt.close();
+    cout << "Ticket is generated.\nID: " << ticket_ID << endl;
+    system("PAUSE");
+}
 class Payment //working
 {
     string bank;
