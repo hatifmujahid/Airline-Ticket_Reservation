@@ -202,12 +202,12 @@ public:
 class Customer : virtual public Person // hatif
 {
 private:
+    string user, pass,u,p;
 protected:
     string f_name, l_name;
 
 public:
     bool is_special = false;
-    string u, p;
     friend class Booking;
     friend class Staff;
     void set_fname(string f_name) { this->f_name = f_name; }
@@ -219,6 +219,20 @@ public:
         system("cls");
         cout << "\n\t\tWelcome to the customer Login/Logout menu!!";
         cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
+        cout<<"\nEnter choice: ";
+        int choice;
+        cin>>choice;
+        switch (choice)
+        {
+        case 1:
+            signup();
+            break;
+        case 2:
+            signin();
+            break;
+        default:
+            break;
+        }
     }
     void output(){
         cout<<f_name<<" "<<l_name;
@@ -233,9 +247,16 @@ public:
         cout << "Enter last name: ";
         getline(cin, l_name);
         fflush(stdin);
+        fstream fp;
+        fp.open("customer.txt", ios::app);
+        fp<<f_name<<"\t"<<l_name<<"\t"<<email<<"\t"<<ID<<"\t"<<get_username()<<"\t"<<get_password()<<"\t"<<is_special<<endl;
+        fp.close();
+        cout<<"\nSIGN UP SUCCESSFUL\n";
+        system("PAUSE");
+        menu();
     }
 
-    void signin(string *user, string *pass)
+    void signin()
     {
         system("cls");
         cout << "---------------------------------------Customer SIGN IN---------------------------------------\n\n";
@@ -246,10 +267,25 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         p = inputmasking();
-        *user = u;
-        *pass = p;
+        fstream fp;
+        fp.open("customer.txt", ios::in);
+        while(1){
+            fp>>f_name>>l_name>>email>>ID>>user>>pass>>is_special;
+            if(fp.eof()){
+                cout<<"\nSIGN IN UNSUCCESSFUL\n";
+                signin();
+                break;
+            }
+            if(user==u && pass==p){
+                fp.close();
+                cout<<"\nSign in successful\n";
+                Sleep(5000);
+                customer_menu();
+            }
+        }
+        fp.close();
     }
-    void customer_menu(int *a);
+    void customer_menu();
 };
 class HolidayPackage : virtual public Person, public Customer
 {
@@ -957,7 +993,7 @@ public:
 };
 class Admin : public Person //hatif
 {
-    string u, p;
+    string user, pass,u,p;
 
 protected:
     string f_name, l_name;
@@ -970,7 +1006,21 @@ public:
     const string get_lname() { return l_name; }
     void menu()
     {
-        cout << "__________________________________________ADMIN MENU__________________________________________\n\n\t1)Sign in\n\t2)Sign up\n\t3)Show admins\n";
+        cout << "__________________________________________ADMIN MENU__________________________________________\n\n\t1)Sign Up\n\t2)Sign in\n";
+        cout<<"\nEnter choice: ";
+        int choice;
+        cin>>choice;
+        switch (choice)
+        {
+        case 1:
+            signup();
+            break;
+        case 2:
+            signin();
+            break;
+        default:
+            break;
+        }
     }
 
     void signup()
@@ -982,19 +1032,37 @@ public:
         cout << "Enter last name: ";
         getline(cin, l_name);
         fflush(stdin);
+        fstream fp;
+        fp.open("admin.txt", ios::app);
+        fp<<f_name<<"\t"<<l_name<<"\t"<<email<<"\t"<<ID<<"\t"<<get_username()<<"\t"<<get_password()<<endl;
+        fp.close();
+        cout<<"\nSIGN UP SUCCESSFUL\n";
+        admin_menu();
     }
-    void signin(string *user, string *pass)
+    void signin()
     {
+        
         cout << "__________________________________ADMIN SIGN IN______________________________________\n\n";
         fflush(stdin);
         cout << "Enter username: ";
         getline(cin, u);
         fflush(stdin);
         cout << "Enter password: ";
-        char c;
         p = inputmasking();
-        *user = u;
-        *pass = p;
+        fstream fp;
+        fp.open("admin.txt", ios::in);
+        while(1){
+            fp>>f_name>>l_name>>email>>ID>>user>>pass;
+            if(fp.eof()){
+                break;
+            }
+            if(user==u && pass==p){
+                fp.close();
+                cout<<"\nSign in successful\n";
+                admin_menu();
+            }
+        }
+        fp.close();
     }
     void admin_menu()
     {
@@ -1025,25 +1093,20 @@ public:
     void delete_airline();
     void show_admin()
     {
-        Admin a;
-        ifstream fp("admin.dat", ios::in | ios::binary);
-        fp.read((char *)&a, sizeof(a));
+        ifstream fp("admin.txt", ios::in);
         system("cls");
         cout << "\t\t\t\t\tADMIN LIST";
-        cout << "\nFirst name:  \tLast name: "
-                "\tID: "
-                "\t\tEmail: "
-             << endl;
+        cout << "\nFirst name  \tLast name \tID \tEmail"<< endl;
         while (1)
         {
-            if (!fp.eof())
+            fp>>f_name>>l_name>>email>>ID;
+            if (fp.eof())
             {
-                fp.read((char *)&a, sizeof(a));
-                cout << a.get_fname() << "\t\t" << a.get_lname() << "\t\t" << a.get_ID() << "\t\t" << a.get_email() << endl;
+                break;
             }
             else
             {
-                break;
+                cout << f_name << "\t\t" << l_name << "\t\t" << ID << "\t\t" << email << endl;
             }
         }
     }
@@ -1135,20 +1198,20 @@ void Special_customer::book_flight()
 //     Special_customer c;
 
 // }
-void Customer::customer_menu(int *a)
+void Customer::customer_menu()
 {
-    k:
     cout << "----------------------------Customer Main Menu----------------------------\n\n";
     cout << "\n\t1. Refund Booking\n\t2. Book a flight\n\t3. Book a Holiday Package\n";
     int choice, c;
     cin >> choice;
     if (choice == 1)
     {
-        *a=choice;
+    
     }
     else if (choice == 2)
     {
-        *a=choice;
+        Booking b;
+        b.menu();
     }
     else
     {
@@ -1159,7 +1222,7 @@ void Customer::customer_menu(int *a)
         case 1:
             exit(0);
         case 2:
-            goto k;
+            customer_menu();
             break;
         default:
             break;
@@ -1294,55 +1357,7 @@ void main_screen()
     {
         system("cls");
         Admin a;
-        while (1)
-        {
-            a.menu();
-            int choice;
-            cout << "\nEnter choice: ";
-            cin >> choice;
-            if (choice == 2)
-            {
-                system("cls");
-                a.signup();
-                fstream fp;
-                fp.open("admin.dat", ios::binary | ios::app);
-                fp.write((char *)&a, sizeof(a));
-                fp.close();
-                system("cls");
-                cout << "\n\n\t\tSIGN UP SUCCESSFUL\n";
-            }
-            else if (choice == 1)
-            {
-                system("cls");
-                string u, p;
-                a.signin(&u, &p);
-                fstream fp;
-                fp.open("admin.dat", ios::binary | ios::in);
-                while (1)
-                {
-                    fp.read((char *)&a, sizeof(a));
-                    if (a.get_username() == u && a.get_password() == p)
-                    {
-                        system("cls");
-                        cout << "\n\n\tSIGN IN SUCCESSFUL\n\n";
-                        Sleep(1000);
-                        a.admin_menu();
-                        break;
-                    }
-                    else if (fp.eof())
-                    {
-                        system("cls");
-                        cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN\n\n";
-                        a.signin(&u, &p);
-                    }
-                }
-                fp.close();
-            }
-            else
-            {
-                break;
-            }
-        }
+        a.menu();
     }
     else if (choice == 2) //staff
     {
@@ -1403,68 +1418,8 @@ void main_screen()
     else if (choice == 3) //customer
     {
         Customer c;
-        while (1)
-        {
-            c.menu();
-            int choice;
-            cout << "\nEnter choice: ";
-            cin >> choice;
-            if (choice == 1)
-            {
-                c.signup();
-                fstream fp;
-                fp.open("customer.dat", ios::binary | ios::app);
-                fp.write((char *)&c, sizeof(c));
-                fp.close();
-                system("cls");
-                cout << "\nSIGN UP SUCCESSFUL\n";
-                Sleep(1000);
-                c.menu();
-            }
-            else if (choice == 2)
-            {
-                string u, p;
-                c.signin(&u, &p);
-                fstream fp;
-                fp.open("customer.dat", ios::binary | ios::in);
-                while (1)
-                {   
-                    int a=0;
-                    fp.read((char *)&c, sizeof(c));
-                    if (c.get_username() == u && c.get_password() == p)
-                    {
-                        system("cls");
-                        cout << "\nSIGN IN SUCCESSFUL\n";
-                        Sleep(1000);
-                        system("cls");
-                        c.customer_menu(&a);
-                        if(a==1){
-                            Staff s;
-                            s.refund();
-                        }
-                        else if(a == 2){
-                            Booking b;
-                            b.n_booking(c);
-                        }break;
-                    }
-                    else if (fp.eof())
-                    {
-                        system("cls");
-                        cout << "\nWRONG USERNAME OR PASSWORD. \n\n\t\t\tENTER AGAIN";
-                        c.signin(&u, &p);
-                    }
-                }
-                fp.close();
-            }
-            else if (choice == 3)
-            {
-                exit(0);
-            }
-            else
-            {
-                exit(1); //wrong input gives return value 1 at end
-            }
-        }
+        c.menu();       
+        
     }
     else if (choice == 4) //airline
     {
