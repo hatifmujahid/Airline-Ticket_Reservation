@@ -746,6 +746,23 @@ class Ticket : public Booking
 public:
     void menu()
     {
+        cout<<"**************************************TICKET MENU**************************************";
+        cout<<"\n1) Normal Customer Ticket\n2) Special Customer ticket\n3) Exit\nEnter choice: ";
+        int choice;
+        cin>>choice;
+        switch (choice)
+        {
+        case 1:
+            n_printticket();
+            break;
+        case 2:
+            s_printticket();
+            break;
+        default:
+            exit(0);
+        }
+    }
+    void s_printticket(){
         system("cls");
         cout << "\nProcessing ticket";
         Sleep(500);
@@ -756,8 +773,32 @@ public:
         cout << ".";
         Sleep(500);
         cout << ".";
+        int choice;
+        cout << "\n\nEnter ID of the ticket to be printed: ";
+        cin >> choice;
+        fstream fpt;
+        fpt.open("ticket.txt", ios::in);
+        while (1)
+        {
+            fpt >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+            if (ticket_ID == choice)
+            {
+                break;
+            }
+            if (fpt.eof())
+            {
+                break;
+            }
+        }
+        fpt.close();
+        loading_screen();
+        cout << "----------------------------------------------------------------------------------------------\n";
+        cout << "-                                             Ticket                                         -\n";
+        cout << "----------------------------------------------------------------------------------------------\n";
+        cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
+        system("PAUSE");
     }
-    void printticket()
+    void n_printticket()
     {
         int choice;
         cout << "\n\nEnter ID of the ticket to be printed: ";
@@ -778,11 +819,9 @@ public:
         }
         fpt.close();
         loading_screen();
-        cout << "-----------------------------------------------"
-             << "-----------------------------------------------\n";
-        cout << "                                              Ticket\n";
-        cout << "-----------------------------------------------"
-             << "-----------------------------------------------\n";
+        cout << "----------------------------------------------------------------------------------------------\n";
+        cout << "-                                             Ticket                                         -\n";
+        cout << "----------------------------------------------------------------------------------------------\n";
         cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
         system("PAUSE");
     }
@@ -1350,6 +1389,12 @@ class Payment
     int cvv, expiry_month, expiry_year;
 
 public:
+    Payment(){
+        card_no=0;
+        cvv=0;
+        expiry_month=0;
+        expiry_year=0;
+    }
     void menu()
     {
         Ticket t;
@@ -1381,20 +1426,21 @@ public:
         cin >> card_no;
         cout << "CVV: ";
         cin >> cvv;
-        cout << "Enter expiry month(mm)";
+        cout << "Enter expiry month(mm): ";
         cin >> expiry_month;
-        while (expiry_month <= 12 && expiry_month > 0)
+        while (expiry_month > 12 && expiry_month <= 0)
         {
             cout << "Month input is wrong.\nEnter expiry month(mm)";
             cin >> expiry_month;
         }
-        cout << "Enter expiry year(yyyy)";
+        cout << "Enter expiry year(yyyy): ";
         cin >> expiry_year;
         system("cls");
         cout << "\t\t\t\tProcessing payment";
         Sleep(500);
         loading_screen();
         cout << "\t\t\t\tPayment Successful\n";
+        system("PAUSE");
     }
     void online_banking()
     {
@@ -1413,6 +1459,7 @@ public:
         Sleep(500);
         loading_screen();
         cout << "\t\t\t\tPayment Successful\n";
+        system("PAUSE");
     }
 };
 
