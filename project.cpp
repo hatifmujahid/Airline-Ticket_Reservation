@@ -1568,16 +1568,17 @@ void main_screen()
         }
     }
 }
-
-int main(int argc, char const *argv[])
-{
-    system("cls");
+void color(){
     HANDLE console_color;
     console_color = GetStdHandle(STD_OUTPUT_HANDLE);
     int P;
     P=13;
     SetConsoleTextAttribute(console_color, P);
-  
+}
+int main(int argc, char const *argv[])
+{
+    system("cls");
+    color();
     main_screen();
     return 0;
 }
