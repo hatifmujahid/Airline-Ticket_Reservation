@@ -101,7 +101,7 @@ public:
     }
     //maybe sign in function to be made for abstraction
 };
-class Airline
+class Airline//working
 {
 protected:
     string name, airline_email;
@@ -201,7 +201,7 @@ public:
         fp.close();
     }
 };
-class Customer : virtual public Person
+class Customer : virtual public Person //working
 {
 private:
     string user, pass, u, p;
@@ -299,7 +299,7 @@ public:
         fp.close();
     }
 };
-class HolidayPackage : virtual public Person, public Customer
+class HolidayPackage
 {
     string date;
     int tourcode;
@@ -308,8 +308,10 @@ class HolidayPackage : virtual public Person, public Customer
     int choice;
 
 public:
+    
     void menu()
     {
+        
         cout << "WELCOME TO THE HOLIDAY TOURS AND PACKAGES MENU" << endl;
         cout << " 1.View Packages\t2.Book a Package\t3.Exit to main\n";
         cout << "Enter choice" << endl;
@@ -652,10 +654,10 @@ public:
         return f_name;
     }
 };
-class Booking : public Customer, public Airline
+class Booking : public Customer, public Airline //working
 {
 protected:
-    string ticket_ID;
+    int ticket_ID;
     string c_name, c_email, c_airline;
     int c_id;
     float price;
@@ -670,7 +672,7 @@ public:
         prices[1] = 10000;
         prices[2] = 15000;
     }
-    const string get_ticket_id()
+    const int get_ticket_id()
     {
         return ticket_ID;
     }
@@ -711,8 +713,7 @@ public:
     void n_booking();
     void s_booking();
 };
-
-class Ticket : public Booking
+class Ticket : public Booking //working
 {
 public:
     void menu()
@@ -746,15 +747,15 @@ public:
         cout << ".";
         Sleep(500);
         cout << ".";
-        string s;
+        int s;
         cout << "\n\nEnter ID of the ticket to be printed: ";
-        getline(cin, s);
+        cin>>s;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
         while (1)
         {
             fpt >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
-            if (ticket_ID == s)
+            if (ticket_ID ==s )
             {
                 break;
             }
@@ -783,9 +784,9 @@ public:
         cout << ".";
         Sleep(500);
         cout << ".";
-        string s;
+        int s;
         cout << "\n\nEnter ID of the ticket to be printed: ";
-        getline(cin, s);
+        cin>>s;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
         while (1)
@@ -817,8 +818,25 @@ void Booking::s_booking() //working
     c_name = a.get_fname();
     c_email = a.get_email();
     c_id = a.get_ID();
-    cout << "Enter ticket ID: ";
-    cin >> ticket_ID;
+    srand((unsigned)time(0)); //random price generator
+    i = (rand() % 4000);
+    fstream fptr;
+    fptr.open("ticket.txt", ios::in);
+    while (1)
+    {
+        fptr>> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+        if(fptr.eof()){
+            break;
+        }
+      
+        
+        if(i==ticket_ID){
+           continue;
+        }
+        
+    }
+    fptr.close();
+    ticket_ID=i;
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
     price = prices[i];
@@ -1088,7 +1106,7 @@ public:
     {
         system("CLS");
         Booking t1;
-        string i;
+        int i;
         cout << "Enter Ticket ID" << endl;
         cin >> i;
         fstream fpt;
