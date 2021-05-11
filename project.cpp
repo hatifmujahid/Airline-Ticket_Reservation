@@ -516,8 +516,21 @@ public:
     friend class Booking;
     void menu()
     {
+        system("cls");
         cout << "\n\t\tWelcome to the Special customer Login/Logout menu!!";
-        cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
+        cout << "\n1) Sign Up\n2)Back to Main Menu\n3)EXIT\nEnter choice: ";
+        int choice;
+        cin>>choice;
+        switch (choice)
+        {
+        case 1:
+            signup();
+            break;
+        case 2:
+            break;
+        default:
+            exit(0);
+        }
     }
     void signup()
     {
@@ -580,7 +593,6 @@ public:
                 system("cls");
                 cout << "\nSIGN IN SUCCESSFUL\n";
                 loading_screen();
-                s_customer_menu();
             }
         }
         fp.close();
@@ -721,7 +733,7 @@ public:
             s_booking();
             break;
         default:
-            break;
+            exit(0);
         }
     }
     void n_booking();
@@ -735,14 +747,6 @@ public:
     {
         system("cls");
         cout << "\nProcessing ticket";
-        Sleep(500);
-        cout << ".";
-        Sleep(500);
-        cout << ".";
-        Sleep(500);
-        cout << ".";
-        Sleep(500);
-        cout << ".";
         printticket();
     }
     void printticket()
@@ -766,22 +770,11 @@ public:
         }
         fpt.close();
         loading_screen();
-        cout << "----------------------------------------------------------------------------------------------\n";
-        cout << "                                         Ticket\n";
+        cout << "-----------------------------------------------"<<"-----------------------------------------------\n";
+        cout << "                                              Ticket\n";
+        cout << "-----------------------------------------------"<<"-----------------------------------------------\n";
         cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
-        Sleep(1000);
-        cout << "Do you want to end program?\n1) Yes\n2)No\n";
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            exit(1);
-            break;
-        case 2:
-            break;
-        default:
-            break;
-        }
+        system("PAUSE");
     }
 };
 void Booking::s_booking(){
@@ -797,7 +790,7 @@ void Booking::s_booking(){
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
     price = prices[i];
-    if (is_special == true)
+    if (a.is_special == true)
     {
         price = price * 0.85;
     }
@@ -847,7 +840,7 @@ void Booking::n_booking()
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
     price = prices[i];
-    if (is_special == true)
+    if (a.is_special == true)
     {
         price = price * 0.85;
     }
@@ -1338,42 +1331,9 @@ void Admin::delete_customer() //working
     rename("new.txt", "customer.txt");
     admin_menu();
 }
-// void Special_customer::check_flight()
-// {
-//     Special_customer c;
 
-// }
-// 
 
-// void Customer::check_flight()
-// {
-//     int c;
-//     cout << "Enter ticket ID" << endl;
-//     cin >> c;
-//     Booking b;
-//     fstream fpt;
-//     fpt.open("ticket.txt", ios::in | ios::binary);
-//     while (1)
-//     {
-//         fpt.read((char *)&b, sizeof(Ticket));
-//         if (b.get_ticket_id() == c)
-//         {
-//             cout << "FLIGHT ON TIME" << endl;
-//         }
-//         else if (fpt.eof())
-//         {
-//             cout << "Wrong ID";
-//             check_flight();
-//         }
-//     }
-// }
-// void Customer::refund()
-// {
-//     loading_screen();
-//     cout << "Contact Agency or Staff for further Information" << endl;
-//     cout << "TOLL-FREE : 0800-1006859" << endl;
-// }
-class Payment : protected Booking
+class Payment
 {
     string bank;
     long int card_no;
@@ -1382,7 +1342,9 @@ class Payment : protected Booking
 public:
     void menu()
     {
-        cout << "How do you want to pay for your flight MR." << get_c_name() << ": ";
+        Ticket t;
+        t.menu();
+        cout << "How do you want to pay for your flight: ";
         cout << "\n	1) Card Payment\n	2) Online Banking";
         int choice;
         cout << "\n\n\tEnter your choice: ";
@@ -1422,8 +1384,6 @@ public:
         Sleep(500);
         loading_screen();
         cout << "\t\t\t\tPayment Successful\n";
-        Ticket t;
-        t.menu();
     }
     void online_banking()
     {
@@ -1436,34 +1396,18 @@ public:
         getline(cin, username);
         fflush(stdin);
         cout << "Enter password: ";
-
-        while (true)
-        {
-            c = _getch();
-            if (c == 13)
-            {
-                break;
-            }
-            else if (c == '\b')
-            {
-                password.pop_back();
-                continue;
-            }
-            password.push_back(c);
-            cout << "x";
-        }
+        password = inputmasking();
         fflush(stdin);
         cout << "\t\t\t\tProcessing payment";
         Sleep(500);
         loading_screen();
         cout << "\t\t\t\tPayment Successful\n";
-        Ticket t;
-        t.menu();
     }
 };
 
 void main_screen()
 {
+    system("cls");
     cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Print Ticket\n";
     int choice;
     cout << "Enter your choice: ";
@@ -1485,6 +1429,7 @@ void main_screen()
         system("cls");
         Customer c;
         c.menu();
+        main_screen();
     }
     else if (choice == 4) //airline
     {
@@ -1519,16 +1464,21 @@ void main_screen()
         system("cls");
         Special_customer s;
         s.menu();
+        main_screen();
     }
     else if (choice == 6) //booking
     {
+        system("cls");
         Booking b;
         b.menu();
+        main_screen();
     }
     else if (choice == 7)
     {
-        Ticket t;
-        t.menu();
+        system("cls");
+        Payment p;
+        p.menu();
+        main_screen();
     }
     else
     {
