@@ -572,7 +572,7 @@ public:
         cout << "Enter password: ";
         p = inputmasking();
         fstream fp;
-        fp.open("customer.txt", ios::in);
+        fp.open("special_customer.txt", ios::in);
         if (!fp)
         {
             cout << "\nFILE DOES NOT EXIST\n";
@@ -593,6 +593,7 @@ public:
                 system("cls");
                 cout << "\nSIGN IN SUCCESSFUL\n";
                 loading_screen();
+                break;
             }
         }
         fp.close();
@@ -721,8 +722,8 @@ public:
     }
     void menu()
     {
-        cout << "-----------------------BOOKING MENU------------------------";
-        cout << "\n1) Customer Ticket\n2) Special Customer ticket\nEnter choice: ";
+        cout << "----------------------------------BOOKING MENU---------------------------------------";
+        cout << "\n\n1) Customer Ticket\n\n2) Special Customer ticket\n\nEnter choice: ";
         int choice;
         cin >> choice;
         switch (choice)
@@ -800,6 +801,16 @@ public:
     }
     void n_printticket()
     {
+        system("cls");
+        cout << "\nProcessing ticket";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
         int choice;
         cout << "\n\nEnter ID of the ticket to be printed: ";
         cin >> choice;
@@ -826,7 +837,7 @@ public:
         system("PAUSE");
     }
 };
-void Booking::s_booking()
+void Booking::s_booking()//working
 {
     int i;
     Special_customer a;
@@ -834,7 +845,6 @@ void Booking::s_booking()
     c_name = a.get_fname();
     c_email = a.get_email();
     c_id = a.get_ID();
-    system("PAUSE");
     cout << "Enter ticket ID: ";
     cin >> ticket_ID;
     srand((unsigned)time(0)); //random price generator
@@ -876,7 +886,7 @@ void Booking::s_booking()
     cout << "Ticket is generated.\nID: " << ticket_ID << endl;
     system("PAUSE");
 }
-void Booking::n_booking()
+void Booking::n_booking()//working
 {
     int i;
     Customer a;
