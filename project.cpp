@@ -10,7 +10,6 @@
 #include <string>
 #include <sstream>
 
-
 using namespace std;
 void loading_screen()
 {
@@ -66,6 +65,7 @@ class Person : public ui
 protected:
     int ID;
     string email;
+
 public:
     Person() { ID = 0; }
     const string get_email() { return email; }
@@ -101,7 +101,7 @@ public:
     }
     //maybe sign in function to be made for abstraction
 };
-class Airline 
+class Airline
 {
 protected:
     string name, airline_email;
@@ -178,30 +178,31 @@ public:
     void showAirlines()
     {
         fstream fp;
-        char a='#';
+        char a = '#';
         fp.open("airline.txt", ios::in);
-        cout << "\nName\tEmail\tID\trating\n\n";
+        cout << "\nName\t\tEmail\t\tID\t\trating\n\n";
         while (1)
         {
-            
+
             if (!fp)
             {
                 break;
             }
             getline(fp, name, a);
-            fp>> airline_email >> airline_id >> rating >> no_of_planes;
+            fp >> airline_email >> airline_id >> rating >> no_of_planes;
             if (fp.eof())
             {
                 break;
             }
-            cout << endl << name <<airline_email<<"\t"<< "\t" << airline_id << "\t" << rating << "\t" << endl;
-            
+            cout << endl
+                 << name <<"\t"<< airline_email << "\t"
+                 << "\t" << airline_id << "\t" << rating << "\t" << endl;
         }
         system("PAUSE");
         fp.close();
     }
 };
-class Customer : virtual public Person 
+class Customer : virtual public Person
 {
 private:
     string user, pass, u, p;
@@ -504,7 +505,7 @@ public:
         file.close();
     }
 };
-class Special_customer : public Person 
+class Special_customer : public Person
 {
     string u, p, user, pass;
 
@@ -669,7 +670,7 @@ public:
         return f_name;
     }
 };
-class Booking : public Customer, public Airline 
+class Booking : public Customer, public Airline
 {
 protected:
     int ticket_ID;
@@ -708,56 +709,9 @@ public:
     {
         return price;
     }
-    void n_booking(){
-        int i;
-        c_id = ID;
-        c_name = f_name;
-        c_email = email;
-        cout<<"Enter ticket ID: ";
-        cin>>ticket_ID;
-        srand((unsigned)time(0)); //random price generator
-        i = (rand() % 3);
-        price = prices[i];
-        if (is_special == true)
-        {
-            price = price * 0.85;
-        }
-        cout << "List of airlines: ";
-        showAirlines();
-        int choice;
-        cout << "\nEnter ID of the Airline choosen: ";
-        cin >> choice;
-        fstream fp;
-        fp.open("airline.txt", ios::in);
-        while (1)
-        {
-            fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
-            if (fp.eof())
-            {
-                break;
-            }
-            if (airline_id == choice)
-            {
-                break;
-            }
-        }
-        c_airline = name;
-        fstream fp;
-        fp.open("ticket.txt", ios::in);
-        if (!fp)
-        {
-            cout << "\nFILE DOES NOT EXIST\n";
-            exit(1);
-        }
-        while (1)
-        {
-            fp << c_name <<"\t" << c_email<<"\t"<<c_airline <<"\t"<<c_id <<"\t"<<price<<"\t"<<ticket_ID<<endl;
-            
-        }
-        fp.close();
-        cout << "Ticket is generated.\nID: " << ticket_ID;
-    }
-    void s_booking(){
+    void n_booking();
+    void s_booking()
+    {
         int i;
         c_name = get_fname();
         c_id = get_ID();
@@ -796,13 +750,13 @@ public:
         fpt.open("ticket.txt", ios::app);
         fpt << c_name << " " << c_email << " " << c_airline << " " << c_id << " " << price << " " << ticket_ID << endl;
         fpt.close();
-        
-        Ticket t;
-        t.menu();
+
+        // Ticket t;
+        // t.menu();
     }
 };
 
-class Ticket : public Booking 
+class Ticket : public Booking
 {
 public:
     void menu()
@@ -858,8 +812,56 @@ public:
         }
     }
 };
-
-class Staff : virtual public Person 
+void Booking::n_booking()
+{
+    int i;
+    c_id = ID;
+    c_name = f_name;
+    c_email = email;
+    cout << "Enter ticket ID: ";
+    cin >> ticket_ID;
+    srand((unsigned)time(0)); //random price generator
+    i = (rand() % 3);
+    price = prices[i];
+    if (is_special == true)
+    {
+        price = price * 0.85;
+    }
+    cout << "List of airlines: ";
+    showAirlines();
+    int choice;
+    cout << "\nEnter ID of the Airline choosen: ";
+    cin >> choice;
+    fstream fpt;
+    fpt.open("ticket.txt", ios::app);
+    if (!fpt)
+    {
+        cout << "\nFILE DOES NOT EXIST\n";
+        exit(1);
+    }
+    fstream fp;
+    fp.open("airline.txt", ios::in);
+    while (1)
+    {
+        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+        if (fp.eof())
+        {
+            break;
+        }
+        if (airline_id == choice)
+        {
+            break;
+        }
+    }
+    c_airline = name;
+    fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
+    fpt.close();
+    cout << "Ticket is generated.\nID: " << ticket_ID<<endl;
+    system("PAUSE");
+    Ticket t;
+    t.menu();
+}
+class Staff : virtual public Person
 {
 private:
     string u, p, user, pass;
@@ -1213,31 +1215,33 @@ public:
         }
     }
 };
-void Admin::delete_airline()//working
+void Admin::delete_airline() //working
 {
     Airline a;
     int ID;
     string n, e;
-    int i,r,p;
+    int i, r, p;
     cout << "Enter ID of the Airline you want to delete: ";
     cin >> ID;
     loading_screen();
-    fstream original("airline.txt", ios::in );
-    fstream new_file("new.txt", ios::out );    
-    if(!original){
+    fstream original("airline.txt", ios::in);
+    fstream new_file("new.txt", ios::out);
+    if (!original)
+    {
         exit(1);
     }
     while (1)
     {
-        char a='#';
+        char a = '#';
         getline(original, n, a);
-        original>> e >>i >>r >>p;
-        if(original.eof()){
+        original >> e >> i >> r >> p;
+        if (original.eof())
+        {
             break;
         }
         if (i != ID)
         {
-           new_file<< n << "#" << e << " " << i << " " << r << " " << p << endl;
+            new_file << n << "#" << e << " " << i << " " << r << " " << p << endl;
         }
     }
     new_file.close();
@@ -1246,15 +1250,17 @@ void Admin::delete_airline()//working
     rename("new.txt", "airline.txt");
     admin_menu();
 }
-void Admin::delete_staff()//working
+void Admin::delete_staff() //working
 {
-    string f,l,e, u, p;int i;
+    string f, l, e, u, p;
+    int i;
     bool is;
     int ID;
     fstream original("staff.txt", ios::in);
     fstream new_file("new.txt", ios::app);
-    if(!original){
-        cout<<"\nFILE DOES NOT EXIST!\n";
+    if (!original)
+    {
+        cout << "\nFILE DOES NOT EXIST!\n";
         exit(0);
     }
     cout << "Enter ID of the Staff you want to delete: ";
@@ -1262,7 +1268,7 @@ void Admin::delete_staff()//working
     loading_screen();
     while (1)
     {
-        original>> f >> l >> e >> i >> u >> p >> is;
+        original >> f >> l >> e >> i >> u >> p >> is;
         if (original.eof())
         {
             cout << "ID not found!";
@@ -1270,7 +1276,7 @@ void Admin::delete_staff()//working
         }
         if (i != ID)
         {
-            new_file<<f<<"\t"<<l<<"\t"<<e<<"\t"<<i<<"\t"<<u<<"\t"<<p<<"\t"<<is<<endl;
+            new_file << f << "\t" << l << "\t" << e << "\t" << i << "\t" << u << "\t" << p << "\t" << is << endl;
         }
     }
     new_file.close();
@@ -1279,20 +1285,21 @@ void Admin::delete_staff()//working
     rename("new.txt", "staff.txt");
     admin_menu();
 }
-void Admin::delete_customer()//working
+void Admin::delete_customer() //working
 {
     Customer a;
-    string f,l,e, u, p;int i;
+    string f, l, e, u, p;
+    int i;
     bool is;
     int ID;
     cout << "Enter ID of the customer you want to delete: ";
     cin >> ID;
     loading_screen();
-    fstream original("customer.txt", ios::in );
+    fstream original("customer.txt", ios::in);
     fstream new_file("new.txt", ios::app);
     while (1)
     {
-        original>> f >> l >> e >> i >> u >> p >> is;
+        original >> f >> l >> e >> i >> u >> p >> is;
         if (original.eof())
         {
             cout << "ID not found!";
@@ -1300,7 +1307,7 @@ void Admin::delete_customer()//working
         }
         if (i != ID)
         {
-            new_file<<f<<"\t"<<l<<"\t"<<e<<"\t"<<i<<"\t"<<u<<"\t"<<p<<"\t"<<is<<endl;
+            new_file << f << "\t" << l << "\t" << e << "\t" << i << "\t" << u << "\t" << p << "\t" << is << endl;
         }
     }
     new_file.close();
@@ -1329,7 +1336,7 @@ void Customer::customer_menu()
     else if (choice == 2)
     {
         Booking b;
-        //b.n_booking();
+        b.n_booking();
     }
     else
     {
