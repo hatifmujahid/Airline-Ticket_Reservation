@@ -194,7 +194,8 @@ public:
             {
                 break;
             }
-            cout << endl<<""<< name << "\t\t" << airline_email << "\t\t" << airline_id << "\t\t" << rating << "\t" << endl;
+            cout << endl
+                 << "" << name << "\t\t" << airline_email << "\t\t" << airline_id << "\t\t" << rating << "\t" << endl;
         }
         system("PAUSE");
         fp.close();
@@ -511,7 +512,6 @@ protected:
 
 public:
     bool is_special = true;
-    friend class Booking;
     void menu()
     {
         system("cls");
@@ -595,33 +595,6 @@ public:
             }
         }
         fp.close();
-    }
-    void s_customer_menu()
-    {
-        int c;
-        cout << "_______________SPECIAL CUSTOMER MENU_________________" << endl;
-        cout << "1.Refund Booking\t\t2.Book a flight\t\t3.Check flight status\t\t4.Book a Holiday Package\t\t0.Exit To Main" << endl;
-        cin >> c;
-        if (c == 1)
-        {
-            b_refund();
-        }
-        else if (c == 2)
-        {
-        }
-        else if (c == 3)
-        {
-            //check_flight();
-        }
-        else if (c == 4)
-        {
-            HolidayPackage h;
-            h.menu();
-        }
-        else if (c == 0)
-        {
-            menu();
-        }
     }
     void b_refund()
     {
@@ -1005,9 +978,10 @@ public:
     {
         int c;
         cout << "\n___________________________STAFF MENU____________________________" << endl;
-        cout << "\n1.SIGN UP\t\t2.SIGN-IN\t\t3.EXIT\n" << endl;
+        cout << "\n1.SIGN UP\t\t2.SIGN-IN\t\t3.EXIT\n"
+             << endl;
         int choice;
-        cout<<"Enter choice: ";
+        cout << "Enter choice: ";
         cin >> choice;
         switch (choice)
         {
@@ -1394,12 +1368,13 @@ void Admin::delete_customer() //working
     admin_menu();
 }
 
-class Payment   //working
+class Payment //working
 {
     string bank;
     long int card_no;
     int cvv, expiry_month, expiry_year;
     string username, password;
+
 public:
     Payment()
     {
@@ -1460,7 +1435,7 @@ public:
         char c;
         cout << "Enter bank name: ";
         getline(cin, bank);
-        
+
         fflush(stdin);
         cout << "Enter user name: ";
         getline(cin, username);
@@ -1489,7 +1464,6 @@ void main_screen()
         Admin a;
         a.menu();
         main_screen();
-        
     }
     else if (choice == 2) //staff
     {
@@ -1568,11 +1542,12 @@ void main_screen()
         }
     }
 }
-void color(){
+void color()
+{
     HANDLE console_color;
     console_color = GetStdHandle(STD_OUTPUT_HANDLE);
     int P;
-    P=13;
+    P = 13;
     SetConsoleTextAttribute(console_color, P);
 }
 int main(int argc, char const *argv[])
