@@ -222,7 +222,7 @@ public:
     {
         system("cls");
         cout << "\n\t\tWelcome to the customer Login/Logout menu!!";
-        cout << "\n1) Sign Up\n2) Sign in\n3)EXIT\n";
+        cout << "\n1) Sign Up\n2) Back to Main screen\n3)EXIT\n";
         cout << "\nEnter choice: ";
         int choice;
         cin >> choice;
@@ -232,10 +232,9 @@ public:
             signup();
             break;
         case 2:
-            signin();
             break;
         default:
-            break;
+            exit(0);
         }
     }
     void output()
@@ -289,18 +288,17 @@ public:
                 signin();
                 break;
             }
-            if (user == u && pass == p)
+            else if (user == u && pass == p)
             {
                 fp.close();
                 system("cls");
                 cout << "\nSIGN IN SUCCESSFUL\n";
                 loading_screen();
-                customer_menu();
+                break;
             }
         }
         fp.close();
     }
-    void customer_menu();
 };
 class HolidayPackage : virtual public Person, public Customer
 {
@@ -709,11 +707,30 @@ public:
     {
         return price;
     }
+    void menu(){
+        cout<<"-----------------------BOOKING MENU------------------------";
+        cout<<"\n1) Customer Ticket\n2) Special Customer ticket\nEnter choice: ";
+        int choice;
+        cin>>choice;
+        switch (choice)
+        {
+        case 1:
+            n_booking();
+            break;
+        case 2:
+            s_booking();
+            break;
+        default:
+            break;
+        }
+    }
     void n_booking();
     void s_booking()
     {
         int i;
         c_name = get_fname();
+        cout<<get_fname();
+        system("PAUSE");
         c_id = get_ID();
         cout << "Enter ticket ID: ";
         cin >> ticket_ID;
@@ -750,9 +767,6 @@ public:
         fpt.open("ticket.txt", ios::app);
         fpt << c_name << " " << c_email << " " << c_airline << " " << c_id << " " << price << " " << ticket_ID << endl;
         fpt.close();
-
-        // Ticket t;
-        // t.menu();
     }
 };
 
@@ -815,9 +829,12 @@ public:
 void Booking::n_booking()
 {
     int i;
-    c_id = ID;
-    c_name = f_name;
-    c_email = email;
+    Customer a;
+    a.signin();
+    c_name = a.get_fname();
+    c_email = a.get_email();
+    c_id = a.get_ID();
+    system("PAUSE");
     cout << "Enter ticket ID: ";
     cin >> ticket_ID;
     srand((unsigned)time(0)); //random price generator
@@ -858,8 +875,6 @@ void Booking::n_booking()
     fpt.close();
     cout << "Ticket is generated.\nID: " << ticket_ID<<endl;
     system("PAUSE");
-    Ticket t;
-    t.menu();
 }
 class Staff : virtual public Person
 {
@@ -1324,36 +1339,7 @@ void Special_customer::book_flight()
 //     Special_customer c;
 
 // }
-void Customer::customer_menu()
-{
-    cout << "----------------------------Customer Main Menu----------------------------\n\n";
-    cout << "\n\t1. Refund Booking\n\t2. Book a flight\n\t3. Book a Holiday Package\n";
-    int choice, c;
-    cin >> choice;
-    if (choice == 1)
-    {
-    }
-    else if (choice == 2)
-    {
-        Booking b;
-        b.n_booking();
-    }
-    else
-    {
-        cout << "Wrong choice: \nDo you wanna end the program?\n1) Yes\n2) No";
-        cin >> c;
-        switch (c)
-        {
-        case 1:
-            exit(0);
-        case 2:
-            customer_menu();
-            break;
-        default:
-            break;
-        }
-    }
-}
+// 
 
 // void Customer::check_flight()
 // {
@@ -1532,6 +1518,8 @@ void main_screen()
     }
     else if (choice == 6) //booking
     {
+        Booking b;
+        b.menu();
     }
     else if (choice == 7)
     {
