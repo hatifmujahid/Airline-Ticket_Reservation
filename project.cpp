@@ -725,49 +725,7 @@ public:
         }
     }
     void n_booking();
-    void s_booking()
-    {
-        int i;
-        c_name = get_fname();
-        cout<<get_fname();
-        system("PAUSE");
-        c_id = get_ID();
-        cout << "Enter ticket ID: ";
-        cin >> ticket_ID;
-        c_email = get_email();
-        srand((unsigned)time(0)); //random price generator
-        i = (rand() % 3);
-        price = prices[i];
-        if (is_special == true)
-        {
-            price = price * 0.85;
-        }
-        cout << "List of airlines: ";
-        showAirlines();
-        int choice;
-        cout << "\nEnter ID of the Airline choosen: ";
-        cin >> choice;
-        fstream fp;
-        fp.open("airline.txt", ios::in);
-        while (1)
-        {
-            fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
-            if (fp.eof())
-            {
-                break;
-            }
-            if (airline_id == choice)
-            {
-                break;
-            }
-        }
-        fp.close();
-        c_airline = name;
-        fstream fpt;
-        fpt.open("ticket.txt", ios::app);
-        fpt << c_name << " " << c_email << " " << c_airline << " " << c_id << " " << price << " " << ticket_ID << endl;
-        fpt.close();
-    }
+    void s_booking();
 };
 
 class Ticket : public Booking
@@ -826,6 +784,55 @@ public:
         }
     }
 };
+void Booking::s_booking(){
+    int i;
+    Special_customer a;
+    a.signin();
+    c_name = a.get_fname();
+    c_email = a.get_email();
+    c_id = a.get_ID();
+    system("PAUSE");
+    cout << "Enter ticket ID: ";
+    cin >> ticket_ID;
+    srand((unsigned)time(0)); //random price generator
+    i = (rand() % 3);
+    price = prices[i];
+    if (is_special == true)
+    {
+        price = price * 0.85;
+    }
+    cout << "List of airlines: ";
+    showAirlines();
+    int choice;
+    cout << "\nEnter ID of the Airline choosen: ";
+    cin >> choice;
+    fstream fpt;
+    fpt.open("ticket.txt", ios::app);
+    if (!fpt)
+    {
+        cout << "\nFILE DOES NOT EXIST\n";
+        exit(1);
+    }
+    fstream fp;
+    fp.open("airline.txt", ios::in);
+    while (1)
+    {
+        fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+        if (fp.eof())
+        {
+            break;
+        }
+        if (airline_id == choice)
+        {
+            break;
+        }
+    }
+    c_airline = name;
+    fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
+    fpt.close();
+    cout << "Ticket is generated.\nID: " << ticket_ID<<endl;
+    system("PAUSE");
+}
 void Booking::n_booking()
 {
     int i;
@@ -1330,9 +1337,6 @@ void Admin::delete_customer() //working
     remove("customer.txt");
     rename("new.txt", "customer.txt");
     admin_menu();
-}
-void Special_customer::book_flight()
-{
 }
 // void Special_customer::check_flight()
 // {
