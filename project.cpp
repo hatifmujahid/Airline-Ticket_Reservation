@@ -180,7 +180,7 @@ public:
         fstream fp;
         char a = '#';
         fp.open("airline.txt", ios::in);
-        cout << "\nName\t\tEmail\t\tID\t\trating\n\n";
+        cout << "\n\tName\t\tEmail\t\tID\t\trating\n\n";
         while (1)
         {
 
@@ -194,9 +194,7 @@ public:
             {
                 break;
             }
-            cout << endl
-                 << name << "\t" << airline_email << "\t"
-                 << "\t" << airline_id << "\t" << rating << "\t" << endl;
+            cout << endl<<""<< name << "\t\t" << airline_email << "\t\t" << airline_id << "\t\t" << rating << "\t" << endl;
         }
         system("PAUSE");
         fp.close();
@@ -684,7 +682,7 @@ public:
 class Booking : public Customer, public Airline
 {
 protected:
-    int ticket_ID;
+    string ticket_ID;
     string c_name, c_email, c_airline;
     int c_id;
     float price;
@@ -695,12 +693,11 @@ public:
     {
         c_id = 0;
         price = 0;
-        ticket_ID = 0;
         prices[0] = 4000;
         prices[1] = 10000;
         prices[2] = 15000;
     }
-    const int get_ticket_id()
+    const string get_ticket_id()
     {
         return ticket_ID;
     }
@@ -747,10 +744,11 @@ class Ticket : public Booking
 public:
     void menu()
     {
-        cout<<"**************************************TICKET MENU**************************************";
-        cout<<"\n1) Normal Customer Ticket\n2) Special Customer ticket\n3) Exit\nEnter choice: ";
+        system("cls");
+        cout << "**************************************TICKET MENU**************************************";
+        cout << "\n1) Normal Customer Ticket\n2) Special Customer ticket\n3) Exit\nEnter choice: ";
         int choice;
-        cin>>choice;
+        cin >> choice;
         switch (choice)
         {
         case 1:
@@ -763,7 +761,8 @@ public:
             exit(0);
         }
     }
-    void s_printticket(){
+    void s_printticket()
+    {
         system("cls");
         cout << "\nProcessing ticket";
         Sleep(500);
@@ -774,15 +773,15 @@ public:
         cout << ".";
         Sleep(500);
         cout << ".";
-        int choice;
+        string s;
         cout << "\n\nEnter ID of the ticket to be printed: ";
-        cin >> choice;
+        getline(cin, s);
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
         while (1)
         {
             fpt >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
-            if (ticket_ID == choice)
+            if (ticket_ID == s)
             {
                 break;
             }
@@ -811,15 +810,15 @@ public:
         cout << ".";
         Sleep(500);
         cout << ".";
-        int choice;
+        string s;
         cout << "\n\nEnter ID of the ticket to be printed: ";
-        cin >> choice;
+        getline(cin, s);
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
         while (1)
         {
             fpt >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
-            if (ticket_ID == choice)
+            if (ticket_ID == s)
             {
                 break;
             }
@@ -837,7 +836,7 @@ public:
         system("PAUSE");
     }
 };
-void Booking::s_booking()//working
+void Booking::s_booking() //working
 {
     int i;
     Special_customer a;
@@ -886,7 +885,7 @@ void Booking::s_booking()//working
     cout << "Ticket is generated.\nID: " << ticket_ID << endl;
     system("PAUSE");
 }
-void Booking::n_booking()//working
+void Booking::n_booking() //working
 {
     int i;
     Customer a;
@@ -1005,9 +1004,10 @@ public:
     void menu()
     {
         int c;
-        cout << "__________________STAFF MENU______________________" << endl;
-        cout << "1.SIGN UP\t\t2.SIGN-IN\t\t3.EXIT" << endl;
+        cout << "\n___________________________STAFF MENU____________________________" << endl;
+        cout << "\n1.SIGN UP\t\t2.SIGN-IN\t\t3.EXIT\n" << endl;
         int choice;
+        cout<<"Enter choice: ";
         cin >> choice;
         switch (choice)
         {
@@ -1114,7 +1114,7 @@ public:
     {
         system("CLS");
         Booking t1;
-        int i;
+        string i;
         cout << "Enter Ticket ID" << endl;
         cin >> i;
         fstream fpt;
@@ -1176,8 +1176,8 @@ public:
     const string get_lname() { return l_name; }
     void menu()
     {
-        cout << "__________________________________________ADMIN MENU__________________________________________\n\n\t1)Sign Up\n\t2)Sign in\n";
-        cout << "\nEnter choice: ";
+        cout << "\n\n__________________________________________ADMIN MENU__________________________________________\n\n\t1) Sign Up\n\n\t2) Sign in\n\n\t3) Exit";
+        cout << "\n\nEnter choice: ";
         int choice;
         cin >> choice;
         switch (choice)
@@ -1188,6 +1188,8 @@ public:
         case 2:
             signin();
             break;
+        case 3:
+            exit(0);
         default:
             break;
         }
@@ -1246,7 +1248,7 @@ public:
     void admin_menu()
     {
         system("cls");
-        cout << "\n\n\n__________________________________WELCOME " << f_name << " " << l_name << "______________________________________\n";
+        cout << "\n\n\n__________________________________WELCOME MR. " << f_name << " " << l_name << "______________________________________\n\n";
         cout << "\t1) Delete a Customer\n\t2) Delete an Airline\n\t3) Delete Staff\n\t4) Show all admins \n\n\t\tEnter choice: ";
         int choice;
         cin >> choice;
@@ -1397,13 +1399,14 @@ class Payment
     string bank;
     long int card_no;
     int cvv, expiry_month, expiry_year;
-
+    string username, password;
 public:
-    Payment(){
-        card_no=0;
-        cvv=0;
-        expiry_month=0;
-        expiry_year=0;
+    Payment()
+    {
+        card_no = 0;
+        cvv = 0;
+        expiry_month = 0;
+        expiry_year = 0;
     }
     void menu()
     {
@@ -1457,7 +1460,7 @@ public:
         char c;
         cout << "Enter bank name: ";
         getline(cin, bank);
-        string username, password;
+        
         fflush(stdin);
         cout << "Enter user name: ";
         getline(cin, username);
@@ -1478,19 +1481,22 @@ void main_screen()
     system("cls");
     cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Print Ticket\n";
     int choice;
-    cout << "Enter your choice: ";
+    cout << "\nEnter your choice: ";
     cin >> choice;
     if (choice == 1) //admin
     {
         system("cls");
         Admin a;
         a.menu();
+        main_screen();
+        
     }
     else if (choice == 2) //staff
     {
         system("cls");
         Staff s;
         s.menu();
+        main_screen();
     }
     else if (choice == 3) //customer
     {
@@ -1526,6 +1532,7 @@ void main_screen()
                 exit(1);
             }
         }
+        main_screen();
     }
     else if (choice == 5) //special customer
     {
@@ -1562,9 +1569,15 @@ void main_screen()
     }
 }
 
-int main()
+int main(int argc, char const *argv[])
 {
     system("cls");
-    system("color 10");
+    HANDLE console_color;
+    console_color = GetStdHandle(STD_OUTPUT_HANDLE);
+    int P;
+    P=13;
+    SetConsoleTextAttribute(console_color, P);
+  
     main_screen();
+    return 0;
 }
