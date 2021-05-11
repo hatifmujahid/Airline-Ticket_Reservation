@@ -10,10 +10,11 @@
 #include <string>
 #include <sstream>
 
+
 using namespace std;
 void loading_screen()
 {
-    cout << "\n\n\t\t\t\t\t ";
+    cout << "\n\n\t\t\t\t ";
     printf("%c", 219);
     for (int a = 1; a < 50; a++)
     {
@@ -65,7 +66,6 @@ class Person : public ui
 protected:
     int ID;
     string email;
-
 public:
     Person() { ID = 0; }
     const string get_email() { return email; }
@@ -169,7 +169,7 @@ public:
         cin >> no_of_planes;
         fstream fp;
         fp.open("airline.txt", ios::app);
-        fp << name << " " << airline_email << " " << airline_id << " " << rating << " " << no_of_planes << endl;
+        fp << name << "#" << airline_email << " " << airline_id << " " << rating << " " << no_of_planes << endl;
         fp.close();
         system("cls");
         cout << "\nAirline Reistered SUCCESSFULLY\n";
@@ -178,27 +178,29 @@ public:
     void showAirlines()
     {
         fstream fp;
+        char a='#';
         fp.open("airline.txt", ios::in);
-        cout << "\nName\tID\trating\n\n";
+        cout << "\nName\tEmail\tID\trating\n\n";
         while (1)
         {
-
+            
             if (!fp)
             {
                 break;
             }
-            fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
+            getline(fp, name, a);
+            fp>> airline_email >> airline_id >> rating >> no_of_planes;
             if (fp.eof())
             {
                 break;
             }
-            cout << endl
-                 << name << "\t" << airline_id << "\t" << rating << "\t" << endl;
+            cout << endl << name <<airline_email<<"\t"<< "\t" << airline_id << "\t" << rating << "\t" << endl;
+            
         }
+        system("PAUSE");
         fp.close();
     }
 };
-
 class Customer : virtual public Person // hatif
 {
 private:
@@ -282,6 +284,7 @@ public:
             if (fp.eof())
             {
                 cout << "\nSIGN IN UNSUCCESSFUL\n";
+                loading_screen();
                 signin();
                 break;
             }
@@ -583,7 +586,7 @@ public:
         }
         fp.close();
     }
-    void s_customer_menu(int *a)
+    void s_customer_menu()
     {
         int c;
         cout << "_______________SPECIAL CUSTOMER MENU_________________" << endl;
@@ -595,7 +598,6 @@ public:
         }
         else if (c == 2)
         {
-            *a = c;
         }
         else if (c == 3)
         {
@@ -926,6 +928,17 @@ public:
         cout << "1.SIGN UP\t\t2.SIGN-IN\t\t3.EXIT" << endl;
         int choice;
         cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            signup();
+            break;
+        case 2:
+            signin();
+            break;
+        default:
+            exit(0);
+        }
     }
     void staff_menu()
     {
@@ -1024,7 +1037,7 @@ public:
         cout << "Enter Ticket ID" << endl;
         cin >> i;
         fstream fpt;
-        fpt.open("ticket.dat", ios::in | ios::binary);
+        fpt.open("ticket.txt", ios::in);
         while (1)
         {
             fpt.read((char *)&t1, sizeof(Ticket));
@@ -1101,6 +1114,7 @@ public:
 
     void signup()
     {
+        system("cls");
         Person::signup();
         cout << "Enter first name: ";
         getline(cin, f_name);
@@ -1117,7 +1131,7 @@ public:
     }
     void signin()
     {
-
+        system("cls");
         cout << "__________________________________ADMIN SIGN IN______________________________________\n\n";
         fflush(stdin);
         cout << "Enter username: ";
@@ -1151,7 +1165,7 @@ public:
     void admin_menu()
     {
         system("cls");
-        cout << "__________________________________WELCOME " << f_name << " " << l_name << "______________________________________\n";
+        cout << "\n\n\n__________________________________WELCOME " << f_name << " " << l_name << "______________________________________\n";
         cout << "\t1) Delete a Customer\n\t2) Delete an Airline\n\t3) Delete Staff\n\t4) Show all admins \n\n\t\tEnter choice: ";
         int choice;
         cin >> choice;
@@ -1195,83 +1209,100 @@ public:
         }
     }
 };
-void Admin::delete_airline()
+void Admin::delete_airline()//working
 {
     Airline a;
     int ID;
+    string n, e;
+    int i,r,p;
     cout << "Enter ID of the Airline you want to delete: ";
     cin >> ID;
     loading_screen();
-    fstream original("airline.dat", ios::in | ios::binary);
-    fstream new_file("new.dat", ios::out | ios::binary);
+    fstream original("airline.txt", ios::in );
+    fstream new_file("new.txt", ios::out );    
+    if(!original){
+        exit(1);
+    }
     while (1)
     {
-        original.read((char *)&a, sizeof(Airline));
-        if (a.get_airline_id() != ID)
+        char a='#';
+        getline(original, n, a);
+        original>> e >>i >>r >>p;
+        if(original.eof()){
+            break;
+        }
+        if (i != ID)
         {
-            new_file.write((char *)&a, sizeof(Airline));
+           new_file<< n << "#" << e << " " << i << " " << r << " " << p << endl;
         }
     }
     new_file.close();
     original.close();
-    remove("airline.dat");
-    rename("new.dat", "airline.dat");
+    remove("airline.txt");
+    rename("new.txt", "airline.txt");
     admin_menu();
 }
-void Admin::delete_staff()
+void Admin::delete_staff()//working
 {
-    Staff a;
+    string f,l,e, u, p;int i;
+    bool is;
     int ID;
+    fstream original("staff.txt", ios::in);
+    fstream new_file("new.txt", ios::app);
+    if(!original){
+        cout<<"\nFILE DOES NOT EXIST!\n";
+        exit(0);
+    }
     cout << "Enter ID of the Staff you want to delete: ";
     cin >> ID;
     loading_screen();
-    fstream original("staff.dat", ios::in | ios::binary);
-    fstream new_file("new.dat", ios::out | ios::binary);
     while (1)
     {
-        original.read((char *)&a, sizeof(Staff));
+        original>> f >> l >> e >> i >> u >> p >> is;
         if (original.eof())
         {
             cout << "ID not found!";
             break;
         }
-        if (a.get_ID() != ID)
+        if (i != ID)
         {
-            new_file.write((char *)&a, sizeof(Staff));
+            new_file<<f<<"\t"<<l<<"\t"<<e<<"\t"<<i<<"\t"<<u<<"\t"<<p<<"\t"<<is<<endl;
         }
     }
     new_file.close();
     original.close();
-    remove("staff.dat");
-    rename("new.dat", "staff.dat");
+    remove("staff.txt");
+    rename("new.txt", "staff.txt");
     admin_menu();
 }
-void Admin::delete_customer()
+void Admin::delete_customer()//working
 {
     Customer a;
+    string f,l,e, u, p;int i;
+    bool is;
     int ID;
     cout << "Enter ID of the customer you want to delete: ";
     cin >> ID;
     loading_screen();
-    fstream original("customer.dat", ios::in | ios::binary);
-    fstream new_file("new.dat", ios::out | ios::binary);
+    fstream original("customer.txt", ios::in );
+    fstream new_file("new.txt", ios::app);
     while (1)
     {
-        original.read((char *)&a, sizeof(Customer));
+        original>> f >> l >> e >> i >> u >> p >> is;
         if (original.eof())
         {
             cout << "ID not found!";
             break;
         }
-        if (a.get_ID() != ID)
+        if (i != ID)
         {
-            new_file.write((char *)&a, sizeof(Customer));
+            new_file<<f<<"\t"<<l<<"\t"<<e<<"\t"<<i<<"\t"<<u<<"\t"<<p<<"\t"<<is<<endl;
         }
     }
     new_file.close();
     original.close();
-    remove("customer.dat");
-    rename("new.dat", "customer.dat");
+    remove("customer.txt");
+    rename("new.txt", "customer.txt");
     admin_menu();
 }
 void Special_customer::book_flight()
@@ -1320,7 +1351,7 @@ void Customer::customer_menu()
 //     cin >> c;
 //     Booking b;
 //     fstream fpt;
-//     fpt.open("ticket.dat", ios::in | ios::binary);
+//     fpt.open("ticket.txt", ios::in | ios::binary);
 //     while (1)
 //     {
 //         fpt.read((char *)&b, sizeof(Ticket));
@@ -1514,6 +1545,6 @@ void main_screen()
 int main()
 {
     system("cls");
-    system("color B5");
+    system("color 10");
     main_screen();
 }
