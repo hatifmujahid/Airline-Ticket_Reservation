@@ -235,10 +235,6 @@ public:
             exit(0);
         }
     }
-    void output()
-    {
-        cout << f_name << " " << l_name;
-    }
     void signup()
     {
         system("cls");
