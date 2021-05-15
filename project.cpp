@@ -253,7 +253,6 @@ public:
         system("PAUSE");
         menu();
     }
-
     void signin()
     {
         system("CLS");
@@ -450,7 +449,7 @@ public:
         return f_name;
     }
 };
-class HolidayPackage
+class HolidayPackage:public ui
 {
     string date;
     int tourcode;
@@ -791,7 +790,7 @@ public:
     }
     
 };
-class Booking : public Customer, public Airline //working
+class Booking : public Airline //working
 {
 protected:
     int ticket_ID;
