@@ -9,7 +9,6 @@
 #include <ctime>
 #include <string>
 #include <sstream>
-
 using namespace std;
 void loading_screen()
 {
@@ -796,7 +795,6 @@ public:
     }
     
 };
-
 class Booking : public Customer, public Airline //working
 {
 protected:
@@ -1680,11 +1678,10 @@ public:
         system("PAUSE");
     }
 };
-
 void main_screen()
 {
     system("cls");
-    cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Book a Holiday Package\n\t8) Print Ticket\n\t9)Refund Booking\n";
+    cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Book a Holiday Package\n\t8) Print Ticket\n\t9) Refund Booking\n";
     int choice;
     cout << "\nEnter your choice: ";
     cin >> choice;
