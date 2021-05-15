@@ -261,7 +261,7 @@ public:
 
     void signin()
     {
-        system("cls");
+        system("CLS");
         cout << "---------------------------------------Customer SIGN IN---------------------------------------\n\n";
         char c;
         fflush(stdin);
@@ -297,222 +297,6 @@ public:
             }
         }
         fp.close();
-    }
-};
-class HolidayPackage
-{
-    string date;
-    int tourcode;
-    string departure, arrival;
-    int tour;
-    int choice;
-
-public:
-    Customer c1;
-    void login(){
-        c1.signin();
-        menu();
-    }
-    void menu()
-    { 
-        cout << "WELCOME TO THE HOLIDAY TOURS AND PACKAGES MENU" << endl;
-        cout << " 1.View Packages\t2.Book a Package\t3.Exit to main\n";
-        cout << "Enter choice" << endl;
-        cin >> choice;
-        if (choice == 1 || choice == 2)
-        {
-            package_details();
-        }
-        else
-        {
-            exit(1);
-        }
-    }
-    void package_details()
-    {
-        int c;
-        system("CLS");
-        cout << "---------------------------------HOLIDAY PACKAGE TOURS-----------------------------------" << endl;
-        cout << "Enter a valid date to see available Packages" << endl;
-        cin >> date;
-        fflush(stdin);
-        system("CLS");
-        cout << "ENTER DEPARTURE CITY NAME FROM THE FOLLOWING" << endl;
-        cout << "1.Karachi(1) \t\t 2.Lahore(2) \t\t 3. Islamabad(3) \t\t  " << endl;
-        getline(cin, departure);
-        system("CLS");
-        cout << "AVAILABE PACKAGES :" << endl;
-
-        cout << "1. Toronto(1) \t\t 2.Sydney(2) \t\t 3. Paris(3)  \t\t" << endl;
-        cout << "ENTER CITY NAME TO VIEW PACKAGE DETAILS" << endl;
-        getline(cin, arrival);
-
-        if ((departure == "Karachi" && arrival == "Toronto") || (departure == "Lahore" && arrival == "Toronto") || (departure == "Islamabad" && arrival == "Toronto"))
-        {
-            cout << "\t \t \tFlights Found" << endl
-                 << endl;
-            cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
-            cout << "1.Qatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\tPearl\n";
-            cout << "2.Turkish\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tPC\n";
-            cout << "3.KLM\t\t19:00\t\t22:05\t\t$.2000\t\tNon-refundable\t\tMarriot\n";
-            if (choice == 2)
-            {
-                book_package();
-            }
-            else if (choice == 1)
-            {
-                system("PAUSE");
-                cout << " 1.Book a Package\t2.Main" << endl;
-                cin >> c;
-                if (c == 1)
-                {
-                    book_package();
-                }
-                else
-                {
-                    system("CLS");
-                    menu();
-                }
-            }
-        }
-        if ((departure == "Karachi" && arrival == "Sydney") || (departure == "Lahore" && arrival == "Sydney") || (departure == "Islamabad" && arrival == "Sydney"))
-        {
-            cout << "\t \t \tFlights Found" << endl
-                 << endl;
-            cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
-            cout << "1.Qantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tMeriton\n";
-            cout << "2.Emirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tRaddison\n";
-            cout << "3.Virgin\t19:00\t\t22:05\t\t$.1900\t\tNon-refundable\t\tSheraton\n";
-            if (choice == 2)
-            {
-                book_package();
-            }
-            else if (choice == 1)
-            {
-                system("PAUSE");
-                cout << " 1.Book a Package\t2.Main" << endl;
-                cin >> c;
-                if (c == 1)
-                {
-                    book_package();
-                }
-                else
-                {
-                    system("CLS");
-                    menu();
-                }
-            }
-        }
-        if ((departure == "Karachi" && arrival == "Paris") || (departure == "Lahore" && arrival == "Paris") || (departure == "Islamabad" && arrival == "Paris"))
-        {
-            cout << "\t \t \tFlights Found" << endl
-                 << endl;
-            cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
-            cout << "1.Lufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tBelvedere\n";
-            cout << "2.Etihad\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzayLezay\n";
-            cout << "3.Nippon\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
-            if (choice == 2)
-            {
-                book_package();
-            }
-            else if (choice == 1)
-            {
-                system("PAUSE");
-                cout << " 1.Book a Package\t2.Main" << endl;
-                cin >> c;
-                if (c == 1)
-                {
-                    book_package();
-                }
-                else
-                {
-                    system("CLS");
-                    menu();
-                }
-            }
-        }
-    }
-
-    void book_package()
-    {
-        
-        ofstream file("packages.txt", ios::app);
-
-        cout << "Enter Package number you wish to select" << endl;
-        cin >> tour;
-
-        if (tour == 1)
-        {
-            if (arrival == "Toronto")
-            {
-                file << c1.get_fname() << "\t" << c1.get_ID() << "\tQatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\t Pearl\n";
-
-                cout << "PACKAGE BOOKED" << endl;
-                system("PAUSE");
-            }
-            if (arrival == "Sydney")
-            {
-                file << c1.get_fname() << "\t" << c1.get_ID()<< "\tQantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tMeriton\n";
-
-                cout << "PACKAGE BOOKED" << endl;
-                system("PAUSE");
-            }
-            if (arrival == "Paris")
-            {
-                file << c1.get_fname() << "\t" << c1.get_ID() << "\tLufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tBelvedere\n";
-
-                cout << "PACKAGE BOOKED" << endl;
-                system("PAUSE");
-            }
-        }
-
-        if (tour == 2)
-        {
-            if (arrival == "Toronto")
-            {
-                file << c1.get_fname() << "\t" << c1.get_ID() << "\tTurkish\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tPC\n";
-                cout << "PACKAGE BOOKED" << endl;
-                system("PAUSE");
-            }
-            if (arrival == "Sydney")
-            {
-                file << c1.get_fname() << "\t" << c1.get_ID() << "\tEmirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tRaddison\n";
-
-                cout << "PACKAGE BOOKED" << endl;
-                system("PAUSE");
-            }
-            if (arrival == "Paris")
-            {
-                file << c1.get_fname() << "\t" << c1.get_ID() << "\tEtihad\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzayLezay\n";
-
-                cout << "PACKAGE BOOKED" << endl;
-                system("PAUSE");
-            }
-        }
-
-        if (tour == 3)
-        {
-            if (arrival == "Toronto")
-            {
-                file << c1.get_fname() << "\t" << c1.get_ID() << "\tKLM\t19:00\t\t22:05\t\t$.2000\t\tNonrefundable\t\tMarriot\n";
-
-                cout << "PACKAGE BOOKED" << endl;
-                system("PAUSE");
-            }
-            if (arrival == "Sydney")
-            {
-                file << c1.get_fname() << "\t" << c1.get_ID() << "\tVirgin\t19:00\t\t22:05\t\t$.1900\t\tNonrefundable\t\tSheraton\n";
-                cout << "PACKAGE BOOKED" << endl;
-                system("PAUSE");
-            }
-            if (arrival == "Paris")
-            {
-                file << c1.get_fname() << "\t" << c1.get_ID() << "\tNippon\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
-                cout << "PACKAGE BOOKED" << endl;
-                system("PAUSE");
-            }
-        }
-        file.close();
     }
 };
 class Special_customer : public Person
@@ -610,7 +394,8 @@ public:
         fp.close();
     }
     void b_refund()
-    {
+    {   Special_customer s;
+        s.signin();
         int choice;
         string x;
         string n, i, a, d, ar, p, c, h, l;
@@ -623,7 +408,7 @@ public:
 
         if (choice == 1)
         {
-            cout << "Enter Customer ID" << endl;
+            cout << "Enter Your Customer ID" << endl;
             cin >> x;
             while (original >> n >> i >> a >> d >> ar >> p >> c >> h)
             {
@@ -632,12 +417,13 @@ public:
                 {
                     cout << "TICKET REFUNDED" << endl
                          << "FUNDS TRANSFERRED" << endl;
+                         break;
                 }
                 else if (original.eof())
                 {
                     cout << "BOOKING UNAVAILABE" << endl;
                     system("PAUSE");
-                    b_refund();
+                    break;
                 }
                 else
                 {
@@ -651,11 +437,15 @@ public:
             original.close();
             remove("packages.txt");
             rename("new.txt", "packages.txt");
+            system("PAUSE");
+            menu();
         }
 
         else if (choice == 2)
         {
-            cout << "Normal Tickets are Non-Refundable at the moment" << endl;
+            cout << "Contact Agency or Staff for Refund" << endl;
+            system("PAUSE");
+            menu();
         }
     }
     void check_flight();
@@ -665,6 +455,348 @@ public:
         return f_name;
     }
 };
+class HolidayPackage
+{
+    string date;
+    int tourcode;
+    string departure, arrival;
+    int tour;
+    int choice,c;
+    bool special;
+    
+public:
+    Customer c1;
+    Special_customer s1;
+    void login(){
+        cout<<"1.Customer\t2.Special Customer"<<endl;
+        cin>>c;
+        if(c==1){
+        c1.signin();
+        special=false;
+        menu(); 
+        }
+        else if(c==2){
+            s1.signin();
+            special=true;
+            menu();
+        }
+        
+    }
+    void menu()
+    { 
+        cout << "WELCOME TO THE HOLIDAY TOURS AND PACKAGES MENU" << endl;
+        cout << " 1.View Packages\t2.Book a Package\t3.Exit to main\n";
+        cout << "Enter choice" << endl;
+        cin >> choice;
+        if (choice == 1 || choice == 2)
+        {
+            package_details();
+        }
+        else
+        {
+            exit(1);
+        }
+    }
+    void package_details()
+    {
+        int c;
+        system("CLS");
+        cout << "---------------------------------HOLIDAY PACKAGE TOURS-----------------------------------" << endl;
+        cout << "Enter a valid date to see available Packages" << endl;
+        cin >> date;
+        fflush(stdin);
+        system("CLS");
+        cout << "ENTER DEPARTURE CITY NAME FROM THE FOLLOWING" << endl;
+        cout << "1.Karachi(1) \t\t 2.Lahore(2) \t\t 3. Islamabad(3) \t\t  " << endl;
+        getline(cin, departure);
+        system("CLS");
+        cout << "AVAILABE PACKAGES :" << endl;
+
+        cout << "1. Toronto(1) \t\t 2.Sydney(2) \t\t 3. Paris(3)  \t\t" << endl;
+        cout << "ENTER CITY NAME TO VIEW PACKAGE DETAILS" << endl;
+        getline(cin, arrival);
+
+        if ((departure == "Karachi" && arrival == "Toronto") || (departure == "Lahore" && arrival == "Toronto") || (departure == "Islamabad" && arrival == "Toronto"))
+        {
+            cout << "\t \t \tFlights Found" << endl
+                 << endl;
+            cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
+            cout << "1.Qatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\tPearl\n";
+            cout << "2.Turkish\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tPC\n";
+            cout << "3.KLM\t\t19:00\t\t22:05\t\t$.2000\t\tNon-refundable\t\tMarriot\n";
+            if (choice == 2)
+            {   if(special==true){
+                book_package2();
+            }
+            else{
+                book_package();
+            }
+                
+            }
+            else if (choice == 1)
+            {
+                system("PAUSE");
+                cout << " 1.Book a Package\t2.Main" << endl;
+                cin >> c;
+                if (c == 1)
+                {
+                if(special==true){
+                book_package2();
+            }
+            else{
+                book_package();
+            }
+                }
+                else
+                {
+                    system("CLS");
+                    menu();
+                }
+            }
+        }
+        if ((departure == "Karachi" && arrival == "Sydney") || (departure == "Lahore" && arrival == "Sydney") || (departure == "Islamabad" && arrival == "Sydney"))
+        {
+            cout << "\t \t \tFlights Found" << endl
+                 << endl;
+            cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
+            cout << "1.Qantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tMeriton\n";
+            cout << "2.Emirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tRaddison\n";
+            cout << "3.Virgin\t19:00\t\t22:05\t\t$.1900\t\tNon-refundable\t\tSheraton\n";
+            if (choice == 2)
+            {
+                if(special==true){
+                book_package2();
+            }
+            else{
+                book_package();
+            }
+            }
+            else if (choice == 1)
+            {
+                system("PAUSE");
+                cout << " 1.Book a Package\t2.Main" << endl;
+                cin >> c;
+                if (c == 1)
+                {
+                   if(special==true){
+                book_package2();
+            }
+            else{
+                book_package();
+            }
+                }
+                else
+                {
+                    system("CLS");
+                    menu();
+                }
+            }
+        }
+        if ((departure == "Karachi" && arrival == "Paris") || (departure == "Lahore" && arrival == "Paris") || (departure == "Islamabad" && arrival == "Paris"))
+        {
+            cout << "\t \t \tFlights Found" << endl
+                 << endl;
+            cout << "Airline:\tDeparture:\tArrival:\tPrice:\t\tCategory:\t\tHotel\n";
+            cout << "1.Lufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tBelvedere\n";
+            cout << "2.Etihad\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzayLezay\n";
+            cout << "3.Nippon\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
+            if (choice == 2)
+            {
+                if(special==true){
+                book_package2();
+            }
+            else{
+                book_package();
+            }
+            }
+            else if (choice == 1)
+            {
+                system("PAUSE");
+                cout << " 1.Book a Package\t2.Main" << endl;
+                cin >> c;
+                if (c == 1)
+                {
+                    if(special==true){
+                book_package2();
+            }
+            else{
+                book_package();
+            }
+                }
+                else
+                {
+                    system("CLS");
+                    menu();
+                }
+            }
+        }
+    }
+
+    void book_package()
+    {
+        
+        ofstream file("packages.txt", ios::app);
+
+        cout << "Enter Package number you wish to select" << endl;
+        cin >> tour;
+
+        if (tour == 1)
+        {
+            if (arrival == "Toronto")
+            {
+                file << c1.get_fname() << "\t" << c1.get_ID() << "\tQatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\t Pearl\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Sydney")
+            {
+                file << c1.get_fname() << "\t" << c1.get_ID()<< "\tQantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tMeriton\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Paris")
+            {
+                file << c1.get_fname() << "\t" << c1.get_ID() << "\tLufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tBelvedere\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+        }
+
+        if (tour == 2)
+        {
+            if (arrival == "Toronto")
+            {
+                file << c1.get_fname() << "\t" << c1.get_ID() << "\tTurkish\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tPC\n";
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Sydney")
+            {
+                file << c1.get_fname() << "\t" << c1.get_ID() << "\tEmirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tRaddison\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Paris")
+            {
+                file << c1.get_fname() << "\t" << c1.get_ID() << "\tEtihad\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzayLezay\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+        }
+
+        if (tour == 3)
+        {
+            if (arrival == "Toronto")
+            {
+                file << c1.get_fname() << "\t" << c1.get_ID() << "\tKLM\t19:00\t\t22:05\t\t$.2000\t\tNonrefundable\t\tMarriot\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Sydney")
+            {
+                file << c1.get_fname() << "\t" << c1.get_ID() << "\tVirgin\t19:00\t\t22:05\t\t$.1900\t\tNonrefundable\t\tSheraton\n";
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Paris")
+            {
+                file << c1.get_fname() << "\t" << c1.get_ID() << "\tNippon\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+        }
+        file.close();
+    }
+    void book_package2()
+    {
+        
+        ofstream file("packages.txt", ios::app);
+
+        cout << "Enter Package number you wish to select" << endl;
+        cin >> tour;
+
+        if (tour == 1)
+        {
+            if (arrival == "Toronto")
+            {
+                file << s1.get_fname() << "\t" << s1.get_ID() << "\tQatar\t08:00\t\t11:05\t\t$.1500\t\tRefundable\t\t Pearl\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Sydney")
+            {
+                file << s1.get_fname() << "\t" << s1.get_ID()<< "\tQantas\t08:00\t\t11:05\t\t$.2500\t\tRefundable\t\tMeriton\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Paris")
+            {
+                file << s1.get_fname() << "\t" << s1.get_ID() << "\tLufthansa\t08:00\t\t11:05\t\t$.3500\t\tRefundable\t\tBelvedere\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+        }
+
+        if (tour == 2)
+        {
+            if (arrival == "Toronto")
+            {
+                file << s1.get_fname() << "\t" << s1.get_ID() << "\tTurkish\t14:00\t\t17:05\t\t$.1250\t\tRefundable\t\tPC\n";
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Sydney")
+            {
+                file << s1.get_fname() << "\t" << s1.get_ID() << "\tEmirates\t14:00\t\t17:05\t\t$.2750\t\tRefundable\t\tRaddison\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Paris")
+            {
+                file << s1.get_fname() << "\t" << s1.get_ID() << "\tEtihad\t14:00\t\t17:05\t\t$.3750\t\tRefundable\t\tShanzayLezay\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+        }
+
+        if (tour == 3)
+        {
+            if (arrival == "Toronto")
+            {
+                file << s1.get_fname() << "\t" << s1.get_ID() << "\tKLM\t19:00\t\t22:05\t\t$.2000\t\tNonrefundable\t\tMarriot\n";
+
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Sydney")
+            {
+                file << s1.get_fname() << "\t" << s1.get_ID() << "\tVirgin\t19:00\t\t22:05\t\t$.1900\t\tNonrefundable\t\tSheraton\n";
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+            if (arrival == "Paris")
+            {
+                file << s1.get_fname() << "\t" << s1.get_ID() << "\tNippon\t19:00\t\t22:05\t\t$.3000\t\tRefundable\t\tMovenpick\n";
+                cout << "PACKAGE BOOKED" << endl;
+                system("PAUSE");
+            }
+        }
+        file.close();
+    }
+    
+};
+
 class Booking : public Customer, public Airline //working
 {
 protected:
@@ -731,7 +863,7 @@ public:
     {
         system("cls");
         cout << "**************************************TICKET MENU**************************************";
-        cout << "\n1) Normal Customer Ticket\n2) Special Customer ticket\n3) Exit\nEnter choice: ";
+        cout << "\n1) Normal Customer Ticket\n2) Special Customer ticket \n3) Holiday Package\n4) Exit\nEnter choice: ";
         int choice;
         cin >> choice;
         switch (choice)
@@ -742,9 +874,49 @@ public:
         case 2:
             s_printticket();
             break;
+        case 3:
+        print_package();
+        break; 
         default:
             exit(0);
         }
+    }
+    void print_package(){
+        string n,i,a,d,ar,p,c,h;
+        system("cls");
+        cout << "\nProcessing Package";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
+        Sleep(500);
+        cout << ".";
+        string x;
+        cout << "\n\nEnter Customer ID: ";
+        cin >> x;
+        fstream fpt;
+        fpt.open("packages.txt", ios::in);
+        while (1)
+        {
+            fpt >> n >> i >> a >> d >> ar >> p >> c >> h;
+            if (i == x)
+            {
+                break;
+            }
+            if (fpt.eof())
+            {   cout<<"BOOKING UNAVAILABLE"<<endl;
+                break;
+            }
+        }
+        fpt.close();
+        loading_screen();
+        cout << "----------------------------------------------------------------------------------------------\n";
+        cout << "-                                            HOLIDAY PACAKGE                                         -\n";
+        cout << "----------------------------------------------------------------------------------------------\n";
+        cout << "\nCustomer Name: " << n << "\nCustomer ID: " << i << "\nAirline: " << a << "\nDeparture: " << d << "\nArrival: "<<ar <<"\nCategory :"<< c << "\nHotel :"<< h <<endl;
+        system("PAUSE");
     }
     void s_printticket()
     {
@@ -928,13 +1100,19 @@ public:
         {
             verify();
         }
+        else if(i==0){
+            menu();
+        }
     }
 
     void refund()
     {
         int ch;
         string x, y;
+        int z,ticket_ID;
         string n, i, a, d, ar, p, c, h, l;
+        string c_name,c_email,c_airline,c_id,price;
+
         system("CLS");
         ifstream original("packages.txt", ios::out);
         ofstream copy("new.txt", ios::app);
@@ -942,10 +1120,32 @@ public:
         cout << "1.Ticket Refund\t\t2.Holiday Package Refund\n";
         cin >> ch;
         if (ch == 1)
-        {
-            cout << "Regular Tickets are Non-refundable" << endl;
-            system("PAUSE");
-            staff_menu();
+        {   cout<<"Enter Ticket ID for the ticket to be refunded"<<endl;
+            cin>>z;
+
+            fstream fp;
+            fp.open("ticket.txt",ios::in);
+            ofstream cop("tic.txt",ios::app);
+            while(1){
+                fp >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+                if(ticket_ID==z){
+                    cout<<"Ticket Refunded"<<endl;
+                    break;
+                }
+                else if(ticket_ID!=z){
+                    ofstream cop("tic.txt",ios::app);
+                    cop << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
+
+                }
+                else if(fp.eof()){
+                   fp.close();
+                   cop.close();
+                }
+            }
+         remove("ticket.txt");
+         rename("tic.txt","ticket.txt");
+        system("PAUSE");
+        staff_menu();
         }
 
         if (ch == 2)
@@ -983,6 +1183,7 @@ public:
             remove("packages.txt");
             rename("new.txt", "packages.txt");
         }
+        system("PAUSE");
         staff_menu();
     }
 
@@ -994,6 +1195,7 @@ public:
         cout << "->Refund ensures a 100% money back guarantee" << endl
              << endl
              << endl;
+             system("PAUSE");
         staff_menu();
     }
 
@@ -1482,7 +1684,7 @@ public:
 void main_screen()
 {
     system("cls");
-    cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Book a Holiday Package\n\t8) Print Ticket\n";
+    cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Book a Holiday Package\n\t8) Print Ticket\n\t9)Refund Booking\n";
     int choice;
     cout << "\nEnter your choice: ";
     cin >> choice;
@@ -1561,6 +1763,22 @@ void main_screen()
         Payment p;
         p.menu();
         main_screen();
+    }
+    else if(choice==9){
+        int c;
+        cout<<"1.Customer\t2.Special Customer"<<endl;
+        cin>>c;
+        if(c==1){
+            cout<<"Contact Agency or Staff for Refund"<<endl;
+            system("PAUSE");
+            main_screen();
+        }
+        else if(c==2){
+            Special_customer s1;
+            s1.b_refund();
+            system("PAUSE");
+            main_screen();
+        }
     }
     else
     {
