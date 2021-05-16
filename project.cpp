@@ -228,7 +228,10 @@ protected:
     string f_name, l_name;
 
 public:
-    bool is_special = false;
+    bool is_special;
+    Customer(){
+    	is_special=false;
+	}
     friend class Booking;
     friend class Staff;
     void set_fname(string f_name) { this->f_name = f_name; }
@@ -323,8 +326,11 @@ protected:
     string f_name, l_name;
 
 public:
-    bool is_special = true;
-    void menu()
+    bool is_special;
+    Special_customer(){
+    	is_special=true;
+	}
+	void menu()
     {
         system("cls");
         cout << "\n\t\tWelcome to the Special customer Login/Logout menu!!";
@@ -1820,32 +1826,29 @@ public:
 // Class for the main menu
 void main_screen() // main menu screen function
 {
-    cout<<"------------------------------------------------------------------------------------------------------------";
-    cout<<"-                                     Welcome to Airline reservation system                                             -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                               Developed by:                                                           -";
-    cout<<"-                                      Muhammad Hatif Mujahid 20K-0218                                                                    -";
-    cout<<"-                                         Agha Maarij Amir 20K-0160                                                                    -";
-    cout<<"-                                          Mohatada Jokhio 20K-0164                                                                    -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"-                                                                                                          -";
-    cout<<"------------------------------------------------------------------------------------------------------------";
+    cout<<"\n---------------------------------------------------------------------------------------------------\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                               Welcome to Airline reservation system                             -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                           Developed by:                                         -\n";
+    cout<<"-                                   Muhammad Hatif Mujahid 20K-0218                               -\n";
+    cout<<"-                                      Agha Maarij Amir 20K-0160                                  -\n";
+    cout<<"-                                       Mohatada Jokhio 20K-0164                                  -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"-                                                                                                 -\n";
+    cout<<"---------------------------------------------------------------------------------------------------\n";
     system("PAUSE");
     system("cls");
     cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Book a Holiday Package\n\t8) Print Ticket\n\t9) Refund Booking\n";
@@ -1967,7 +1970,7 @@ void color() // color function
     HANDLE console_color;
     console_color = GetStdHandle(STD_OUTPUT_HANDLE);
     int P;
-    P = 13;
+    P = 30;
     SetConsoleTextAttribute(console_color, P);
 }
 int main(int argc, char const *argv[])
