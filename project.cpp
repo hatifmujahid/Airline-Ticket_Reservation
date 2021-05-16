@@ -1527,7 +1527,8 @@ void Admin::delete_customer() //working
 }
 int checking(int arr[], int count){
     srand((unsigned)time(0));
-    int u = (rand() % 10);
+    int u = (rand() % 4000);
+    
     for (int k = 0; k < count; k++)
     {
         
@@ -1562,8 +1563,8 @@ void Booking::s_booking() //working
     file1.open("ticket.txt", ios::in);
     while (1)
     {
-        file1 >> j;
-        arr[k] = j;
+        file1 >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+        arr[k] = ticket_ID;
         k++;
         if (file1.eof())
         {
@@ -1571,8 +1572,26 @@ void Booking::s_booking() //working
         }
 
     }
-    ticket_ID = checking(arr, count);
+    i = checking(arr, count);
+    ticket_ID =i;
     file1.close();
+    fstream fptr;
+    fptr.open("ticket.txt", ios::in);
+    while (1)
+    {
+        fptr >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+        if (fptr.eof())
+        {
+            break;
+        }
+
+        if (i == ticket_ID)
+        {
+            continue;
+        }
+    }
+    fptr.close();
+    ticket_ID = i;
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
     price = prices[i];
@@ -1635,16 +1654,16 @@ void Booking::n_booking() //working
     file1.open("ticket.txt", ios::in);
     while (1)
     {
-        file1 >> j;
-        arr[k] = j;
+        file1 >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+        arr[k] = ticket_ID;
         k++;
         if (file1.eof())
         {
             break;
         }
-
     }
-    ticket_ID = checking(arr, count);
+    i= checking(arr, count);
+    ticket_ID =i;
     file1.close();
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
