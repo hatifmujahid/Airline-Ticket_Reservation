@@ -218,7 +218,7 @@ public:
 };
 
 //Customer class for signup or registering a customer
-class Customer : virtual public Person //working
+class Customer : public Person
 {
 private:
     string user, pass, u, p;
@@ -837,7 +837,7 @@ public:
     }
 };
 // Booking flights class
-class Booking : public Customer, public Airline
+class Booking : public Airline
 {
 protected:
     int ticket_ID;
@@ -1058,7 +1058,7 @@ public:
     }
 };
 // Class for staff sign up, sign in and methods for certain things staff can do
-class Staff : virtual public Person //not known if working
+class Staff : virtual public Person 
 {
 private:
     string u, p, user, pass;
