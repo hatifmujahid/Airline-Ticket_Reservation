@@ -1525,6 +1525,20 @@ void Admin::delete_customer() //working
     rename("new.txt", "customer.txt");
     admin_menu();
 }
+int checking(int arr[], int count){
+    srand((unsigned)time(0));
+    int u = (rand() % 10);
+    for (int k = 0; k < count; k++)
+    {
+        
+        if (u == arr[k])
+        { 
+            u = checking(arr, count);
+        }
+        
+    }
+    return u;
+}
 void Booking::s_booking() //working
 {
     int i;
@@ -1533,26 +1547,33 @@ void Booking::s_booking() //working
     c_name = a.get_fname();
     c_email = a.get_email();
     c_id = a.get_ID();
-    srand((unsigned)time(0)); //random id generator 
-    i = (rand() % 4000);
-    fstream fptr;
-    fptr.open("ticket.txt", ios::in);
+    int j = 0, count = 0;
+    string s;
+    fstream file;
+    file.open("ticket.txt", ios::in);
+    
+    while (getline(file, s))
+    {
+        count++;
+    }
+    int arr[count], k = 0;
+    file.close();
+    fstream file1;
+    file1.open("ticket.txt", ios::in);
     while (1)
     {
-        fptr >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
-        if (fptr.eof())
+        file1 >> j;
+        arr[k] = j;
+        k++;
+        if (file1.eof())
         {
             break;
         }
 
-        if (i == ticket_ID)
-        {
-            continue;
-        }
     }
-    fptr.close();
-    ticket_ID = i;
-    srand((unsigned)time(0)); //random id generator
+    ticket_ID = checking(arr, count);
+    file1.close();
+    srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
     price = prices[i];
     if (a.is_special == true)
@@ -1599,9 +1620,32 @@ void Booking::n_booking() //working
     c_name = a.get_fname();
     c_email = a.get_email();
     c_id = a.get_ID();
-    system("PAUSE");
-    cout << "Enter ticket ID: ";
-    cin >> ticket_ID;
+    int j = 0, count = 0;
+    string s;
+    fstream file;
+    file.open("ticket.txt", ios::in);
+    
+    while (getline(file, s))
+    {
+        count++;
+    }
+    int arr[count], k = 0;
+    file.close();
+    fstream file1;
+    file1.open("ticket.txt", ios::in);
+    while (1)
+    {
+        file1 >> j;
+        arr[k] = j;
+        k++;
+        if (file1.eof())
+        {
+            break;
+        }
+
+    }
+    ticket_ID = checking(arr, count);
+    file1.close();
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
     price = prices[i];
