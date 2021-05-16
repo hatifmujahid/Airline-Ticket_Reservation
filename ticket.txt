@@ -1,3 +1,1 @@
-hatif	hatif@gmail.com	Emirates	4444	4000	1234
-hatif	hatif@gmail.com	Emirates	4444	10000	5555
-hatif	hatif@gmail.com	Emirates	4444	12750	2042
+hatif	hatif@gmail.com	Emirates	4444	4000	3697

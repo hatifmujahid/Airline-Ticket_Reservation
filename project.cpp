@@ -470,10 +470,8 @@ public:
     }
 };
 
-
 // Class for viewing packages available and booking them
-
-class HolidayPackage:public ui
+class HolidayPackage : public ui
 {
     string date;
     int tourcode;
@@ -830,7 +828,7 @@ public:
     }
 };
 // Booking flights class
-class Booking : public Customer, public Airline //working
+class Booking : public Customer, public Airline
 {
 protected:
     int ticket_ID;
@@ -889,8 +887,8 @@ public:
     void n_booking();
     void s_booking();
 };
-//printing =ticket class
-class Ticket : public Booking //working
+//printing ticket class
+class Ticket : public Booking
 {
 public:
     void menu()
@@ -949,7 +947,7 @@ public:
         fpt.close();
         loading_screen();
         cout << "----------------------------------------------------------------------------------------------\n";
-        cout << "-                                            HOLIDAY PACAKGE                                         -\n";
+        cout << "-                                         HOLIDAY PACAKGE                                    -\n";
         cout << "----------------------------------------------------------------------------------------------\n";
         cout << "\nCustomer Name: " << n << "\nCustomer ID: " << i << "\nAirline: " << a << "\nDeparture: " << d << "\nArrival: " << ar << "\nCategory :" << c << "\nHotel :" << h << endl;
         system("PAUSE");
@@ -971,11 +969,14 @@ public:
         cin >> s;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
+        int check = 0;
         while (1)
         {
+
             fpt >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
             if (ticket_ID == s)
             {
+                check = 1;
                 break;
             }
             if (fpt.eof())
@@ -984,12 +985,20 @@ public:
             }
         }
         fpt.close();
-        loading_screen();
-        cout << "----------------------------------------------------------------------------------------------\n";
-        cout << "-                                             Ticket                                         -\n";
-        cout << "----------------------------------------------------------------------------------------------\n";
-        cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
-        system("PAUSE");
+        if (check == 1)
+        {
+            loading_screen();
+            cout << "----------------------------------------------------------------------------------------------\n";
+            cout << "-                                             Ticket                                         -\n";
+            cout << "----------------------------------------------------------------------------------------------\n";
+            cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
+            system("PAUSE");
+        }
+        if (check == 0)
+        {
+            cout << "\nTicket not found... exiting";
+            exit(1);
+        }
     }
     void n_printticket()
     {
@@ -1008,11 +1017,13 @@ public:
         cin >> s;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
+        int check = 0;
         while (1)
         {
             fpt >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
             if (ticket_ID == s)
             {
+                check = 1;
                 break;
             }
             if (fpt.eof())
@@ -1021,12 +1032,20 @@ public:
             }
         }
         fpt.close();
-        loading_screen();
-        cout << "----------------------------------------------------------------------------------------------\n";
-        cout << "-                                             Ticket                                         -\n";
-        cout << "----------------------------------------------------------------------------------------------\n";
-        cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
-        system("PAUSE");
+        if (check == 1)
+        {
+            loading_screen();
+            cout << "----------------------------------------------------------------------------------------------\n";
+            cout << "-                                             Ticket                                         -\n";
+            cout << "----------------------------------------------------------------------------------------------\n";
+            cout << "\nCustomer Name: " << c_name << "\nCustomer Email: " << c_email << "\nChoosen Airline: " << c_airline << "\nPrice: " << price << endl;
+            system("PAUSE");
+        }
+        if (check == 0)
+        {
+            cout << "\nTicket not found... Exiting";
+            exit(1);
+        }
     }
 };
 // Class for staff sign up, sign in and methods for certain things staff can do
@@ -1293,7 +1312,7 @@ public:
     }
 };
 // Admin class containing sign up, sign in and methods like deleting a customer, staff or and airline
-class Admin : public Person //working
+class Admin : public Person
 {
     string user, pass, u, p;
 
@@ -1424,7 +1443,7 @@ public:
         }
     }
 };
-void Admin::delete_airline() //working
+void Admin::delete_airline()//delete airline function in admin   
 {
     Airline a;
     int ID;
@@ -1459,7 +1478,7 @@ void Admin::delete_airline() //working
     rename("new.txt", "airline.txt");
     admin_menu();
 }
-void Admin::delete_staff() //working
+void Admin::delete_staff() //delete staff function in admin
 {
     string f, l, e, u, p;
     int i;
@@ -1494,7 +1513,7 @@ void Admin::delete_staff() //working
     rename("new.txt", "staff.txt");
     admin_menu();
 }
-void Admin::delete_customer() //working
+void Admin::delete_customer()//delete customer function in admin  
 {
     Customer a;
     string f, l, e, u, p;
@@ -1525,22 +1544,22 @@ void Admin::delete_customer() //working
     rename("new.txt", "customer.txt");
     admin_menu();
 }
-int checking(int arr[], int count){
+int checking(int arr[], int count) //checks ticket id from file to stop repetition
+{                                  //basically ticket id is generated using random int genrator. this prevents ovralapping
     srand((unsigned)time(0));
     int u = (rand() % 4000);
-    
+
     for (int k = 0; k < count; k++)
     {
-        
+
         if (u == arr[k])
-        { 
+        {
             u = checking(arr, count);
         }
-        
     }
     return u;
 }
-void Booking::s_booking() //working
+void Booking::s_booking() //special customer booking
 {
     int i;
     Special_customer a;
@@ -1552,7 +1571,7 @@ void Booking::s_booking() //working
     string s;
     fstream file;
     file.open("ticket.txt", ios::in);
-    
+
     while (getline(file, s))
     {
         count++;
@@ -1570,10 +1589,9 @@ void Booking::s_booking() //working
         {
             break;
         }
-
     }
     i = checking(arr, count);
-    ticket_ID =i;
+    ticket_ID = i;
     file1.close();
     fstream fptr;
     fptr.open("ticket.txt", ios::in);
@@ -1631,7 +1649,7 @@ void Booking::s_booking() //working
     cout << "Ticket is generated.\nID: " << ticket_ID << endl;
     system("PAUSE");
 }
-void Booking::n_booking() //working
+void Booking::n_booking() //normal customer booking ticket
 {
     int i;
     Customer a;
@@ -1642,8 +1660,8 @@ void Booking::n_booking() //working
     int j = 0, count = 0;
     string s;
     fstream file;
-    file.open("ticket.txt", ios::in);
-    
+    file.open("ticket.txt", ios::out | ios::in);
+
     while (getline(file, s))
     {
         count++;
@@ -1662,8 +1680,8 @@ void Booking::n_booking() //working
             break;
         }
     }
-    i= checking(arr, count);
-    ticket_ID =i;
+    i = checking(arr, count);
+    ticket_ID = i;
     file1.close();
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
@@ -1706,7 +1724,7 @@ void Booking::n_booking() //working
 }
 
 // Class for different payment options available for customers
-class Payment //working
+class Payment //payment class with card payment or online banking
 {
     string bank;
     long int card_no;
@@ -1754,10 +1772,17 @@ public:
         cin >> cvv;
         cout << "Enter expiry month(mm): ";
         cin >> expiry_month;
-        while (expiry_month > 12 && expiry_month <= 0)
+        while (1)
         {
-            cout << "Month input is wrong.\nEnter expiry month(mm)";
-            cin >> expiry_month;
+            if (expiry_month > 12 && expiry_month <= 0)
+            {
+                cout << "Month input is wrong.\nEnter expiry month(mm)";
+                cin >> expiry_month;
+            }
+            else
+            {
+                break;
+            }
         }
         cout << "Enter expiry year(yyyy): ";
         cin >> expiry_year;
@@ -1790,7 +1815,7 @@ public:
 };
 
 // Class for the main menu
-void main_screen()
+void main_screen() // main menu screen function
 {
     system("cls");
     cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Book a Holiday Package\n\t8) Print Ticket\n\t9) Refund Booking\n";
@@ -1907,7 +1932,7 @@ void main_screen()
         }
     }
 }
-void color()
+void color() // color function
 {
     HANDLE console_color;
     console_color = GetStdHandle(STD_OUTPUT_HANDLE);
