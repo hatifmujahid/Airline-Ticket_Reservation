@@ -1145,6 +1145,7 @@ public:
             exit(0);
         }
     }
+    
     void staff_menu()
     {
         int i;
@@ -1310,6 +1311,7 @@ public:
     {
         return u;
     }
+    
     void set_P(string p)
     {
         this->p = p;
