@@ -1058,7 +1058,7 @@ public:
     }
 };
 // Class for staff sign up, sign in and methods for certain things staff can do
-class Staff : virtual public Person 
+class Staff : virtual public Person
 {
 private:
     string u, p, user, pass;
@@ -1145,7 +1145,7 @@ public:
             exit(0);
         }
     }
-    
+
     void staff_menu()
     {
         int i;
@@ -1311,7 +1311,7 @@ public:
     {
         return u;
     }
-    
+
     void set_P(string p)
     {
         this->p = p;
@@ -1918,6 +1918,7 @@ void main_screen() // main menu screen function
     else if (choice == 6) //booking
     {
         system("cls");
+
         Booking b;
         b.menu();
         main_screen();
@@ -1938,7 +1939,7 @@ void main_screen() // main menu screen function
     else if (choice == 9)
     {
         int c;
-        cout << "1.Customer\t2.Special Customer" << endl;
+        cout << "1.Customer\t2.SpecialCustomer" << endl;
         cin >> c;
         if (c == 1)
         {
