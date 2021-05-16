@@ -56,7 +56,7 @@ string inputmasking()
     return password;
 }
 
-class ui //user interface class
+class ui //abstract user interface class
 {
 public:
     virtual void menu() = 0;
@@ -119,6 +119,7 @@ protected:
     int airline_id;
 
 public:
+   
     // setters and getters
     int get_airline_id()
     {
@@ -217,7 +218,7 @@ public:
     }
 };
 
-//Customer class for login and signup
+//Customer class for signup or registering a customer 
 class Customer : virtual public Person //working
 {
 private:
@@ -311,7 +312,8 @@ public:
         fp.close();
     }
 };
-//special customer class with more features
+//Special Customer class for signup or registering a customer 
+//a customer is special only when he has miles > 5000
 class Special_customer : public Person
 {
     string u, p, user, pass;
@@ -344,7 +346,7 @@ public:
     {
         cout << "Enter miles" << endl;
         cin >> miles;
-        if (miles >= 10000)
+        if (miles >= 5000)
         {
             Person::signup();
             cout << "Enter first name: ";
@@ -827,7 +829,7 @@ public:
         file.close();
     }
 };
-// Booking flights class
+// Booking flights class 
 class Booking : public Customer, public Airline
 {
 protected:
@@ -1320,6 +1322,7 @@ protected:
     string f_name, l_name;
 
 public:
+friend class Airline;
     Admin() {}
     void set_fname(string f_name) { this->f_name = f_name; }
     const string get_fname() { return f_name; }
@@ -1817,6 +1820,33 @@ public:
 // Class for the main menu
 void main_screen() // main menu screen function
 {
+    cout<<"------------------------------------------------------------------------------------------------------------";
+    cout<<"-                                     Welcome to Airline reservation system                                             -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                               Developed by:                                                           -";
+    cout<<"-                                      Muhammad Hatif Mujahid 20K-0218                                                                    -";
+    cout<<"-                                         Agha Maarij Amir 20K-0160                                                                    -";
+    cout<<"-                                          Mohatada Jokhio 20K-0164                                                                    -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"-                                                                                                          -";
+    cout<<"------------------------------------------------------------------------------------------------------------";
+    system("PAUSE");
     system("cls");
     cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Book a Holiday Package\n\t8) Print Ticket\n\t9) Refund Booking\n";
     int choice;
