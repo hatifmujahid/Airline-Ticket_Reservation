@@ -1533,7 +1533,7 @@ void Booking::s_booking() //working
     c_name = a.get_fname();
     c_email = a.get_email();
     c_id = a.get_ID();
-    srand((unsigned)time(0)); //random price generator
+    srand((unsigned)time(0)); //random id generator 
     i = (rand() % 4000);
     fstream fptr;
     fptr.open("ticket.txt", ios::in);
@@ -1552,7 +1552,7 @@ void Booking::s_booking() //working
     }
     fptr.close();
     ticket_ID = i;
-    srand((unsigned)time(0)); //random price generator
+    srand((unsigned)time(0)); //random id generator
     i = (rand() % 3);
     price = prices[i];
     if (a.is_special == true)
@@ -1610,7 +1610,7 @@ void Booking::n_booking() //working
         price = price * 0.85;
     }
     cout << "List of airlines: ";
-    showAirlines();
+    showAirlines(); //shows airline list for selecting airline for ticket
     int choice;
     cout << "\nEnter ID of the Airline choosen: ";
     cin >> choice;
