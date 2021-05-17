@@ -1237,35 +1237,38 @@ public:
         {
             cout << "Enter Ticket ID for the ticket to be refunded" << endl;
             cin >> z;
+            int t=0;
 
-            fstream fp;
-            fp.open("ticket.txt", ios::in);
+            
             if(!fp){
                 cout<<"File not found!";
                 exit(0);
             }
-            ofstream cop("tic.txt", ios::app);
-            while (1)
+            
+            while (fp >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID)
             {
-                fp >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+               // fp >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
                 if (ticket_ID == z)
                 {
                     cout << "Ticket Refunded" << endl;
-                    break;
+                    t=1;
+                    
                 }
-                else if (ticket_ID != z)
+                else 
                 {
-                    ofstream cop("tic.txt", ios::app);
-                    cop << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
+                    ofstream f("new.txt", ios::app);
+                    f << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
                 }
-                else if (fp.eof())
-                {
-                    fp.close();
-                    cop.close();
-                }
+                
             }
+            
+            fp.close();
+            f.close();
             remove("ticket.txt");
-            rename("tic.txt", "ticket.txt");
+            rename("new.txt", "ticket.txt");
+            if(t!=1){
+                cout<<"Booking Unavailable"<<endl;
+            }
             system("PAUSE");
             staff_menu();
         }
@@ -1322,22 +1325,23 @@ public:
     }
 
     void verify()
-    {
+    {   
         system("CLS");
+        string c_name, c_email, c_airline, c_id, price;
+        int ticket_ID;
         Booking t1;
         int i;
         cout << "Enter Ticket ID" << endl;
         cin >> i;
-        fstream fpt;
-        fpt.open("ticket.txt", ios::in);
-        if(!fpt){
+        
+        ifstream fp("ticket.txt", ios::in);
+        if(!fp){
         cout<<"File not found!";
         exit(0);
     }
-        while (1)
+        while (fp >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID)
         {
-            fpt.read((char *)&t1, sizeof(Ticket));
-            if (t1.get_ticket_id() == i)
+            if (ticket_ID == i)
             {
                 Sleep(500);
                 loading_screen();
@@ -1346,13 +1350,13 @@ public:
                 break;
             }
 
-            else if (fpt.eof())
+            else if (fp.eof())
             {
                 cout << "BOOKING UNAVAILABLE" << endl;
             }
         }
 
-        fpt.close();
+        fp.close();
         system("PAUSE");
         staff_menu();
     }
