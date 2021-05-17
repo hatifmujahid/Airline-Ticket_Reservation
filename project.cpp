@@ -179,7 +179,7 @@ public:
     {
         cout << "::::::::::::::::::::::::::::::::::AIRLINE MENU::::::::::::::::::::::::::::::::::\n";
         cout << "\n\t\tWelcome to the Airline Login/Logout menu!!";
-        cout << "\n1) Register an Airline\n2) Show all airlines\n3) Exit";
+        cout << "\n1) Register an Airline\n2) Show all airlines\n3) Back to main menu \n4) Exit";
     }
     void signup()
     {
@@ -2005,7 +2005,7 @@ void main_screen() // main menu screen function
             }
             else if (choice == 3)
             {
-                exit(0);
+                main_screen();
             }
             else
             {
