@@ -2085,6 +2085,7 @@ void color() // color function
 }
 int main(int argc, char const *argv[])
 {
+    system("cls");
     color();
     names();
     system("cls");
