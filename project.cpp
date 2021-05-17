@@ -1585,7 +1585,7 @@ void Booking::s_booking() //special customer booking
     string s;
     fstream file;
     file.open("ticket.txt", ios::in);
-
+    if(file){
     while (getline(file, s))
     {
         count++;
@@ -1624,6 +1624,12 @@ void Booking::s_booking() //special customer booking
     }
     fptr.close();
     ticket_ID = i;
+    }
+    else if(!file){
+        srand((unsigned)time(0));
+        i = (rand() % 4000);
+        ticket_ID = i;
+    }
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
     price = prices[i];
@@ -1645,6 +1651,11 @@ void Booking::s_booking() //special customer booking
     }
     fstream fp;
     fp.open("airline.txt", ios::in);
+    if (!fp)
+    {
+        cout << "\nFILE DOES NOT EXIST\n";
+        exit(1);
+    }
     while (1)
     {
         fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
