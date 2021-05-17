@@ -24,6 +24,26 @@ void loading_screen()
     Sleep(30);
     system("cls");
 }
+string pass_encrypt(string password, const string pass)
+{
+    if(password.empty())
+        return password;
+
+    for (int j = 0; j < password.size(); j++)
+        password[j] ^= pass[j%pass.size()];
+    return password;
+}
+
+string pass_decrypt(string password, const string pass)
+{
+    if(password.empty()){
+        return password;
+    }
+    for (int j = 0; j < password.size(); j++){
+        password[j] ^= pass[j%pass.size()];
+    }
+    return password;
+}
 
 //shows *s instead of letters when typing passwords
 string inputmasking()
@@ -67,7 +87,7 @@ class Person : public ui
 {
     string username;
     string password;
-
+    string key;
 protected:
     int ID;
     string email;
@@ -82,13 +102,6 @@ public:
     void set_username(const string username) { this->username = username; }
     void set_password(const string password) { this->password = password; }
     void set_ID(const int ID) { this->ID = ID; }
-    void output()
-    {
-        cout << "\nEmail: " << email << endl
-             << "Username: " << username << endl
-             << "Password: " << password << endl
-             << "ID: " << ID << endl;
-    }
 
     // method for  taking input
     void signup()
@@ -99,7 +112,9 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         getline(cin, password);
-
+        cout<<"Enter your key(WARNING: THIS KEY IS NOT TO BE FORGOTTEN): ";
+        getline(cin,key);
+        password = pass_encrypt(password, key);
         fflush(stdin);
         cout << "Enter designated ID: ";
         cin >> ID;
@@ -108,11 +123,11 @@ public:
         getline(cin, email);
         fflush(stdin);
     }
-    //maybe sign in function to be made for abstraction
+    
 };
 
 // Airline class for registering and viewing available airlines
-class Airline
+class Airline: public ui
 {
 protected:
     string name, airline_email;
@@ -196,14 +211,16 @@ public:
         fstream fp;
         char a = '#';
         fp.open("airline.txt", ios::in);
+        if (!fp)
+        {
+            cout<<"\nFile not opened!\n";
+            exit(0);
+        }
         cout << "\n\tName\t\tEmail\t\tID\t\trating\n\n";
         while (1)
         {
 
-            if (!fp)
-            {
-                break;
-            }
+            
             getline(fp, name, a);
             fp >> airline_email >> airline_id >> rating >> no_of_planes;
             if (fp.eof())
@@ -278,6 +295,7 @@ public:
     }
     void signin()
     {
+        string key;
         system("CLS");
         cout << "---------------------------------------Customer SIGN IN---------------------------------------\n\n";
         char c;
@@ -287,6 +305,9 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         p = inputmasking();
+        cout<<"\nEnter Key: ";
+        key = inputmasking();
+        p = pass_decrypt(p, key);
         fstream fp;
         fp.open("customer.txt", ios::in);
         if (!fp)
@@ -381,6 +402,7 @@ public:
     }
     void signin()
     {
+        string key;
         system("cls");
         cout << "---------------------------------------Special Customer SIGN IN----------------------------------------------------\n\n";
         char c;
@@ -390,6 +412,9 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         p = inputmasking();
+        cout<<"\nEnter Key: ";
+        key = inputmasking();
+        p = pass_decrypt(p, key);
         fstream fp;
         fp.open("special_customer.txt", ios::in);
         if (!fp)
@@ -679,6 +704,10 @@ public:
     {
 
         ofstream file("packages.txt", ios::app);
+        if(!file){
+            cout<<"file does not exist";
+            exit(0);
+        }
 
         cout << "Enter Package number you wish to select" << endl;
         cin >> tour;
@@ -942,6 +971,10 @@ public:
         cin >> x;
         fstream fpt;
         fpt.open("packages.txt", ios::in);
+        if(!fpt){
+        cout<<"File not found!";
+        exit(0);
+    }
         while (1)
         {
             fpt >> n >> i >> a >> d >> ar >> p >> c >> h;
@@ -980,6 +1013,10 @@ public:
         cin >> s;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
+        if(!fpt){
+            cout<<"File not found!";
+            exit(0);
+        }
         int check = 0;
         while (1)
         {
@@ -1028,6 +1065,10 @@ public:
         cin >> s;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
+        if(!fpt){
+            cout<<"File not found!";
+            exit(0);
+        }
         int check = 0;
         while (1)
         {
@@ -1090,7 +1131,8 @@ public:
 
     void signin()
     {
-        cout << "---------------------------------------STAFF SIGN IN----------------------------------------------------\n\n";
+        string key;
+        cout << "\n\n---------------------------------------STAFF SIGN IN----------------------------------------------------\n\n";
         char c;
         fflush(stdin);
         cout << "Enter username: ";
@@ -1098,6 +1140,9 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         p = inputmasking();
+        cout<<"\nEnter Key: ";
+        key = inputmasking();
+        p = pass_decrypt(p, key);
         fstream fp;
         fp.open("staff.txt", ios::in);
         if (!fp)
@@ -1195,6 +1240,10 @@ public:
 
             fstream fp;
             fp.open("ticket.txt", ios::in);
+            if(!fp){
+                cout<<"File not found!";
+                exit(0);
+            }
             ofstream cop("tic.txt", ios::app);
             while (1)
             {
@@ -1281,6 +1330,10 @@ public:
         cin >> i;
         fstream fpt;
         fpt.open("ticket.txt", ios::in);
+        if(!fpt){
+        cout<<"File not found!";
+        exit(0);
+    }
         while (1)
         {
             fpt.read((char *)&t1, sizeof(Ticket));
@@ -1379,6 +1432,7 @@ public:
     }
     void signin()
     {
+        string key;
         system("cls");
         cout << "__________________________________ADMIN SIGN IN______________________________________\n\n";
         fflush(stdin);
@@ -1387,6 +1441,9 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         p = inputmasking();
+        cout<<"\nEnter Key: ";
+        key = inputmasking();
+        p = pass_decrypt(p, key);
         fstream fp;
         fp.open("admin.txt", ios::in);
         if (!fp)
@@ -1440,6 +1497,10 @@ public:
     void show_admin()
     {
         ifstream fp("admin.txt", ios::in);
+        if(!fp){
+        cout<<"File not found!";
+        exit(0);
+    }
         system("cls");
         cout << "\t\t\t\t\tADMIN LIST";
         cout << "\nFirst name  \tLast name \tID \tEmail" << endl;
@@ -1467,6 +1528,10 @@ void Admin::delete_airline() //delete airline function in admin
     cin >> ID;
     loading_screen();
     fstream original("airline.txt", ios::in);
+    if(!original){
+        cout<<"File not found!";
+        exit(0);
+    }
     fstream new_file("new.txt", ios::out);
     if (!original)
     {
@@ -1499,6 +1564,10 @@ void Admin::delete_staff() //delete staff function in admin
     bool is;
     int ID;
     fstream original("staff.txt", ios::in);
+    if(!original){
+        cout<<"File not found!";
+        exit(0);
+    }
     fstream new_file("new.txt", ios::app);
     if (!original)
     {
@@ -1538,6 +1607,10 @@ void Admin::delete_customer() //delete customer function in admin
     cin >> ID;
     loading_screen();
     fstream original("customer.txt", ios::in);
+    if(!original){
+        cout<<"File not found!";
+        exit(0);
+    }
     fstream new_file("new.txt", ios::app);
     while (1)
     {
@@ -1609,6 +1682,7 @@ void Booking::s_booking() //special customer booking
     file1.close();
     fstream fptr;
     fptr.open("ticket.txt", ios::in);
+    
     while (1)
     {
         fptr >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
@@ -1740,6 +1814,11 @@ void Booking::n_booking() //normal customer booking ticket
     }
     fstream fp;
     fp.open("airline.txt", ios::in);
+    if (!fp)
+    {
+        cout<<"\nFile not opened!\n";
+        exit(0);
+    }
     while (1)
     {
         fp >> name >> airline_email >> airline_id >> rating >> no_of_planes;
