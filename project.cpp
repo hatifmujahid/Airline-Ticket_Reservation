@@ -24,22 +24,6 @@ void loading_screen()
     Sleep(30);
     system("cls");
 }
-string pass_encrypt(string password, const string pass)
-{
-    
-    if(password.empty())
-        return password;
-    
-    for (int i = 0; i < password.size(); ++i)
-        password[i] ^= pass[i%pass.size()];
-    return password;
-}
-
-string pass_decrypt(const string password, const string pass)
-{
-    return pass_encrypt(password, pass); 
-}
-
 
 //shows *s instead of letters when typing passwords
 string inputmasking()
@@ -115,7 +99,7 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         getline(cin, password);
-        
+
         fflush(stdin);
         cout << "Enter designated ID: ";
         cin >> ID;
@@ -397,6 +381,7 @@ public:
     }
     void signin()
     {
+        system("cls");
         cout << "---------------------------------------Special Customer SIGN IN----------------------------------------------------\n\n";
         char c;
         fflush(stdin);
@@ -1690,28 +1675,39 @@ void Booking::n_booking() //normal customer booking ticket
     string s;
     fstream file;
     file.open("ticket.txt", ios::out | ios::in);
-
-    while (getline(file, s))
+    if (file)
     {
-        count++;
-    }
-    int arr[count], k = 0;
-    file.close();
-    fstream file1;
-    file1.open("ticket.txt", ios::in);
-    while (1)
-    {
-        file1 >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
-        arr[k] = ticket_ID;
-        k++;
-        if (file1.eof())
+        while (getline(file, s))
         {
-            break;
+            count++;
+        }
+        int arr[count], k = 0;
+        file.close();
+        fstream file1;
+        file1.open("ticket.txt", ios::in);
+        if (file)
+        {
+            while (1)
+            {
+                file1 >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
+                arr[k] = ticket_ID;
+                k++;
+                if (file1.eof())
+                {
+                    break;
+                }
+            }
+            i = checking(arr, count);
+            ticket_ID = i;
+            file1.close();
         }
     }
-    i = checking(arr, count);
-    ticket_ID = i;
-    file1.close();
+    else if (!file)
+    {
+        srand((unsigned)time(0));
+        i = (rand() % 4000);
+        ticket_ID = i;
+    }
     srand((unsigned)time(0)); //random price generator
     i = (rand() % 3);
     price = prices[i];
@@ -1843,8 +1839,7 @@ public:
     }
 };
 
-// Class for the main menu
-void main_screen() // main menu screen function
+void names()
 {
     cout << "\n--------------------------------------------------------------------------------------------------------------\n";
     cout << "-                                                                                                            -\n";
@@ -1870,6 +1865,10 @@ void main_screen() // main menu screen function
     cout << "-                                                                                                            -\n";
     cout << "--------------------------------------------------------------------------------------------------------------\n";
     system("PAUSE");
+}
+void main_screen() // main menu screen function
+{
+
     system("cls");
     cout << "\n\t\t\t\t\tAIRLINE RESERVATION SYSTEM\n\n\n\t1) Admin\n\t2) Staff\n\t3) Customer\n\t4) Airline\n\t5) Special Customer\n\t6) Book a ticket\n\t7) Book a Holiday Package\n\t8) Print Ticket\n\t9) Refund Booking\n";
     int choice;
@@ -1996,6 +1995,7 @@ void color() // color function
 }
 int main(int argc, char const *argv[])
 {
+    names();
     system("cls");
     color();
     main_screen();
