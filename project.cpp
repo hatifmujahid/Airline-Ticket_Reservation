@@ -2085,9 +2085,9 @@ void color() // color function
 }
 int main(int argc, char const *argv[])
 {
+    color();
     names();
     system("cls");
-    color();
     main_screen();
     return 0;
 }
