@@ -24,22 +24,22 @@ void loading_screen()
     Sleep(30);
     system("cls");
 }
-//XOR encryption functions
 string pass_encrypt(string password, const string pass)
 {
-
-    if (password.empty())
+    
+    if(password.empty())
         return password;
-
+    
     for (int i = 0; i < password.size(); ++i)
-        password[i] ^= pass[i % pass.size()];
+        password[i] ^= pass[i%pass.size()];
     return password;
 }
 
 string pass_decrypt(const string password, const string pass)
 {
-    return pass_encrypt(password, pass);
+    return pass_encrypt(password, pass); 
 }
+
 
 //shows *s instead of letters when typing passwords
 string inputmasking()
@@ -115,6 +115,7 @@ public:
         fflush(stdin);
         cout << "Enter password: ";
         getline(cin, password);
+        
         fflush(stdin);
         cout << "Enter designated ID: ";
         cin >> ID;
