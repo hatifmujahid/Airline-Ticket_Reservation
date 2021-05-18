@@ -1231,6 +1231,9 @@ public:
         ifstream original("packages.txt", ios::out);
         ofstream copy("new.txt", ios::app);
 
+        ifstream fp("ticket.txt",ios::out);
+        ofstream f("new.txt",ios::app);
+
         cout << "1.Ticket Refund\t\t2.Holiday Package Refund\n";
         cin >> ch;
         if (ch == 1)
@@ -1239,12 +1242,13 @@ public:
             cin >> z;
             int t=0;
 
-            if(!original){
+            
+            if(!fp){
                 cout<<"File not found!";
                 exit(0);
             }
             
-            while (original >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID)
+            while (fp >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID)
             {
                // fp >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
                 if (ticket_ID == z)
@@ -1310,6 +1314,7 @@ public:
         system("PAUSE");
         staff_menu();
     }
+
 
     void policy()
     {
