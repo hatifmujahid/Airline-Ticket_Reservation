@@ -1228,16 +1228,14 @@ public:
         string c_name, c_email, c_airline, c_id, price;
 
         system("CLS");
-        ifstream original("packages.txt", ios::out);
-        ofstream copy("new.txt", ios::app);
-
-        ifstream fp("ticket.txt",ios::out);
-        ofstream f("new.txt",ios::app);
+        
+        
 
         cout << "1.Ticket Refund\t\t2.Holiday Package Refund\n";
         cin >> ch;
         if (ch == 1)
-        {
+        {   ifstream fp("ticket.txt",ios::out);
+            ofstream f("n.txt",ios::app);
             cout << "Enter Ticket ID for the ticket to be refunded" << endl;
             cin >> z;
             int t=0;
@@ -1259,25 +1257,28 @@ public:
                 }
                 else 
                 {
-                    ofstream f("new.txt", ios::app);
+                    ofstream f("n.txt", ios::app);
                     f << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
                 }
                 
+            }
+            if(t!=1){
+                cout<<"Booking Unavailable"<<endl;
             }
             
             fp.close();
             f.close();
             remove("ticket.txt");
-            rename("new.txt", "ticket.txt");
-            if(t!=1){
-                cout<<"Booking Unavailable"<<endl;
-            }
+            rename("n.txt","ticket.txt");
+            
             system("PAUSE");
             staff_menu();
         }
 
         if (ch == 2)
-        {
+        {   ifstream original("packages.txt", ios::out);
+            ofstream copy("new.txt", ios::app);
+
             cout << "Enter customer ID" << endl;
             cin >> x;
             //system("CLS");
@@ -1314,6 +1315,7 @@ public:
         system("PAUSE");
         staff_menu();
     }
+
 
 
     void policy()
