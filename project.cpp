@@ -1239,13 +1239,12 @@ public:
             cin >> z;
             int t=0;
 
-            
-            if(!fp){
+            if(!original){
                 cout<<"File not found!";
                 exit(0);
             }
             
-            while (fp >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID)
+            while (original >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID)
             {
                // fp >> c_name >> c_email >> c_airline >> c_id >> price >> ticket_ID;
                 if (ticket_ID == z)
