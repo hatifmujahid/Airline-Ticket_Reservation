@@ -357,7 +357,7 @@ public:
     {
         system("cls");
         cout << "\n\t\tWelcome to the Special customer Login/Logout menu!!";
-        cout << "\n1) Sign Up\n2)Back to Main Menu\n3)EXIT\nEnter choice: ";
+        cout << "\n1) Sign Up\n2) Back to Main Menu\n3) EXIT\n\tEnter choice: ";
         int choice;
         cin >> choice;
         switch (choice)
@@ -373,7 +373,7 @@ public:
     }
     void signup()
     {
-        cout << "Enter miles" << endl;
+        cout << "\nEnter miles" << endl;
         cin >> miles;
         if (miles >= 5000)
         {
@@ -1436,7 +1436,7 @@ public:
         fp << f_name << "\t" << l_name << "\t" << email << "\t" << ID << "\t" << get_username() << "\t" << get_password() << endl;
         fp.close();
         cout << "\nSIGN UP SUCCESSFUL\n";
-        admin_menu();
+        menu();
     }
     void signin()
     {
@@ -1504,17 +1504,18 @@ public:
     void delete_airline();
     void show_admin()
     {
+        string user, pass;
         ifstream fp("admin.txt", ios::in);
         if(!fp){
         cout<<"File not found!";
         exit(0);
-    }
+        }
         system("cls");
         cout << "\t\t\t\t\tADMIN LIST";
         cout << "\nFirst name  \tLast name \tID \tEmail" << endl;
         while (1)
         {
-            fp >> f_name >> l_name >> email >> ID;
+            fp >> f_name >> l_name >> email >>ID >> user>>pass;
             if (fp.eof())
             {
                 break;
@@ -1524,6 +1525,7 @@ public:
                 cout << f_name << "\t\t" << l_name << "\t\t" << ID << "\t\t" << email << endl;
             }
         }
+        system("PAUSE");
     }
 };
 void Admin::delete_airline() //delete airline function in admin
@@ -1563,6 +1565,8 @@ void Admin::delete_airline() //delete airline function in admin
     original.close();
     remove("airline.txt");
     rename("new.txt", "airline.txt");
+    cout<<"\nAirline deleted successfully!\n";
+    system("PAUSE");
     admin_menu();
 }
 void Admin::delete_staff() //delete staff function in admin
@@ -1602,6 +1606,8 @@ void Admin::delete_staff() //delete staff function in admin
     original.close();
     remove("staff.txt");
     rename("new.txt", "staff.txt");
+    cout<<"\nStaff deleted successfully!\n";
+    system("PAUSE");
     admin_menu();
 }
 void Admin::delete_customer() //delete customer function in admin
@@ -1637,6 +1643,8 @@ void Admin::delete_customer() //delete customer function in admin
     original.close();
     remove("customer.txt");
     rename("new.txt", "customer.txt");
+    cout<<"\nCustomer deleted successfully!\n";
+    system("PAUSE");
     admin_menu();
 }
 int checking(int arr[], int count) //checks ticket id from file to stop repetition
@@ -1719,10 +1727,10 @@ void Booking::s_booking() //special customer booking
     {
         price = price * 0.85;
     }
-    cout << "List of airlines: ";
+    cout << "\n\nList of airlines: ";
     showAirlines();
     int choice;
-    cout << "\nEnter ID of the Airline choosen: ";
+    cout << "\n\nEnter ID of the Airline choosen: ";
     cin >> choice;
     fstream fpt;
     fpt.open("ticket.txt", ios::app);
@@ -1753,7 +1761,7 @@ void Booking::s_booking() //special customer booking
     c_airline = name;
     fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
     fpt.close();
-    cout << "Ticket is generated.\nID: " << ticket_ID << endl;
+    cout << "\nTicket is generated.\nID: " << ticket_ID << endl;
     system("PAUSE");
 }
 void Booking::n_booking() //normal customer booking ticket
@@ -1808,10 +1816,10 @@ void Booking::n_booking() //normal customer booking ticket
     {
         price = price * 0.85;
     }
-    cout << "List of airlines: ";
+    cout << "\n\nList of airlines: ";
     showAirlines(); //shows airline list for selecting airline for ticket
     int choice;
-    cout << "\nEnter ID of the Airline choosen: ";
+    cout << "\n\nEnter ID of the Airline choosen: ";
     cin >> choice;
     fstream fpt;
     fpt.open("ticket.txt", ios::app);
@@ -1842,7 +1850,7 @@ void Booking::n_booking() //normal customer booking ticket
     c_airline = name;
     fpt << c_name << "\t" << c_email << "\t" << c_airline << "\t" << c_id << "\t" << price << "\t" << ticket_ID << endl;
     fpt.close();
-    cout << "Ticket is generated.\nID: " << ticket_ID << endl;
+    cout << "\nTicket is generated.\nID: " << ticket_ID << endl;
     system("PAUSE");
 }
 
@@ -2096,7 +2104,7 @@ int main(int argc, char const *argv[])
     system("cls");
     color();
     names();
-    system("cls");
+    system("CLS");
     main_screen();
     return 0;
 }
