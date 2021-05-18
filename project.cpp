@@ -521,7 +521,7 @@ public:
     Special_customer s1;
     void login()
     {
-        cout << "1.Customer\t2.Special Customer" << endl;
+        cout << "\n\t1. Customer\n\t2. Special Customer\n\t3. Exit\nEnter choice: " << endl;
         cin >> c;
         if (c == 1)
         {
