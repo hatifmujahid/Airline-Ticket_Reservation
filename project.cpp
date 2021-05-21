@@ -1466,6 +1466,9 @@ public:
             fp >> f_name >> l_name >> email >> ID >> user >> pass;
             if (fp.eof())
             {
+                cout << "\nSign in unsuccessful\n";
+                system("PAUSE");
+                signin();
                 break;
             }
             if (user == u && pass == p)
@@ -1473,6 +1476,8 @@ public:
                 fp.close();
                 cout << "\nSign in successful\n";
                 admin_menu();
+                system("PAUSE");
+                break;
             }
         }
         fp.close();
@@ -1528,6 +1533,7 @@ public:
             }
         }
         system("PAUSE");
+        admin_menu();
     }
 };
 void Admin::delete_airline() //delete airline function in admin
@@ -1929,9 +1935,9 @@ public:
     void online_banking()
     {
         char c;
+        fflush(stdin);
         cout << "Enter bank name: ";
         getline(cin, bank);
-
         fflush(stdin);
         cout << "Enter user name: ";
         getline(cin, username);
