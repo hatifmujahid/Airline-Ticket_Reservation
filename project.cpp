@@ -53,7 +53,6 @@ string inputmasking()
 
     while (1)
     {
-
         c = getch();
         if (c != '\b' && c != 13)
         {
@@ -374,6 +373,7 @@ public:
     void signup()
     {
         cout << "\nEnter miles" << endl;
+
         cin >> miles;
         if (miles >= 5000)
         {
@@ -1101,7 +1101,7 @@ public:
     }
 };
 // Class for staff sign up, sign in and methods for certain things staff can do
-class Staff : virtual public Person
+class Staff : public Person
 {
 private:
     string u, p, user, pass;
@@ -1469,7 +1469,6 @@ public:
                 cout << "\nSign in unsuccessful\n";
                 system("PAUSE");
                 signin();
-                break;
             }
             if (user == u && pass == p)
             {
@@ -1639,7 +1638,6 @@ void Admin::delete_customer() //delete customer function in admin
         original >> f >> l >> e >> i >> u >> p >> is;
         if (original.eof())
         {
-            cout << "ID not found!";
             break;
         }
         if (i != ID)
@@ -1733,7 +1731,7 @@ void Booking::s_booking() //special customer booking
     price = prices[i];
     if (a.is_special == true)
     {
-        price = price * 0.85;
+        price = price * 0.85; //15 percent discount
     }
     cout << "\n\nList of airlines: ";
     showAirlines();
