@@ -1911,7 +1911,7 @@ public:
         cin >> expiry_month;
         while (1)
         {
-            if (expiry_month > 12 && expiry_month <= 0)
+            if (expiry_month > 12 || expiry_month < 0)
             {
                 cout << "Month input is wrong.\nEnter expiry month(mm)";
                 cin >> expiry_month;
